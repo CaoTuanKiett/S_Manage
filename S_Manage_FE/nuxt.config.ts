@@ -24,7 +24,6 @@ export default defineNuxtConfig({
   ],
   
   vuetify: {
-  
     /* vuetify options */
     vuetifyOptions: {                       
      theme: {
@@ -50,7 +49,6 @@ export default defineNuxtConfig({
      }
       // @TODO: list all vuetify options
     },
-
     moduleOptions: {
       /* nuxt-vuetify module options */
       treeshaking: false,

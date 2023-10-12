@@ -35,7 +35,7 @@
                                 </div>
                             </div>
                             <a href="#"
-                                class="text-sm font-medium text-primary hover:underline dark:text-primary-500"><NuxtLink to="/resetPass">Forgot password</NuxtLink></a>
+                                class="text-sm font-medium text-primary hover:underline dark:text-primary-500"><NuxtLink to="/resetPassword">Forgot password</NuxtLink></a>
                         </div>
                         <v-btn block variant="outlined" size="x-large" class="bg-primary mb-4"> Sign In </v-btn>
                         <p class="text-sm font-light text-secondary">
