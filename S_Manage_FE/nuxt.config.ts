@@ -10,7 +10,9 @@ export default defineNuxtConfig({
    }
  },
 //for tailwind
-  css: ['~/index.css'],
+  css: ['~/index.css',
+  '@fortawesome/fontawesome-svg-core/styles.css'
+  ],
   postcss: {
     plugins: {
       tailwindcss: {},
@@ -20,7 +22,8 @@ export default defineNuxtConfig({
 
   //vuetify
  modules: [
-    '@invictus.codes/nuxt-vuetify'
+    '@invictus.codes/nuxt-vuetify',
+    '@pinia/nuxt',
   ],
   
   vuetify: {
