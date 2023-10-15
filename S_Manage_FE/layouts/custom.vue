@@ -1,4 +1,4 @@
 <template>
+    <!-- <Sidebar /> -->
     <slot />
-    <!-- <Footer /> -->
 </template>
