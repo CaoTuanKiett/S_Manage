@@ -14,10 +14,6 @@ function comparePassword(hashedPassword, salt, plainPassword) {
   return hash === hashedPassword;
 }
 
-function unlockPassword( salt, plainPassword) {
-  const password = bcrypt.hash(plainPassword, salt);
-  return password;
-}
 
 function generateToken(payload) {
   const secretKey = process.env.JWT_SECRET;
@@ -41,6 +37,5 @@ module.exports = {
   hashPassword,
   comparePassword,
   generateToken,
-  verifyToken,
-  unlockPassword
+  verifyToken
 };

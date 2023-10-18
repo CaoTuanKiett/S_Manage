@@ -17,10 +17,8 @@ const {
   hashPassword,
   comparePassword,
   generateToken,
-  verifyToken,
-  unlockPassword
+  verifyToken
 } = require('../middleware/hash');
-const { hash } = require('bcrypt');
 
 class authModels { 
   tableName = 'user';
@@ -91,12 +89,65 @@ class authModels {
     });
   }
 
+  updateUserForgotPass = (id, data) => {
+    return knex(this.tableName)
+      .where(this.idUser, id)
+      .update({
+        name: data.name,
+        age : data.age,
+        gender : data.gender,
+        salt : data.salt,
+        email : data.email,
+        username : data.username,
+        password : data.password,
+        avatar : data.avatar,
+        password_reset_token: data.passwordResetToken,
+        password_reset_expiration: data.passwordResetExpiration, 
+        createdBy : data.created_by,
+        createdAt : data.created_at,
+        status : data.status,
+    })
+    .then(result => {
+      console.log('Câu truy vấn thành công:', result);
+    })
+    .catch(error => {
+      console.error('Lỗi khi thực hiện câu truy vấn:', error)
+    });
+  }
+
+  updateResetPassword = (id, data) => {
+    const { salt, hashedPassword } = hashPassword(data.password);
+
+    return knex(this.tableName)
+      .where(this.idUser, id)
+      .update({
+        name: data.name,
+        age : data.age,
+        gender : data.gender,
+        password : hashedPassword,
+        salt : salt,
+        email : data.email,
+        username : data.username,
+        avatar : data.avatar,
+        password_reset_token: data.password_reset_token,
+        password_reset_expiration: data.password_reset_expiration, 
+        createdBy : data.createdBy,
+        createdAt : data.createdAt,
+        status : data.status,
+    })
+    .then(result => {
+      console.log('Câu truy vấn thành công:', result);
+    })
+    .catch(error => {
+      console.error('Lỗi khi thực hiện câu truy vấn:', error)
+    });
+  }
+
   
 
   forgotPassword = async (data) => { 
    
     const mailTo  = data.email;
-    console.log("mailTo", mailTo);
     // Lấy thông tin user từ email
     const users = await userModel.selectOneMail(mailTo);
     const user = users[0];
@@ -115,9 +166,6 @@ class authModels {
 
     const time = new Date(Date.now() + 10 * 60 * 1000);
 
-    console.log('user', user);
-    
-    console.log(user.id_user);
     // Update user
     const dataUser = {
       name: user.name,
@@ -135,43 +183,54 @@ class authModels {
       status: user.status
 
     }
-
-    console.log('dataUser', dataUser);
-
     
-    
-    userModel.updateUserForgotPass(user.id_user ,dataUser);
+    this.updateUserForgotPass(user.id_user ,dataUser)
+    .then(result => {
+      // Gửi email ở đây sau khi cập nhật thành công
+      const resetUrl = `${process.env.BASE_URL}/api/v1/auth/reset-password?token=${token}`;
+
+      const mailOptions = {
+          emailFrom: process.env.EMAIL_USER,
+          emailTo: mailTo,
+          subject: "Password reset requested",
+          html: `
+                <p>You requested a password reset. Click the link below to reset your password:</p>
+                <a 
+                  href="${resetUrl}" 
+                  style="
+                    background-color: #072541; 
+                    border: none;
+                    color: white;
+                    padding: 16px 32px;
+                    text-align: center;
+                    text-decoration: none;
+                    display: inline-block;
+                    font-size: 16px;
+                    margin: 4px 2px;
+                    transition-duration: 0.4s;
+                    cursor: pointer;
+                    border-radius: 4px;
+                    color: white; 
+                    border: 2px solid #5272F2;
+                    "
+                    onmouseover="this.style.backgroundColor = '#5272F2'; this.style.color = 'white';"
+                    onmouseout="this.style.backgroundColor = '#072541'; this.style.color = 'white';"
+                >
+                    Reset Password Now
+                </a>
+              `,
+      };
 
 
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: process.env.SMTP_PORT,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.PASSWORD_USER,
-      },
+      return mailService.sendEmail(mailOptions);
+    })
+    .then(() => {
+      return Promise.reject({ message: 'Password reset and email sent successfully' });
+    })
+    .catch(error => {
+      console.error(error);
+      return Promise.reject({ message: "Failed to send email" });
     });
-
-    const resetUrl = `http://localhost:8080/api/v1/auth/reset-password?token=${token}`;
-
-    const mailOptions = {
-        emailFrom: process.env.EMAIL_USER,
-        emailTo: mailTo,
-        subject: "Password reset requested",
-        html: `
-              <p>You requested a password reset. Click the link below to reset your password:</p>
-              <a href="${resetUrl}">${resetUrl}</a>
-            `,
-    };
-
-    try {
-        await mailService.sendEmail(mailOptions);
-        return Promise.reject({ message: "Email sent successfully" });
-    }
-    catch (error) {
-        console.log(error);
-        return Promise.reject({ message: "Failed to send email" });
-    }
   }
 
 
@@ -214,31 +273,7 @@ class authModels {
         status: user.status
       }
       
-      // await userModel.updateResetPassword(user.id_user ,dataUser);
-
-      // const mailOptions = {
-      //   emailFrom: process.env.EMAIL_USER,
-      //   emailTo: user.email,
-      //   subject: 'Password Reset Confirmation',
-      //   html: `
-      //     <p>Your password has been successfully reset. If you did not initiate this request, please contact us immediately.</p>
-      //   `,
-      // };
-
-
-      
-  
-      // try {
-      //     await mailService.sendEmail(mailOptions);
-      //     return Promise.reject({ message: "Email sent successfully" });
-      // }
-      // catch (error) {
-      //     console.log(error);
-      //     return Promise.reject({ message: "Failed to send email" });
-      // }
-
-      // Cập nhật thông tin người dùng và kiểm tra kết quả
-    userModel.updateResetPassword(user.id_user, dataUser)
+    this.updateResetPassword(user.id_user, dataUser)
     .then(result => {
       // Gửi email ở đây sau khi cập nhật thành công
       const mailOptions = {
@@ -263,8 +298,7 @@ class authModels {
   } 
 
 
-
-
+  
 }
 
 module.exports = new authModels();
