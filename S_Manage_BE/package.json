@@ -28,7 +28,8 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.3.3",
     "nodemailer": "^6.9.6",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "stripe": "^13.10.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.22.15",
