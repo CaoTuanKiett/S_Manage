@@ -15,10 +15,12 @@ class userModels {
   name = 'name';
   age = 'age';
   gender = 'gender';
-  salt = 'salt';
+  phone = 'phone';
+  address = 'address';
   email = 'email';
   username = 'username';
   password = 'password';
+  salt = 'salt';
   avatar = 'avatar';
   passwordResetToken = 'password_reset_token';
   passwordResetExpiration = 'password_reset_expiration';
@@ -44,6 +46,8 @@ class userModels {
           name: data.name,
           age : data.age,
           gender : data.gender,
+          phone: data.phone,
+          address: data.address,
           salt : salt,
           email : data.email,
           username : data.username,
@@ -96,6 +100,8 @@ class userModels {
           name: data.name,
           age: data.age,
           gender: data.gender,
+          phone: data.phone,
+          address: data.address,
           password: hashedPassword,
           salt: salt,
           email: data.email,
@@ -124,8 +130,12 @@ class userModels {
   searchUser = (key) => {
     return knex(this.tableName)
       .select('*')
-      .where( this.username, 'like', `%${key}%`)
-      .orWhere(this.email, 'like', `%${key}%`);
+      .where( this.name, 'like', `%${key}%`)
+      .orWhere(this.age, 'like', `%${key}%`)
+      .orWhere(this.gender, 'like', `%${key}%`)
+      .orWhere(this.phone, 'like', `%${key}%`)
+      .orWhere(this.address, 'like', `%${key}%`)
+      .orWhere(this.mail, 'like', `%${key}%`);
   }
 }
 

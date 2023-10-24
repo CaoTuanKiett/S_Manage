@@ -14,6 +14,7 @@ class userController {
 
     }
     catch (err) {
+      console.log("get all users Failed"); 
       next(err);
     }
     
@@ -26,6 +27,7 @@ class userController {
       console.log("get ONE user Successfully"); 
 
     } catch (err) {
+      console.log("get ONE user Failed");
       next(err);
     }
   }
@@ -43,6 +45,7 @@ class userController {
       if(req.file){
         destroyCloundIMG(req.file.path);
       }
+      console.log("createUser Failed"); 
       next(err);
       console.log(err);
     }
@@ -63,6 +66,8 @@ class userController {
 
       console.log("updateUser Successfully"); 
     } catch (err) {
+      console.log("updateUser Failed"); 
+
       next(err);
     }
   }
@@ -74,6 +79,8 @@ class userController {
       console.log("deleteUser Successfully"); 
 
     } catch (err) {
+      console.log("deleteUser Failed"); 
+
       next(err);
     }
   }
@@ -85,6 +92,8 @@ class userController {
       console.log("searchUser Successfully"); 
 
     } catch (err) {
+      console.log("searchUser Failed"); 
+
       next(err);
     }
   }
