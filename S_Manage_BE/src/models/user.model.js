@@ -83,11 +83,11 @@ class userModels {
         .where(this.email, data.email)
         .orWhere(this.username, data.username)
         .select();
-      
+
   
-      if (existingUser.length > 0) {
-        throw new Error('Email or username already exists');
-      }
+      // if (existingUser.length > 0 && existingUser.idUser != id) {
+      //   throw new Error('Email or username already exists');
+      // }
   
       // Tiến hành cập nhật dữ liệu
       const updatedUser = await knex(this.tableName)
