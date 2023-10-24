@@ -26,10 +26,12 @@ class authModels {
   name = 'name';
   age = 'age';
   gender = 'gender';
-  salt = 'salt';
+  phone = 'phone';
+  address = 'address';
   email = 'email';
   username = 'username';
   password = 'password';
+  salt = 'salt';
   avatar = 'avatar';
   passwordResetToken = 'password_reset_token';
   passwordResetExpiration = 'password_reset_expiration';
@@ -54,6 +56,8 @@ class authModels {
           // idUser: data.idUser,
           name: data.name,
           age: data.age,
+          phone: data.phone,
+          address: data.address,
           gender: data.gender,
           email: data.email,
           username: data.username,
@@ -75,6 +79,8 @@ class authModels {
             idUser: account.idUser,
             username: account.username,
             email: account.email,
+            phone: account.phone,
+            address: account.address,
             avatar: account.avatar  
           };
           const token = generateToken(payload);
@@ -96,6 +102,8 @@ class authModels {
         name: data.name,
         age : data.age,
         gender : data.gender,
+        phone: data.phone,
+        address: data.address,
         salt : data.salt,
         email : data.email,
         username : data.username,
@@ -124,6 +132,8 @@ class authModels {
         name: data.name,
         age : data.age,
         gender : data.gender,
+        phone: data.phone,
+        address: data.address,
         password : hashedPassword,
         salt : salt,
         email : data.email,
@@ -171,6 +181,8 @@ class authModels {
       name: user.name,
       age: user.age,
       gender: user.gender,
+      phone: user.phone,
+      address: user.address,
       email: user.email,
       username: user.username,
       password: user.password,
@@ -262,6 +274,8 @@ class authModels {
         name: user.name,
         age: user.age,
         gender: user.gender,
+        phone: user.phone,
+        address: user.address,
         email: user.email,
         username: user.username,
         password: data.body.password,
