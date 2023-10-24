@@ -33,7 +33,7 @@ const toggleMenu = () => {
                 <span class="transition-all text whitespace-nowrap"
                     :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Dashboard</span>
             </Nuxt-link>
-            <Nuxt-link to="/users"
+            <Nuxt-link to="/admin/users"
                 class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
                 <font-awesome-icon :icon="['fas', 'user']"
                     class="mr-2 text-[1.5rem] transition-all min-w-[24px] w-[24px]" />

@@ -1,7 +1,8 @@
-const cloudinary = require('cloudinary').v2;
+
 require('dotenv').config();
 
 const authModels = require('../models/auth.model');
+const destroyCloundIMG = require('../middleware/destroyCloundIMG');
 
 
 class authController {
@@ -13,14 +14,7 @@ class authController {
       res.status(200).json({ message: 'Register Success' });
     } catch (error) {
       if(req.file){
-        cloudinary.uploader.destroy(req.file.filename, (error, result) => {
-          if (error) {
-            console.error('Lỗi khi xóa ảnh từ Cloudinary:', error);
-          } else {
-            console.log(req.file.filename);
-            console.log('Xóa ảnh từ Cloudinary thành công:', result);
-          }
-        });
+        destroyCloundIMG(req.file.path);
       }
       next(error);
       res.status(401).json({ message: 'Register Failed', error: error });

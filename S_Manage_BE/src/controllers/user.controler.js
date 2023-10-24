@@ -1,6 +1,7 @@
-const cloudinary = require('cloudinary').v2;
 
 const userModels = require('../models/user.model');
+const destroyCloundIMG = require('../middleware/destroyCloundIMG');
+
 
 class userController {
 
@@ -30,21 +31,17 @@ class userController {
   }
 
   createUser = async (req, res, next) => {
+
     try {
       const result = await userModels.createUser(req);
       res.status(200).json(result);
       console.log("createUser Successfully"); 
+      console.log(req.file);
+      console.log(req.file.path);
 
     } catch (err) {
       if(req.file){
-        cloudinary.uploader.destroy(req.file.filename, (error, result) => {
-          if (error) {
-            console.error('Lỗi khi xóa ảnh từ Cloudinary:', error);
-          } else {
-            console.log(req.file.filename);
-            console.log('Xóa ảnh từ Cloudinary thành công:', result);
-          }
-        });
+        destroyCloundIMG(req.file.path);
       }
       next(err);
       console.log(err);
@@ -52,8 +49,6 @@ class userController {
   }
 
   updateUser = async (req, res, next) => {
-    
-
     try {
       const users = await userModels.selectOneUser(req.params.id);
       const imgPre = users[0].avatar;
@@ -63,14 +58,7 @@ class userController {
       res.status(200).json(result);
 
       if (imgPre) {
-        cloudinary.uploader.destroy(imgPre, (error, result) => {
-          if (error) {
-            console.error('Lỗi khi xóa ảnh từ Cloudinary:', error);
-          } else {
-            console.log(imgPre);
-            console.log('Xóa ảnh từ Cloudinary thành công:', result);
-          }
-        });
+        destroyCloundIMG(imgPre);
       }
 
       console.log("updateUser Successfully"); 

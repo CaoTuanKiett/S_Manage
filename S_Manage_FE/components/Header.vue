@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <header class="fixed top-0 flex justify-between w-full p-6 align-middle bg-white">
+    <header class="fixed z-50 top-0 flex justify-between w-full p-6 align-middle bg-white">
         <div class="flex flex-col leading-7">
             <p class="text-xl font-bold">Hello, Yuh Wepo</p>
             <span class="text-sm leading-[21px]">Have a nice day</span>

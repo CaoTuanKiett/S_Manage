@@ -1,4 +1,6 @@
 <template>
     <!-- <Sidebar /> -->
-    <slot />
+    <div>
+        <slot />
+    </div>
 </template>
