@@ -38,9 +38,6 @@ class userController {
       const result = await userModels.createUser(req);
       res.status(200).json(result);
       console.log("createUser Successfully"); 
-      console.log(req.file);
-      console.log(req.file.path);
-
     } catch (err) {
       if(req.file){
         destroyCloundIMG(req.file.path);

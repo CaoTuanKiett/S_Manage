@@ -9,6 +9,7 @@ const knex = require('../database/connectDB');
 const mailMiddlware = require('../middleware/mail.middleware');
 const { mailService } = require('../services/mail.service');
 const userModel = require('./user.model');
+const uploadCloud = require('../middleware/uploadIMG')
 
 const  avtDefault = path.join(__dirname, 'assets', 'avtDefault.jpg');
 
@@ -50,7 +51,14 @@ class authModels {
       if (result.length > 0) {
         return Promise.reject({ message: 'Username already exists' });
       } else {
-        let fileImg = dataImg.path;
+        let fileImg = null;
+
+        if (dataImg){
+          fileImg = dataImg.path;
+        }else{
+          fileImg = avtDefault;
+        }
+
         const { salt, hashedPassword } = hashPassword(data.password);
         return knex(this.tableName).insert({
           // idUser: data.idUser,
@@ -63,7 +71,7 @@ class authModels {
           username: data.username,
           password: hashedPassword,
           salt: salt,
-          avatar: fileImg || avtDefault, 
+          avatar: fileImg, 
         });
       }
     }
