@@ -1,4 +1,4 @@
-const knex = require('../../database/connectDB')
+const knex = require('../database/connectDB')
 
 class roleService {
     async createRole(roleName, major_id) {

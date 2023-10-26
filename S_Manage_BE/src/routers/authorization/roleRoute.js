@@ -1,6 +1,6 @@
 const express = require('express');
 const roleRoute = express.Router();
-const RoleController = require('./roleController');
+const RoleController = require('../../models/roleController.js');
 //const checkAccess = require('../midleware/checkUser').checkAccess;
 
 const roleController = new RoleController();

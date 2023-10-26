@@ -1,4 +1,4 @@
-const RoleService = require('./roleService');
+const RoleService = require('../services/roleService');
 
 class RoleController {
     constructor() {
@@ -8,11 +8,11 @@ class RoleController {
     async createRole(req, res) {
         try {
             const { roleName, major_id } = req.body;
-            const roleId = await this.roleService.createRole(roleName,major_id);
-            res.status(200).json({ message: 'Role added', roleId } );
+            const roleId = await this.roleService.createRole(roleName, major_id);
+            res.status(200).json({ message: 'Role added', roleId });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Failed to create role',error });
+            res.status(500).json({ message: 'Failed to create role', error });
         }
     }
 
@@ -23,7 +23,7 @@ class RoleController {
             res.status(200).json({ message: 'Role deleted' });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Failed to delete role',error });
+            res.status(500).json({ message: 'Failed to delete role', error });
         }
     }
     async updateRole(req, res) {
@@ -34,18 +34,18 @@ class RoleController {
             res.status(200).json({ message: "Role Updated" });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Failed to updated role',error });
+            res.status(500).json({ message: 'Failed to updated role', error });
         }
     }
     async assignPermissionToRole(req, res) {
         try {
-            const { roleId }=req.params
-            const { permission} = req.body;
+            const { roleId } = req.params
+            const { permission } = req.body;
             await this.roleService.assignPermissionToRole(roleId, permission);
             res.status(200).json({ message: 'Permission assigned to role' });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Failed to assign permission to role',error });
+            res.status(500).json({ message: 'Failed to assign permission to role', error });
         }
     }
 
@@ -57,7 +57,7 @@ class RoleController {
             res.status(200).json({ message: 'Permission revoked from role' });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Failed to revoke permission from role',error });
+            res.status(500).json({ message: 'Failed to revoke permission from role', error });
         }
     }
 
@@ -80,7 +80,7 @@ class RoleController {
             res.status(200).json({ permissions });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Failed to get role permissions',error });
+            res.status(500).json({ message: 'Failed to get role permissions', error });
         }
     }
 
@@ -91,7 +91,7 @@ class RoleController {
             res.status(200).json({ hasPermission });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Failed to check role permission',error });
+            res.status(500).json({ message: 'Failed to check role permission', error });
         }
     }
 }

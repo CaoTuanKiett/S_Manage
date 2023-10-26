@@ -1,4 +1,4 @@
-const db = require('../../database/connectDB');
+const db = require('../database/connectDB');
 const stripe = require('stripe');
 const env = require('dotenv');
 env.config();
