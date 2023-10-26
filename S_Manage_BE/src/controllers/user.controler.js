@@ -1,6 +1,7 @@
-const cloudinary = require('cloudinary').v2;
 
 const userModels = require('../models/user.model');
+const destroyCloundIMG = require('../middleware/destroyCloundIMG');
+
 
 class userController {
 
@@ -13,6 +14,7 @@ class userController {
 
     }
     catch (err) {
+      console.log("get all users Failed"); 
       next(err);
     }
     
@@ -25,35 +27,28 @@ class userController {
       console.log("get ONE user Successfully"); 
 
     } catch (err) {
+      console.log("get ONE user Failed");
       next(err);
     }
   }
 
   createUser = async (req, res, next) => {
+
     try {
       const result = await userModels.createUser(req);
       res.status(200).json(result);
       console.log("createUser Successfully"); 
-
     } catch (err) {
       if(req.file){
-        cloudinary.uploader.destroy(req.file.filename, (error, result) => {
-          if (error) {
-            console.error('Lỗi khi xóa ảnh từ Cloudinary:', error);
-          } else {
-            console.log(req.file.filename);
-            console.log('Xóa ảnh từ Cloudinary thành công:', result);
-          }
-        });
+        destroyCloundIMG(req.file.path);
       }
+      console.log("createUser Failed"); 
       next(err);
       console.log(err);
     }
   }
 
   updateUser = async (req, res, next) => {
-    
-
     try {
       const users = await userModels.selectOneUser(req.params.id);
       const imgPre = users[0].avatar;
@@ -63,18 +58,13 @@ class userController {
       res.status(200).json(result);
 
       if (imgPre) {
-        cloudinary.uploader.destroy(imgPre, (error, result) => {
-          if (error) {
-            console.error('Lỗi khi xóa ảnh từ Cloudinary:', error);
-          } else {
-            console.log(imgPre);
-            console.log('Xóa ảnh từ Cloudinary thành công:', result);
-          }
-        });
+        destroyCloundIMG(imgPre);
       }
 
       console.log("updateUser Successfully"); 
     } catch (err) {
+      console.log("updateUser Failed"); 
+
       next(err);
     }
   }
@@ -86,6 +76,8 @@ class userController {
       console.log("deleteUser Successfully"); 
 
     } catch (err) {
+      console.log("deleteUser Failed"); 
+
       next(err);
     }
   }
@@ -97,6 +89,8 @@ class userController {
       console.log("searchUser Successfully"); 
 
     } catch (err) {
+      console.log("searchUser Failed"); 
+
       next(err);
     }
   }

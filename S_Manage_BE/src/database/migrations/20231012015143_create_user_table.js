@@ -8,10 +8,12 @@ exports.up = function(knex) {
     table.string('name');
     table.integer('age');
     table.string('gender');
-    table.string('password');
-    table.string('salt');
+    table.string('phone');
+    table.string('address');
     table.string('email');
     table.string('username');
+    table.string('password');
+    table.string('salt');
     table.string('avatar');
     table.string('password_reset_token');
     table.dateTime('password_reset_expiration');

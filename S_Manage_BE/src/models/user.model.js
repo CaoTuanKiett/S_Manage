@@ -1,6 +1,8 @@
 
 const knex = require('../database/connectDB');
 
+const  avtDefault = require('../middleware/avtDefault');
+
 const {
   hashPassword,
   comparePassword,
@@ -15,10 +17,12 @@ class userModels {
   name = 'name';
   age = 'age';
   gender = 'gender';
-  salt = 'salt';
+  phone = 'phone';
+  address = 'address';
   email = 'email';
   username = 'username';
   password = 'password';
+  salt = 'salt';
   avatar = 'avatar';
   passwordResetToken = 'password_reset_token';
   passwordResetExpiration = 'password_reset_expiration';
@@ -30,6 +34,7 @@ class userModels {
   createUser = async (dataFile) => {
     const data = dataFile.body;
     const dataImg = dataFile.file;
+    console.log(dataImg);
 
     return knex(this.tableName)
       .where(this.email, data.email)
@@ -39,11 +44,20 @@ class userModels {
         return Promise.reject({ message: 'Email or username already exists' });
       } else {
         const { salt, hashedPassword } = hashPassword(data.password);
-        let fileImg = dataImg.path;
+
+        let fileImg = null;
+
+        if(dataImg){
+          fileImg = dataImg.path;
+        }
+
+        
         return knex(this.tableName).insert({
           name: data.name,
           age : data.age,
           gender : data.gender,
+          phone: data.phone,
+          address: data.address,
           salt : salt,
           email : data.email,
           username : data.username,
@@ -73,9 +87,16 @@ class userModels {
   updateUser = async (id, dataFile) => {
     const data = dataFile.body;
     const dataImg = dataFile.file;
-  
+
+    let fileImg = null;
+
+    if (dataImg){
+      fileImg = dataImg.path;
+    }else{
+      fileImg = data.avatar;
+    }
+
     const { salt, hashedPassword } = hashPassword(data.password);
-    const fileImg = dataImg.path;
   
     try {
       // Kiểm tra xem email hoặc username đã tồn tại
@@ -83,9 +104,8 @@ class userModels {
         .where(this.email, data.email)
         .orWhere(this.username, data.username)
         .select();
-      
   
-      if (existingUser.length > 0) {
+      if (existingUser.length > 0 && existingUser[0].id_user !== parseInt(id)) {
         throw new Error('Email or username already exists');
       }
   
@@ -96,6 +116,8 @@ class userModels {
           name: data.name,
           age: data.age,
           gender: data.gender,
+          phone: data.phone,
+          address: data.address,
           password: hashedPassword,
           salt: salt,
           email: data.email,
@@ -124,8 +146,12 @@ class userModels {
   searchUser = (key) => {
     return knex(this.tableName)
       .select('*')
-      .where( this.username, 'like', `%${key}%`)
-      .orWhere(this.email, 'like', `%${key}%`);
+      .where( this.name, 'like', `%${key}%`)
+      .orWhere(this.age, 'like', `%${key}%`)
+      .orWhere(this.gender, 'like', `%${key}%`)
+      .orWhere(this.phone, 'like', `%${key}%`)
+      .orWhere(this.address, 'like', `%${key}%`)
+      .orWhere(this.mail, 'like', `%${key}%`);
   }
 }
 

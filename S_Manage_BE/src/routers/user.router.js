@@ -3,7 +3,14 @@ const router = express.Router();
 
 const userController = require('../controllers/user.controler');
 const awaitHandlerFactory = require('../middleware/awaitHandlerFactory.middleware');
-const uploadCloud = require('../middleware/uploadIMG')
+const uploadCloud = require('../middleware/uploadIMG');
+const checkAvatar = require('../middleware/checkAvatar');
+
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(uploadCloud.single('avatar'));
+
 
 const userRouter = (app) => {
   
@@ -13,7 +20,7 @@ const userRouter = (app) => {
 
   router.post('/users', uploadCloud.single('avatar') , userController.createUser); // localhost:8080/api/v1/users
 
-  router.put('/users/:id',uploadCloud.single('avatar') , userController.updateUser); // localhost:8080/api/v1/users/1 , using patch for partial update
+  router.put('/users/:id' ,uploadCloud.single('avatar') , userController.updateUser); // localhost:8080/api/v1/users/1 , using patch for partial update
 
   router.delete('/users/:id', userController.deleteUser); // localhost:8080/api/v1/users/1
 

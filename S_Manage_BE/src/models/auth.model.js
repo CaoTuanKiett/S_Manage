@@ -9,6 +9,7 @@ const knex = require('../database/connectDB');
 const mailMiddlware = require('../middleware/mail.middleware');
 const { mailService } = require('../services/mail.service');
 const userModel = require('./user.model');
+const uploadCloud = require('../middleware/uploadIMG')
 
 const  avtDefault = path.join(__dirname, 'assets', 'avtDefault.jpg');
 
@@ -26,10 +27,12 @@ class authModels {
   name = 'name';
   age = 'age';
   gender = 'gender';
-  salt = 'salt';
+  phone = 'phone';
+  address = 'address';
   email = 'email';
   username = 'username';
   password = 'password';
+  salt = 'salt';
   avatar = 'avatar';
   passwordResetToken = 'password_reset_token';
   passwordResetExpiration = 'password_reset_expiration';
@@ -48,18 +51,27 @@ class authModels {
       if (result.length > 0) {
         return Promise.reject({ message: 'Username already exists' });
       } else {
-        let fileImg = dataImg.path;
+        let fileImg = null;
+
+        if (dataImg){
+          fileImg = dataImg.path;
+        }else{
+          fileImg = avtDefault;
+        }
+
         const { salt, hashedPassword } = hashPassword(data.password);
         return knex(this.tableName).insert({
           // idUser: data.idUser,
           name: data.name,
           age: data.age,
+          phone: data.phone,
+          address: data.address,
           gender: data.gender,
           email: data.email,
           username: data.username,
           password: hashedPassword,
           salt: salt,
-          avatar: fileImg || avtDefault, 
+          avatar: fileImg, 
         });
       }
     }
@@ -75,6 +87,8 @@ class authModels {
             idUser: account.idUser,
             username: account.username,
             email: account.email,
+            phone: account.phone,
+            address: account.address,
             avatar: account.avatar  
           };
           const token = generateToken(payload);
@@ -96,6 +110,8 @@ class authModels {
         name: data.name,
         age : data.age,
         gender : data.gender,
+        phone: data.phone,
+        address: data.address,
         salt : data.salt,
         email : data.email,
         username : data.username,
@@ -124,6 +140,8 @@ class authModels {
         name: data.name,
         age : data.age,
         gender : data.gender,
+        phone: data.phone,
+        address: data.address,
         password : hashedPassword,
         salt : salt,
         email : data.email,
@@ -171,6 +189,8 @@ class authModels {
       name: user.name,
       age: user.age,
       gender: user.gender,
+      phone: user.phone,
+      address: user.address,
       email: user.email,
       username: user.username,
       password: user.password,
@@ -262,6 +282,8 @@ class authModels {
         name: user.name,
         age: user.age,
         gender: user.gender,
+        phone: user.phone,
+        address: user.address,
         email: user.email,
         username: user.username,
         password: data.body.password,
