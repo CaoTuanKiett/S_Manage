@@ -1,15 +1,16 @@
-<script setup>
-import { ref } from 'vue'
-
-const is_expanded = ref(false);
-
-const toggleMenu = () => {
-    is_expanded.value = !is_expanded.value;
-}
+<script>
+export default defineComponent({
+    setup() {
+        const store = useSidebarStore();
+        const { toggleMenu } = store;
+        const is_expanded = computed(() => store.is_expanded);
+        return { is_expanded, toggleMenu }
+    }
+});
 </script>
 
 <template>
-    <div class="flex flex-col min-h-screen p-4 overflow-hidden transition-all bg-white sidebar"
+    <div class="fixed flex flex-col min-h-screen p-4 overflow-hidden transition-all bg-white sidebar"
         :class="`${is_expanded ? 'w-[255px]' : 'w-[calc(2rem+32px)]'}`">
         <div class="relative flex mb-4 logo align-center">
             <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt=""
@@ -40,7 +41,7 @@ const toggleMenu = () => {
                 <span class="transition-all text whitespace-nowrap"
                     :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Users</span>
             </Nuxt-link>
-            <Nuxt-link to="/monthly-money"
+            <Nuxt-link to="/money"
                 class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
                 <font-awesome-icon :icon="['fas', 'money-bill-1-wave']"
                     class="mr-2 text-[1.5rem] transition-all min-w-[24px] w-[24px]" />
