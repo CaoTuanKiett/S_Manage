@@ -79,7 +79,6 @@
 
   const fetchData = async () => {
       try {
-        console.log("hehe", API_BE);
           const response = await axios.get(`http://localhost:8080/api/v1/users`);
           return userData.value = response.data;
       }
