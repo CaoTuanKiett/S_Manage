@@ -7,7 +7,7 @@ class RoleController {
 
     async createRole(req, res) {
         try {
-            const { roleName,major_id } = req.body;
+            const { roleName, major_id } = req.body;
             const roleId = await this.roleService.createRole(roleName,major_id);
             res.status(200).json({ message: 'Role added', roleId } );
         } catch (error) {
