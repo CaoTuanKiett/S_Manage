@@ -1,13 +1,13 @@
 <template>
-    <section class="bg-background flex items-center justify-center h-screen">
+    <section class="flex items-center justify-center h-screen bg-background">
         <div class="w-full max-w-md">
             <a href="#" class="flex items-center justify-center mb-6 text-2xl font-semibold text-primary">
                 <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
                 S-Manage
             </a>
-            <div class="bg-surface rounded-lg shadow border-2 border-gray-700">
+            <div class="border-2 border-gray-700 rounded-lg shadow bg-surface">
                 <div class="p-6 space-y-4">
-                    <h1 class=" text-2xl text-center font-bold leading-tight tracking-tight text-gray-900">
+                    <h1 class="text-2xl font-bold leading-tight tracking-tight text-center text-gray-900 ">
                         Sign in to your account
                     </h1>
                     <form class="space-y-4" action="#">
@@ -37,7 +37,7 @@
                             <a href="#"
                                 class="text-sm font-medium text-primary hover:underline dark:text-primary-500"><NuxtLink to="/resetPassword">Forgot password</NuxtLink></a>
                         </div>
-                        <v-btn block variant="outlined" size="x-large" class="bg-primary mb-4"> Sign In </v-btn>
+                        <v-btn block variant="outlined" size="x-large" class="mb-4 bg-primary"> Sign In </v-btn>
                         <p class="text-sm font-light text-secondary">
                             Don’t have an account yet? <a href="#"
                                 class="font-medium text-primary hover:underline dark:text-primary-500"><NuxtLink to="/Register">Sign up
