@@ -9,7 +9,16 @@ exports.getAllPayments = async (req, res) => {
         res.status(500).json({ error: 'An error occurred while getting the payments' });
     }
 };
-
+exports.getPaymentDetail = async (req, res) => {
+    try {
+        const payment_id = req.params.payment_id;
+        const paymentDetail = await stripeService.getPaymentDetail(payment_id);
+        res.status(200).json({ paymentDetail });
+    } catch (error) {
+        console.error('Error getting payments:', error);
+        res.status(500).json({ error: 'An error occurred while getting the payments' });
+    }
+};
 exports.getPaymentsByUserId = async (req, res) => {
     try {
         const userId = req.params.user_id;

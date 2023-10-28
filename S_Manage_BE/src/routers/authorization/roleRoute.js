@@ -35,10 +35,15 @@ roleRoute.put('/update_permission/:permission_id', async (req, res) => {
 roleRoute.get('/:roleId/get_permissions', async (req, res) => {
     await roleController.getRolePermissions(req, res);
 });
+//Select all role
+roleRoute.get('/get_all_role', async (req, res) => {
+    await roleController.getAllRole(req, res);
+});
 
 // Kiểm tra quyền hạn của role
 roleRoute.get('/:roleId/has_permission/:permission', async (req, res) => {
     await roleController.hasPermission(req, res);
 });
+
 
 module.exports = roleRoute;
