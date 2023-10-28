@@ -56,6 +56,7 @@ module.exports = {
                 .whereRaw(`bill.year= ${year}`)
                 .orderBy('user.id_user')
                 .orderBy('bill.month');
+
             const mergedData = list.reduce((result, item) => {
                 const { id_user, name, name_major, ...rest } = item;
                 const key = `${id_user}_${name}_${name_major}`;
@@ -65,11 +66,10 @@ module.exports = {
                         id_user,
                         name,
                         name_major,
-                        unpaidMonths: 0, // Thêm trường để lưu số tháng unpaid
+                        unpaidMonths: 0,
                         bills: []
                     };
                 }
-
                 if (rest.bill_status === 'unpaid') {
                     result[key].unpaidMonths++; // Tăng số tháng unpaid khi trạng thái là 'unpaid'
                 }
@@ -77,10 +77,42 @@ module.exports = {
 
                 return result;
             }, {});
-            const finalResult = Object.values(mergedData);
+
+            const finalResult = Object.values(mergedData).map((item) => {
+                const { id_user, name, name_major, bills } = item;
+                const billMap = {};
+
+                bills.forEach((bill) => {
+                    const { month, bill_id, bill_status } = bill;
+                    billMap[month] = {
+                        bill_id: bill_id || null,
+                        bill_status: bill_id ? bill_status : 'unchanged'
+                    };
+                });
+
+                const finalBills = [];
+                for (let month = 1; month <= 12; month++) {
+                    const bill = billMap[month] || {
+                        bill_id: null,
+                        bill_status: 'unchanged'
+                    };
+                    finalBills.push({
+                        month,
+                        ...bill
+                    });
+                }
+
+                return {
+                    id_user,
+                    name,
+                    name_major,
+                    unpaidMonths: item.unpaidMonths,
+                    bills: finalBills
+                };
+            });
+
             return finalResult;
-        }
-        catch (error) {
+        } catch (error) {
             console.error('Lỗi truy vấn: ' + error);
             throw error;
         }
