@@ -23,7 +23,7 @@ const {
 
 class authModels { 
   tableName = 'user';
-  idUser = 'id_user';
+  idUser = 'user_id';
   name = 'name';
   age = 'age';
   gender = 'gender';
