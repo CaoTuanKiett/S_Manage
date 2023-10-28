@@ -81,7 +81,7 @@ class userModels {
   }
 
   selectOneMail= (mail) => {
-    return knex(this.tableName).select('*').where(this.email, mail);
+    return knex(this.tableName).where(this.email, mail);
   }
 
   updateUser = async (id, dataFile) => {

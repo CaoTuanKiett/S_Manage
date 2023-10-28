@@ -11,12 +11,12 @@ exports.up = function(knex) {
     // Tạo các foreign key constraints để liên kết user_id và role_id với các bảng khác (user và roles)
     table
       .foreign('user_id')
-      .references('id_user')
+      .references('user_id')
       .inTable('user')
       .onDelete('CASCADE');
     table
       .foreign('role_id')
-      .references('id_role')
+      .references('role_id')
       .inTable('roles')
       .onDelete('CASCADE');
   });

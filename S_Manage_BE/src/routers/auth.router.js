@@ -14,7 +14,7 @@ const authRouter = (app) => {
 
   router.post('/forgot-password', authController.forgotPassword); //localhost:8080/api/v1/auth/forgot-password
 
-  router.post('/reset-password', authController.resetPassword); //localhost:8080/api/v1/auth/forgot-password
+  router.post('/reset-password', authController.resetPassword); //localhost:8080/api/v1/auth/reset-password
 
   return app.use(`${process.env.API_V1}/auth`, router);
 }

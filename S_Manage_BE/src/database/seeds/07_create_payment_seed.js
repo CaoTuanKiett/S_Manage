@@ -11,6 +11,7 @@ exports.seed = async function (knex) {
         {
           user_id: 1,
           pay_method: 'Credit Card',
+          pay_account:"john doe",
           create_at: new Date(),
           account_name: 'John Doe',
           account_number: '1234-5678-9012-3456',
@@ -20,6 +21,7 @@ exports.seed = async function (knex) {
         {
           user_id: 2,
           pay_method: 'PayPal',
+          pay_account: "thanhviet",
           create_at: new Date(),
           account_name: 'Jane Smith',
           account_number: 'jane@example.com',

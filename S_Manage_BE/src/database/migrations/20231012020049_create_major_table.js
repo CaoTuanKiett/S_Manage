@@ -4,7 +4,7 @@
  */
 exports.up = function(knex) {
   return knex.schema.createTable('major', function (table) {
-    table.increments('id_major').primary();
+    table.increments('major_id').primary();
     table.string('name_major').notNullable();
   });
 };

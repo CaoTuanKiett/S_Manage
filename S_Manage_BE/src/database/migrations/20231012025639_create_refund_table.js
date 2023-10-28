@@ -13,7 +13,7 @@ exports.up = function(knex) {
     // Tạo foreign key constraint để liên kết bill_id với bảng "bill"
     table
       .foreign('payment_id')
-      .references('id_payment')
+      .references('payment_id')
       .inTable('payment')
       .onDelete('CASCADE');
 

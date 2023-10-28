@@ -4,7 +4,7 @@
  */
 exports.up = function(knex) {
   return knex.schema.createTable('permission', function (table) {
-    table.increments('id_permission').primary();
+    table.increments('permission_id').primary();
     table.string('name_permission').notNullable();
   });
 };

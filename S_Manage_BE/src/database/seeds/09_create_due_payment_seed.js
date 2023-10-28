@@ -6,17 +6,17 @@ exports.seed = async function(knex) {
   // seeds/create_due_payment_seed.js
 exports.seed = function (knex) {
   // Xóa dữ liệu cũ trong bảng "due_payment" trước khi thêm dữ liệu mới (nếu cần)
-  return knex('due_payment').del()
+  return knex('bill_payment').del()
     .then(function () {
       // Thêm dữ liệu mới vào bảng "due_payment"
-      return knex('due_payment').insert([
+      return knex('bill_payment').insert([
         {
-          due_id: 1,
+          bill_id: 1,
           payment_id: 1,
           amount: 50.00,
         },
         {
-          due_id: 2,
+          bill_id: 2,
           payment_id: 2,
           amount: 25.00,
         },

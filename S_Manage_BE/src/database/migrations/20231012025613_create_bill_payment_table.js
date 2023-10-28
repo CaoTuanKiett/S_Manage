@@ -11,12 +11,12 @@ exports.up = function(knex) {
 
     table
       .foreign('payment_id')
-      .references('id_payment')
+      .references('payment_id')
       .inTable('payment')
       .onDelete('CASCADE');
     table
       .foreign('bill_id')
-      .references('id_bill')
+      .references('bill_id')
       .inTable('bill')
       .onDelete('CASCADE');
   });

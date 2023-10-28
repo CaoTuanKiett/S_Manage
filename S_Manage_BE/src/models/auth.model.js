@@ -172,7 +172,6 @@ class authModels {
     if (!user) {
         return Promise.reject({ message: "Email not found" });
     }
-
     const payloadUser = {
       idUser: user.id_user,
       username: user.username,
