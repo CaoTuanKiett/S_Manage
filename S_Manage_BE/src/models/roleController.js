@@ -75,8 +75,8 @@ class RoleController {
 
     async getRolePermissions(req, res) {
         try {
-            const { roleId } = req.params;
-            const permissions = await this.roleService.getRolePermissions(roleId);
+            const  role_id  = req.params;
+            const permissions = await this.roleService.getRolePermissions(role_id);
             res.status(200).json({ permissions });
         } catch (error) {
             console.error(error);

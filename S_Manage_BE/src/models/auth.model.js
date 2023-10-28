@@ -181,7 +181,8 @@ class authModels {
 
     const token = generateToken(payloadUser);
 
-    const time = new Date(Date.now() + 10 * 60 * 1000);
+    try{
+const time = new Date(Date.now() + 10 * 60 * 1000);
 
     // Update user
     const dataUser = {
@@ -250,6 +251,12 @@ class authModels {
       console.error(error);
       return Promise.reject({ message: "Failed to send email" });
     });
+    }
+    catch (error){
+      console.log(error)
+      return Promise.reject({message: "Failed something in api send email"})
+    }  
+    
   }
 
 

@@ -26,13 +26,14 @@ class roleService {
         await knex('permission').where('permission_id', permission_id).update({ permission_name: permission_name });
     }
 
-    async getRolePermissions(roleId) {
+      async getRolePermissions(role_id) {
         const permissions = await knex('role_permissions')
             .join('permission', 'role_permissions.permission_id', 'permission.permission_id')
-            .where('role_permissions.role_id', roleId)
-            .select('permission.permission_name');
-        return permissions.map((permission) => permission.permission_name);
+            .where('role_permissions.role_id', role_id)
+            .select('permission.name_permission');
+        return permissions.map((permission) => permission.name_permission);
     }
+
 
     async hasPermission(roleId, permission) {
         const permissions = await knex('role_permissions')
