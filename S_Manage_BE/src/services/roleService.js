@@ -34,6 +34,11 @@ class roleService {
         return permissions.map((permission) => permission.name_permission);
     }
 
+    async getAllRole() {
+        const roles = await knex('roles')
+            .select('*');
+        return roles;
+    }
 
     async hasPermission(roleId, permission) {
         const permissions = await knex('role_permissions')

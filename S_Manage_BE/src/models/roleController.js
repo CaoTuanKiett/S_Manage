@@ -84,6 +84,16 @@ class RoleController {
         }
     }
 
+    async getAllRole(req, res) {
+        try {
+            const roles = await this.roleService.getAllRole();
+            res.status(200).json({ roles });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Failed to get all role', error });
+        }
+    }
+
     async hasPermission(req, res) {
         try {
             const { roleId, permission } = req.params;
