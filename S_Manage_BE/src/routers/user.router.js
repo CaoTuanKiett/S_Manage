@@ -18,15 +18,15 @@ app.use(uploadCloud.single('avatar'));
 
 const userRouter = (app) => {
   
-  router.get('/users',checkPermission(1), awaitHandlerFactory(userController.getAllUsers)); // localhost:8080/api/v1/users
+  router.get('/users', awaitHandlerFactory(userController.getAllUsers)); // localhost:8080/api/v1/users
 
-  router.get('/users/:id', checkPermission(1), awaitHandlerFactory(userController.selectOneUser)); // localhost:8080/api/v1/users/1
+  router.get('/users/:id', awaitHandlerFactory(userController.selectOneUser)); // localhost:8080/api/v1/users/1
 
-  router.post('/users', checkPermission(2), uploadCloud.single('avatar') , userController.createUser); // localhost:8080/api/v1/users
+  router.post('/users', uploadCloud.single('avatar') , userController.createUser); // localhost:8080/api/v1/users
 
-  router.put('/users/:id', checkPermission(3), uploadCloud.single('avatar') , userController.updateUser); // localhost:8080/api/v1/users/1 , using patch for partial update
+  router.put('/users/:id', uploadCloud.single('avatar') , userController.updateUser); // localhost:8080/api/v1/users/1 , using patch for partial update
 
-  router.delete('/users/:id', checkPermission(4), userController.deleteUser); // localhost:8080/api/v1/users/1
+  router.delete('/users/:id', userController.deleteUser); // localhost:8080/api/v1/users/1
 
   router.get('/users/search/:key', userController.searchUser); // localhost:8080/api/v1/users/search/key
 
