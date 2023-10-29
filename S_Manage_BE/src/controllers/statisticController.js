@@ -1,4 +1,4 @@
-const statisticService = require('../services/statisticService');
+const statisticService = require('../models/statisticService');
 
 module.exports = {
     getStatisticUser: async (req, res) => {
