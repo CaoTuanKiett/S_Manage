@@ -1,4 +1,4 @@
-const stripeService = require('../services/stripeService');
+const stripeService = require('../models/stripeService');
 
 exports.getAllPayments = async (req, res) => {
     try {

@@ -1,5 +1,5 @@
 const express = require('express');
-const stripeController = require('../../models/stripeController.js');
+const stripeController = require('../../controllers/stripeController.js');
 const stripeRouter = express.Router();
 
 stripeRouter.get('/get-all-payments', stripeController.getAllPayments);
