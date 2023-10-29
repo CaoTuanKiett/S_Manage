@@ -1,197 +1,293 @@
+<script setup>
+
+definePageMeta({
+  layout: "admin",
+});
+
+const months = [
+  "T1", "T2", "T3",
+  "T4", "T5", "T6",
+  "T7", "T8", "T9",
+  "T10", "T11", "T12",
+]
+
+
+const Datafake = [
+    {
+        "id_user": 1,
+        "name": "Alice",
+        "name_major": "Computer Science",
+        "unpaidMonths": 6,
+        "bills": [
+            {
+                "month": 1,
+                "bill_id": null,
+                "bill_status": "unchanged"
+            },
+            {
+                "month": 2,
+                "bill_id": null,
+                "bill_status": "unchanged"
+            },
+            {
+                "month": 3,
+                "bill_id": null,
+                "bill_status": "unchanged"
+            },
+            {
+                "month": 4,
+                "bill_id": null,
+                "bill_status": "unchanged"
+            },
+            {
+                "month": 5,
+                "bill_id": 1,
+                "bill_status": "paid"
+            },
+            {
+                "month": 6,
+                "bill_id": 8,
+                "bill_status": "unpaid"
+            },
+            {
+                "month": 7,
+                "bill_id": 24,
+                "bill_status": "unpaid"
+            },
+            {
+                "month": 8,
+                "bill_id": 20,
+                "bill_status": "unpaid"
+            },
+            {
+                "month": 9,
+                "bill_id": null,
+                "bill_status": "unchanged"
+            },
+            {
+                "month": 10,
+                "bill_id": 16,
+                "bill_status": "unpaid"
+            },
+            {
+                "month": 11,
+                "bill_id": 14,
+                "bill_status": "unpaid"
+            },
+            {
+                "month": 12,
+                "bill_id": 12,
+                "bill_status": "unpaid"
+            }
+        ]
+    },
+    {
+        "id_user": 2,
+        "name": "Bob",
+        "name_major": "Business Administration",
+        "unpaidMonths": 3,
+        "bills": [
+            {
+                "month": 1,
+                "bill_id": null,
+                "bill_status": "unchanged"
+            },
+            {
+                "month": 2,
+                "bill_id": null,
+                "bill_status": "unchanged"
+            },
+            {
+                "month": 3,
+                "bill_id": null,
+                "bill_status": "unchanged"
+            },
+            {
+                "month": 4,
+                "bill_id": null,
+                "bill_status": "unchanged"
+            },
+            {
+                "month": 5,
+                "bill_id": 2,
+                "bill_status": "paid"
+            },
+            {
+                "month": 6,
+                "bill_id": 3,
+                "bill_status": "paid"
+            },
+            {
+                "month": 7,
+                "bill_id": 4,
+                "bill_status": "unpaid"
+            },
+            {
+                "month": 8,
+                "bill_id": 19,
+                "bill_status": "unpaid"
+            },
+            {
+                "month": 9,
+                "bill_id": null,
+                "bill_status": "unchanged"
+            },
+            {
+                "month": 10,
+                "bill_id": null,
+                "bill_status": "unchanged"
+            },
+            {
+                "month": 11,
+                "bill_id": 13,
+                "bill_status": "unpaid"
+            },
+            {
+                "month": 12,
+                "bill_id": null,
+                "bill_status": "unchanged"
+            }
+        ]
+    }
+];
+
+</script>
+
 <template>
   <div>
     <div class="limiter">
-    <div class="container-table100">
-    <div class="wrap-table100">
-    <div class="table100 ver1">
-    <div class="table100-firstcol">
-    <table>
-    <thead>
-    <tr class="row100 head">
-    <th class="cell100 column1">Employees</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr class="row100 body">
-    <td class="cell100 column1">Brandon Green</td>
-    </tr>
-    <tr class="row100 body">
-    <td class="cell100 column1">Kathy Daniels</td>
-    </tr>
-    <tr class="row100 body">
-    <td class="cell100 column1">Elizabeth Alvarado</td>
-    </tr>
-    <tr class="row100 body">
-    <td class="cell100 column1">Michael Coleman</td>
-    </tr>
-    <tr class="row100 body">
-    <td class="cell100 column1">Jason Cox</td>
-    </tr>
-    <tr class="row100 body">
-    <td class="cell100 column1">Christian Perkins</td>
-    </tr>
-    <tr class="row100 body">
-    <td class="cell100 column1">Emily Wheeler</td>
-    </tr>
-    </tbody>
-    </table>
-    </div>
-    <div class="wrap-table100-nextcols js-pscroll">
-    <div class="table100-nextcols">
-    <table>
-    <thead>
-    <tr class="row100 head">
-    <th class="cell100 column2">Position</th>
-    <th class="cell100 column3">Start date</th>
-    <th class="cell100 column4">Last Activity</th>
-    <th class="cell100 column5">Contacts</th>
-    <th class="cell100 column6">Age</th>
-    <th class="cell100 column7">Address</th>
-    <th class="cell100 column8">Card No</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr class="row100 body">
-    <td class="cell100 column2">CMO</td>
-    <td class="cell100 column3">16 Nov 2012</td>
-    <td class="cell100 column4">16 Nov 2017</td>
-    <td class="cell100 column5"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="95f7e7f4fbf1fafbaca1d5f0edf4f8e5f9f0bbf6faf8">[email&#160;protected]</a></td>
-    <td class="cell100 column6">30</td>
-    <td class="cell100 column7">New York City, NY</td>
-    <td class="cell100 column8">424242xxxxxx6262</td>
-    </tr>
-    <tr class="row100 body">
-    <td class="cell100 column2">Marketing</td>
-    <td class="cell100 column3">16 Nov 2015</td>
-    <td class="cell100 column4">30 Nov 2017</td>
-    <td class="cell100 column5"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="640f05100c1d3b5c5624011c05091408014a070b09">[email&#160;protected]</a></td>
-    <td class="cell100 column6">26</td>
-    <td class="cell100 column7">New York City, NY</td>
-    <td class="cell100 column8">424242xxxxxx1616</td>
-    </tr>
-    <tr class="row100 body">
-    <td class="cell100 column2">CFO</td>
-    <td class="cell100 column3">16 Nov 2013</td>
-    <td class="cell100 column4">30 Nov 2017</td>
-    <td class="cell100 column5"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2f4a4346554e4d4a5b47171d6f4a574e425f434a014c4042">[email&#160;protected]</a></td>
-    <td class="cell100 column6">32</td>
-    <td class="cell100 column7">New York City, NY</td>
-    <td class="cell100 column8">424242xxxxxx5326</td>
-    </tr>
-    <tr class="row100 body">
-    <td class="cell100 column2">Designer</td>
-    <td class="cell100 column3">16 Nov 2013</td>
-    <td class="cell100 column4">30 Nov 2017</td>
-    <td class="cell100 column5"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f19c98929990949dc8c5b19489909c819d94df929e9c">[email&#160;protected]</a></td>
-    <td class="cell100 column6">22</td>
-    <td class="cell100 column7">New York City, NY</td>
-    <td class="cell100 column8">424242xxxxxx6328</td>
-    </tr>
-    <tr class="row100 body">
-    <td class="cell100 column2">Developer</td>
-    <td class="cell100 column3">16 Nov 2017</td>
-    <td class="cell100 column4">30 Nov 2017</td>
-    <td class="cell100 column5"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="553f34263a3b363a2d15302d34382539307b363a38">[email&#160;protected]</a></td>
-    <td class="cell100 column6">25</td>
-    <td class="cell100 column7">New York City, NY</td>
-    <td class="cell100 column8">424242xxxxxx7648</td>
-    </tr>
-    <tr class="row100 body">
-    <td class="cell100 column2">Sale</td>
-    <td class="cell100 column3">16 Nov 2016</td>
-    <td class="cell100 column4">30 Nov 2017</td>
-    <td class="cell100 column5"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="bfdcd7cdd6cccbd6ded1e0878cffdac7ded2cfd3da91dcd0d2">[email&#160;protected]</a></td>
-    <td class="cell100 column6">28</td>
-    <td class="cell100 column7">New York City, NY</td>
-    <td class="cell100 column8">424242xxxxxx4152</td>
-    </tr>
-    <tr class="row100 body">
-    <td class="cell100 column2">Support</td>
-    <td class="cell100 column3">16 Nov 2013</td>
-    <td class="cell100 column4">30 Nov 2017</td>
-    <td class="cell100 column5"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4520282c293c7c7505203d24283529206b262a28">[email&#160;protected]</a></td>
-    <td class="cell100 column6">24</td>
-    <td class="cell100 column7">New York City, NY</td>
-    <td class="cell100 column8">424242xxxxxx6668</td>
-    </tr>
-    </tbody>
-    </table>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
+      <div class="container-table100">
+        <div class="wrap-table100">
+          <div 
+            class="table100 ver1" >
+
+            <div class="wrap-table100-nextcols js-pscroll">
+              <div class="table100-nextcols">
+                <table>
+                  <thead>
+                    <tr class="row100 head">
+                      <th class="cell100 column6">STT</th>
+                      <th class="cell100 column2 text-left">Họ và tên</th>
+                      <th class="cell100 column2 text-left">Chuyên môn</th>
+                      <!-- <th class="cell100 column3">Khóa</th> -->
+                      <th class="cell100 column4 " >Số tháng nợ</th>
+                      <th class="cell100 column8  pl-4">
+                        <p>Năm</p>
+                        <tr 
+                          class="flex justify-around">
+                          <td 
+                          class="pt-2 pb-0"
+                            v-for="month in months"
+                            :key="month">
+                            <p class="text-black">{{ month }}</p>
+                          </td>
+                          
+
+                        </tr>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="row100 body"
+                      v-for="user in Datafake"
+                      :key="user.id_user">
+                      <td class="cell100 column6 text-center">{{user.id_user }}</td>
+                      <td class="cell100 column2">{{ user.name  }}</td>
+                      <td class="cell100 column2">{{ user.name_major }}</td>
+                      <!-- <td class="cell100 column3">{{ user. }}</td> -->
+                      <td class="cell100 column7 text-center">{{ user.unpaidMonths }}</td>
+                      <td 
+                        class="cell100 column8 pl-4"
+                        >
+
+                        <CheckCard :DataBill=user.bills />
+
+                        
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-  
-/*//////////////////////////////////////////////////////////////////
-[ FONT ]*/
-
-
 @font-face {
   font-family: Roboto-Regular;
-  src: url('../fonts/roboto/Roboto-Regular.ttf'); 
+  src: url("../fonts/roboto/Roboto-Regular.ttf");
 }
 
 @font-face {
   font-family: Roboto-Medium;
-  src: url('../fonts/roboto/Roboto-Medium.ttf'); 
+  src: url("../fonts/roboto/Roboto-Medium.ttf");
 }
 
 @font-face {
   font-family: Roboto-Bold;
-  src: url('../fonts/roboto/Roboto-Bold.ttf'); 
+  src: url("../fonts/roboto/Roboto-Bold.ttf");
 }
 
 /*//////////////////////////////////////////////////////////////////
 [ RESTYLE TAG ]*/
 * {
-	margin: 0px; 
-	padding: 0px; 
-	box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
 }
 
-body, html {
-	height: 100%;
-	font-family: sans-serif;
+body,
+html {
+  height: 100%;
+  font-family: sans-serif;
 }
 
 /* ------------------------------------ */
 a {
-	margin: 0px;
-	transition: all 0.4s;
-	-webkit-transition: all 0.4s;
+  margin: 0px;
+  transition: all 0.4s;
+  -webkit-transition: all 0.4s;
   -o-transition: all 0.4s;
   -moz-transition: all 0.4s;
 }
 
 a:focus {
-	outline: none !important;
+  outline: none !important;
 }
 
 a:hover {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 /* ------------------------------------ */
-h1,h2,h3,h4,h5,h6 {margin: 0px;}
-
-p {margin: 0px;}
-
-ul, li {
-	margin: 0px;
-	list-style-type: none;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0px;
 }
 
+p {
+  margin: 0px;
+}
+
+ul,
+li {
+  margin: 0px;
+  list-style-type: none;
+}
 
 /* ------------------------------------ */
 input {
   display: block;
-	outline: none;
-	border: none !important;
+  outline: none;
+  border: none !important;
 }
 
 textarea {
@@ -199,23 +295,24 @@ textarea {
   outline: none;
 }
 
-textarea:focus, input:focus {
+textarea:focus,
+input:focus {
   border-color: transparent !important;
 }
 
 /* ------------------------------------ */
 button {
-	outline: none !important;
-	border: none;
-	background: transparent;
+  outline: none !important;
+  border: none;
+  background: transparent;
 }
 
 button:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 iframe {
-	border: none !important;
+  border: none !important;
 }
 
 /*//////////////////////////////////////////////////////////////////
@@ -224,7 +321,6 @@ iframe {
   position: relative;
   overflow: hidden;
 }
-
 
 .table100 .ps__rail-x {
   z-index: 1010;
@@ -263,26 +359,19 @@ iframe {
   left: 15px;
 }
 
-
 /*//////////////////////////////////////////////////////////////////
 [ Table ]*/
 
 .limiter {
   width: 100%;
   margin: 0 auto;
-  background: #fa71cd;
-  background: -webkit-linear-gradient(to top, #c471f5, #fa71cd);
-  background: -o-linear-gradient(to top, #c471f5, #fa71cd);
-  background: -moz-linear-gradient(to top, #c471f5, #fa71cd);
-  background: linear-gradient(to top, #c471f5, #fa71cd);
-
-
 }
 
 .container-table100 {
-  max-width: 1366px;
+  /* max-width: 100%; */
+  /* width: 100%; */
   margin: 0 auto;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -291,7 +380,7 @@ iframe {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  padding: 33px 100px;
+  /* padding: 33px 100px; */
 }
 
 .wrap-table100 {
@@ -308,7 +397,8 @@ table {
   width: 100%;
 }
 
-th, td {
+th,
+td {
   font-weight: unset;
   padding-right: 10px;
 }
@@ -319,8 +409,8 @@ th, td {
 }
 
 .column2 {
-  width: 225px;
-  padding-left: 55px;
+  width: 151px;
+  padding-left: 11px;
 }
 
 .column3 {
@@ -328,7 +418,7 @@ th, td {
 }
 
 .column4 {
-  width: 195px;
+  width: 93px;
 }
 
 .column5 {
@@ -336,27 +426,26 @@ th, td {
 }
 
 .column6 {
-  width: 170px;
+  width: 100px;
 }
 
 .column7 {
-  width: 330px;
+  width: 50px;
 }
 
 .column8 {
-  width: 305px;
+  width: 405px;
 }
 
 .table100 th {
   padding-top: 21px;
-  padding-bottom: 21px;
+  padding-bottom: 10px;
 }
 
 .table100 td {
   padding-top: 16px;
   padding-bottom: 16px;
 }
-
 
 /*==================================================================
 [ Fix col ]*/
@@ -368,7 +457,7 @@ th, td {
 .table100-firstcol {
   background-color: #fff;
   position: absolute;
-  z-index: 1000;
+  z-index: 10;
   width: 310px;
   top: 0;
   left: 0;
@@ -381,11 +470,12 @@ th, td {
 .wrap-table100-nextcols {
   width: 100%;
   overflow: auto;
-  padding-left: 310px;
+  padding-left: 10px;
+  /* padding-left: 310px; */
   padding-bottom: 28px;
 }
 
-.table100-nextcols table{
+.table100-nextcols table {
   table-layout: fixed;
 }
 
@@ -419,17 +509,18 @@ th, td {
 }
 
 .table100.ver1 .table100-firstcol td {
-  color: #666666;
+  color: #000000;
 }
 
 .table100.ver1 .table100-nextcols td {
-  color: #999999;
+  color: #000000;
 }
-
 
 .table100.ver1 tr {
   border-bottom: 1px solid #f2f2f2;
 }
 
-
+.table100.ver1 .head {
+  border-bottom: 1px solid #585858;
+}
 </style>
