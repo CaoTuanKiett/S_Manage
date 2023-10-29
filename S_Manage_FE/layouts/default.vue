@@ -1,4 +1,5 @@
 <template>
-    <slot />
-    <Footer />
+   <div class="flex w-full">
+        <slot />
+   </div>
 </template>

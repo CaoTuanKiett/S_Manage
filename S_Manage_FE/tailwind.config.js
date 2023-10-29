@@ -8,7 +8,11 @@ module.exports = {
     "./app.vue",
   ],
   theme: {
-    extend: {},
+    extend: {
+      margin: {
+        '255px': "255px",
+      }
+    },
   },
   plugins: [],
 }

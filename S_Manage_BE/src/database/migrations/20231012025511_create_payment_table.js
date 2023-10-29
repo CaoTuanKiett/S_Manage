@@ -6,6 +6,8 @@ exports.up = function(knex) {
   return knex.schema.createTable('payment', function (table) {
     table.increments('id_payment').primary();
     table.integer('user_id').unsigned().notNullable();
+    table.integer('paymentIntent_id').unsigned().notNullable();
+    table.string('pay_account').notNullable();
     table.string('pay_method').notNullable();
     table.dateTime('create_at').notNullable();
     table.string('account_name');
