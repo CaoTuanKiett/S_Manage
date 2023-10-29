@@ -2,7 +2,7 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> } 
  */
-exports.seed = async function(knex) {
+
   // seeds/create_due_payment_seed.js
 exports.seed = function (knex) {
   // Xóa dữ liệu cũ trong bảng "due_payment" trước khi thêm dữ liệu mới (nếu cần)
@@ -23,6 +23,4 @@ exports.seed = function (knex) {
         // Thêm dữ liệu cho các bản ghi khác tại đây (nếu cần)
       ]);
     });
-};
-
 };
