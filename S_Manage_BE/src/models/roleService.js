@@ -40,13 +40,13 @@ class roleService {
         return roles;
     }
 
-    async hasPermission(roleId, permission) {
+    async hasPermission(roleId, permission_id) {
         const permissions = await knex('role_permissions')
             .join('permission', 'role_permissions.permission_id', 'permission.permission_id')
             .where('role_permissions.role_id', roleId)
             .select('permission.permission_id');
 
-        return permissions.map((perm) => perm.permission_id).includes(parseInt(permission));
+        return permissions.map((perm) => perm.permission_id).includes(parseInt(permission_id));
     }
 }
 module.exports = roleService;
