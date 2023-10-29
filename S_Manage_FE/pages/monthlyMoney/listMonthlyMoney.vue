@@ -1,4 +1,5 @@
 <script setup>
+  import isLogin from "~/stores/isLogin";
 
 definePageMeta({
   layout: "admin",
@@ -150,6 +151,10 @@ const Datafake = [
         ]
     }
 ];
+
+onMounted(() => {
+    isLogin();
+  });
 
 </script>
 

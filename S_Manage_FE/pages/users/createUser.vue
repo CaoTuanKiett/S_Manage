@@ -15,8 +15,9 @@
   const router = useRouter();
   const route = useRoute();
   const userId = route.params.id;
-
-  const URL_BE = import.meta.env.VITE_APP_BASE_BE || 'http://localhost:8080'
+  
+  const config= useRuntimeConfig();
+  const API_BE = config.public.API_BASE_BE;
 
   const DataUser = ref({
     id_user: "",
@@ -132,7 +133,7 @@
       }
 
       axios
-        .post(`${URL_BE}/api/v1/users`, formData)
+        .post(`${API_BE}/api/v1/users`, formData)
         .then((response) => {
           console.log(response);
           notify({
