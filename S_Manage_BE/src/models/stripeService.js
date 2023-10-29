@@ -17,13 +17,15 @@ exports.getPaymentsByUserId = async (userId) => {
 //payment detail
 exports.getPaymentDetail = async (paymentId) => {
     const paymentDetail = await db('payment')
-        .select('payment.id_payment', 'payment.description', 'payment.account_name','bill_payment.amount', 'bill.*')
-        .join('bill_payment', 'payment.id_payment', 'bill_payment.payment_id')
+        .select('payment.payment_id', 'payment.description', 'payment.account_name','bill_payment.amount', 'bill.*')
+        .join('bill_payment', 'payment.payment_id', 'bill_payment.payment_id')
         .join('bill', 'bill_payment.bill_id', 'bill.bill_id')
-        .where('payment.id_payment', paymentId);
+        .where('payment.payment_id', paymentId);
 
-    const PaymentInfo = {
-        payment_id: paymentDetail[0].id_payment,
+       console.log(paymentDetail) 
+   if(paymentDetail.length > 0){
+const PaymentInfo = {
+        payment_id: paymentDetail[0].payment_id,
         description: paymentDetail[0].description,
         account_name: paymentDetail[0].account_name
     };
@@ -49,8 +51,10 @@ exports.getPaymentDetail = async (paymentId) => {
         payment_info: PaymentInfo,
         bill_details: billDetails
     };
-
+    console.log(result)
     return result;
+   }
+    
 };
 exports.createBill = async (req) => {
     const { fee_type, fee, description, create_by, payers,month,year } = req.body;
