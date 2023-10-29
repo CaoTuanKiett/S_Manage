@@ -17,7 +17,9 @@ module.exports = {
         } catch (error) {
             res.status(500).json({ error: 'An error occurred while fetching money statistics' + error });
         }
-    },
+    }
+
+    ,
     listMoney: async (req, res) => {
         try {
             const { year } = req.params;

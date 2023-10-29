@@ -6,4 +6,3 @@
     </NuxtLayout>
 
 </template>
-s

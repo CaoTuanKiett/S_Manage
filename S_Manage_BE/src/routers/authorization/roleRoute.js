@@ -45,5 +45,4 @@ roleRoute.get('/:roleId/has_permission/:permission', async (req, res) => {
     await roleController.hasPermission(req, res);
 });
 
-
 module.exports = roleRoute;

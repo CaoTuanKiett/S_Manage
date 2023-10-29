@@ -34,13 +34,13 @@ module.exports = {
     listmoney: async (year) => {
         try {
             const list = await db
-                .distinct('user.id_user', 'user.name', 'major.name_major', 'bill.month', 'bill.bill_id')
+                .distinct('user.id_user', 'user.name', 'major.name_major', 'bill.month', 'bill.id_bill')
                 .select(
                     'user.id_user',
                     'user.name',
                     'major.name_major',
                     'bill.month',
-                    'bill.bill_id',
+                    'bill.id_bill',
                     db.raw(`CASE
                     WHEN bill_payment.bill_id IS NOT NULL AND bill_payment.payment_id IS NOT NULL THEN 'paid'
                     ELSE 'unpaid'
@@ -51,7 +51,7 @@ module.exports = {
                 .join('roles', 'user_roles.role_id', 'roles.id_role')
                 .join('major', 'roles.major_id', 'major.id_major')
                 .leftJoin('bill', 'bill.payer', 'user.id_user')
-                .leftJoin('bill_payment', 'bill.bill_id', 'bill_payment.bill_id')
+                .leftJoin('bill_payment', 'bill.id_bill', 'bill_payment.bill_id')
                 .leftJoin('payment', 'bill_payment.payment_id', 'payment.id_payment')
                 .whereRaw(`bill.year= ${year}`)
                 .orderBy('user.id_user')
@@ -117,4 +117,4 @@ module.exports = {
             throw error;
         }
     }
-}
+};
