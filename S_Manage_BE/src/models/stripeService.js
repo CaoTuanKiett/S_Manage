@@ -22,7 +22,7 @@ exports.getPaymentDetail = async (paymentId) => {
         .join('bill', 'bill_payment.bill_id', 'bill.bill_id')
         .where('payment.payment_id', paymentId);
 
-       console.log(paymentDetail) 
+     
    if(paymentDetail.length > 0){
 const PaymentInfo = {
         payment_id: paymentDetail[0].payment_id,
@@ -51,7 +51,6 @@ const PaymentInfo = {
         payment_info: PaymentInfo,
         bill_details: billDetails
     };
-    console.log(result)
     return result;
    }
     
