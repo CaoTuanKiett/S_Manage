@@ -3,6 +3,10 @@ const roleRoute = express.Router();
 const RoleController = require('../../models/roleController.js');
 //const checkAccess = require('../midleware/checkUser').checkAccess;
 
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 const roleController = new RoleController();
 
 // Tạo role mới
@@ -35,15 +39,23 @@ roleRoute.put('/update_permission/:permission_id', async (req, res) => {
 roleRoute.get('/:roleId/get_permissions', async (req, res) => {
     await roleController.getRolePermissions(req, res);
 });
-//Select all role
-roleRoute.get('/get_all_role', async (req, res) => {
-    await roleController.getAllRole(req, res);
-});
+
 
 // Kiểm tra quyền hạn của role
 roleRoute.get('/:roleId/has_permission/:permission', async (req, res) => {
     await roleController.hasPermission(req, res);
 });
+
+//Select all role
+roleRoute.get('/get_all_role', async (req,res) => {
+    await roleController.getAllRole(req,res)
+}
+);
+//lấy danh sách permissions
+roleRoute.get('/get_all_permission', async (req,res) => {
+    await roleController.getAllPermission(req,res)
+}
+    )
 
 
 module.exports = roleRoute;

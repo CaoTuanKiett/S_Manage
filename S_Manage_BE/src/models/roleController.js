@@ -1,5 +1,6 @@
 const RoleService = require('../services/roleService');
 
+
 class RoleController {
     constructor() {
         this.roleService = new RoleService();
@@ -75,7 +76,7 @@ class RoleController {
 
     async getRolePermissions(req, res) {
         try {
-            const  role_id  = req.params;
+            const  role_id  = req.params.roleId;
             const permissions = await this.roleService.getRolePermissions(role_id);
             res.status(200).json({ permissions });
         } catch (error) {
@@ -87,12 +88,22 @@ class RoleController {
     async getAllRole(req, res) {
         try {
             const roles = await this.roleService.getAllRole();
-            res.status(200).json({ roles });
+            res.status(200).json(roles);
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Failed to get all role', error });
         }
     }
+   async getAllPermission(req,res){
+    try{
+         const permissions = await this.roleService.getAllPermission();
+          res.status(200).json(permissions);
+    }
+    catch(error){
+           console.error(error);
+            res.status(500).json({ message: 'Failed to get all permissions', error });
+    }
+   } 
 
     async hasPermission(req, res) {
         try {
