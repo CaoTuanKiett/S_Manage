@@ -18,4 +18,15 @@ module.exports = {
             res.status(500).json({ error: 'An error occurred while fetching money statistics' + error });
         }
     }
+
+    ,
+    listMoney: async (req, res) => {
+        try {
+            const { year } = req.params;
+            const statistics = await statisticService.listmoney(year);
+            res.status(200).json(statistics);
+        } catch (error) {
+            res.status(500).json({ error: 'An error occurred while fetching money statistics' + error });
+        }
+    }
 };

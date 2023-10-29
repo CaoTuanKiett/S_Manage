@@ -8,6 +8,9 @@
 
   import displayIMG from '../../../middleware/displayIMG';
 
+  definePageMeta({
+        layout: 'admin'
+    });
 
   const router = useRouter();
   const route = useRoute();
@@ -146,7 +149,7 @@
   };
 
   const Cancel = () => {
-    router.push('/users');
+    router.push('/users/ListUsers');
   }
 
 </script>

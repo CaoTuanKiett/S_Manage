@@ -1,9 +1,7 @@
-
-
 <template>
   <div>
     <NuxtLayout name="admin">
-      <NuxtPage  :route="/users/listUsers"/>
+      <NuxtPage />
     </NuxtLayout>
   </div>
 </template>

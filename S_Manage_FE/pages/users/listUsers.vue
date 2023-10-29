@@ -15,6 +15,10 @@
   const searchKeyword = ref("");
   const router = useRouter();
 
+  definePageMeta({
+        layout: 'admin'
+    });
+
   
 
 
