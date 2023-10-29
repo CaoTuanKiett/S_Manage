@@ -77,6 +77,41 @@ exports.createBill = async (req) => {
 
     return newBills;
 };
+exports.updateBill = async (billId, fee_type, fee, description, payer, year, month) => {
+    try {
+        const updatedBill = await db('bill')
+            .where({ bill_id: billId })
+            .update({
+                fee_type: fee_type,
+                fee: fee,
+                description: description,
+                payer: payer,
+                year: year,
+                month: month,
+            });
+
+        return updatedBill;
+    } catch (error) {
+        throw error;
+    }
+};
+exports.getAllBill = async () => {
+    try {
+        const data = await db('bill').select('*');
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
+exports.deleteBill = async (billId) => {
+    try {
+        const deletedBill = await db('bill').where({ bill_id: billId }).del();
+
+        return deletedBill;
+    } catch (error) {
+        throw error;
+    }
+};
 
 exports.getUnpaidBill = async (userId) => {
     const unpaidBills = await db('bill')
