@@ -1,6 +1,7 @@
 const db = require('../database/connectDB');
 const stripe = require('stripe');
 const env = require('dotenv');
+const { default: knex } = require('knex');
 env.config();
 
 const stripeInstance = stripe(process.env.STRIPE_SECRET_KEY);
@@ -13,9 +14,46 @@ exports.getAllPayments = async () => {
 exports.getPaymentsByUserId = async (userId) => {
     return await db('payment').select('*').where('user_id', userId);
 };
+//payment detail
+exports.getPaymentDetail = async (paymentId) => {
+    const paymentDetail = await db('payment')
+        .select('payment.id_payment', 'payment.description', 'payment.account_name','bill_payment.amount', 'bill.*')
+        .join('bill_payment', 'payment.id_payment', 'bill_payment.payment_id')
+        .join('bill', 'bill_payment.bill_id', 'bill.bill_id')
+        .where('payment.id_payment', paymentId);
 
+    const PaymentInfo = {
+        payment_id: paymentDetail[0].id_payment,
+        description: paymentDetail[0].description,
+        account_name: paymentDetail[0].account_name
+    };
+
+    const billDetails = paymentDetail.map(bill => {
+        return {
+            bill_id:bill.bill_id,
+            fee_type: bill.fee_type,
+            fee: bill.fee,
+            create_at: bill.create_at,
+            due_at: bill.due_at,
+            description: bill.description,
+            create_by: bill.create_by,
+            payer: bill.payer,
+            year: bill.year,
+            month: bill.month,
+            paid: bill.amount,
+            
+        };
+    });
+
+    const result = {
+        payment_info: PaymentInfo,
+        bill_details: billDetails
+    };
+
+    return result;
+};
 exports.createBill = async (req) => {
-    const { fee_type, fee, description, create_by, payers } = req.body;
+    const { fee_type, fee, description, create_by, payers,month,year } = req.body;
     const created_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const due_at = new Date();
     due_at.setDate(due_at.getDate() + 30);
@@ -30,7 +68,9 @@ exports.createBill = async (req) => {
             due_at: formatted_due_at,
             description: description,
             create_by: create_by,
-            payer: payer
+            payer: payer,
+            year: year,
+            month:month,
         });
         newBills.push(newBill);
     }
@@ -74,7 +114,8 @@ exports.createSessionPayment = async (req) => {
                     currency: "vnd",
                     product_data: {
                         name: "Tiền Tháng " + item.month, /// tháng mấy 
-                        description: req.body.description /// mô tả
+                        description: item.description, /// mô tả
+                        metadata: { bill_id: item.bill_id }
                     },
                     unit_amount: item.price ? item.price : 200000 // số tiền mỗi tháng
                 },
@@ -83,7 +124,7 @@ exports.createSessionPayment = async (req) => {
         }),
         metadata: {
             user_id: req.body.user_id,
-            description: req.body.description
+            description: req.body.description,
         }
     })
 
@@ -99,12 +140,11 @@ exports.handleWebhook = async (req) => {
     } catch (error) {
         throw new Error(`Webhook Error: ${error.message}`);
     }
-
     // Handle the event
     switch (event.type) {
         case 'checkout.session.completed':
             const session = event.data.object;
-            await db('payment').insert({
+            const payment= await db('payment').insert({
                 amount_money: session.amount_total,
                 user_id: session.metadata.user_id,
                 account_name: session.customer_details.name,
@@ -112,6 +152,20 @@ exports.handleWebhook = async (req) => {
                 pay_method: session.payment_method_types,
                 create_at: new Date(session.created * 1000).toISOString().slice(0, 19).replace('T', ' ')
             });
+            /// lay them bill_id, add vào bảng bill_payment
+            const payment_id = payment[0];
+            const session_id = session.id;
+            const session2 = await stripeInstance.checkout.sessions.retrieve(session_id, {
+                expand: ['line_items.data.price.product']
+            });
+            const lineItems = session2.line_items.data;
+            for (const item of lineItems) {
+                await db('bill_payment').insert({
+                    bill_id: item.price.product.metadata.bill_id,
+                    payment_id:payment_id,
+                    amount: item.amount_total
+                });
+            }
             break;
         // Add other event handlers here
         ///....//
@@ -122,13 +176,31 @@ exports.handleWebhook = async (req) => {
 
 exports.handlePaymentSuccess = async (session_id) => {
     // Retrieve the payment session from Stripe
-    const session = await stripeInstance.checkout.sessions.retrieve(session_id);
+    const session = await stripeInstance.checkout.sessions.retrieve(session_id, {
+        expand: ['line_items.data.price.product']
+    });
 
     // Handle the payment success
     if (session.payment_status === 'paid') {
-        const paymentIntentId = session.payment_intent;
-        // Update your database or perform any other actions
-        return 'Payment success';
+        // Extract the line items from the session
+        const lineItems = session.line_items.data;
+        // Map the line items to extract the relevant information
+        const items = lineItems.map(item => {
+            const { name, description, metadata } = item.price.product;
+            const bill_id = metadata.bill_id;
+            const { currency, unit_amount } = item.price;
+
+            return {
+                name,
+                description,
+                bill_id,
+                currency,
+                unit_amount
+            };
+        }
+        );
+        return items;
+
     } else {
         throw new Error('Payment failed');
     }

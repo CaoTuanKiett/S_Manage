@@ -7,22 +7,23 @@
   import { notify } from '@kyvg/vue3-notification';
 
   import displayIMG from '../../../middleware/displayIMG';
-  
-  const config= useRuntimeConfig();
-  const API_BE = config.public.API_BASE_BE;
+
+  definePageMeta({
+        layout: 'admin'
+    });
 
   const router = useRouter();
   const route = useRoute();
   const userId = route.params.id;
-
+  
+  const config= useRuntimeConfig();
+  const API_BE = config.public.API_BASE_BE;
 
   const DataUser = ref({
     id_user: "",
     name: "",
     age: "",
     gender: "",
-    phone: "",
-    address: "",
     email: "",
     username: "",
     password: "",
@@ -35,8 +36,6 @@
     name: "",
     age: "",
     gender: "",
-    phone: "",
-    address: "",
     email: "",
     username: "",
     password: "",
@@ -68,20 +67,6 @@
       errorValue.value.gender = "";
     }
 
-    if (DataUser.value.phone == "") {
-      isValue = false;
-      errorValue.value.phone = "phone is required";
-    } else {
-      errorValue.value.phone = "";
-    }
-
-    if (DataUser.value.address == "") {
-      isValue = false;
-      errorValue.value.address = "address is required";
-    } else {
-      errorValue.value.address = "";
-    }
-
     if (DataUser.value.email == "") {
       isValue = false;
       errorValue.value.email = "email is required";
@@ -103,12 +88,12 @@
       errorValue.value.password = "";
     }
 
-    if (DataUser.value.avatar == "") {
-      isValue = false;
-      errorValue.value.avatar = "avatar is required";
-    } else {
-      errorValue.value.avatar = "";
-    }
+    // if (DataUser.value.avatar == "") {
+    //   isValue = false;
+    //   errorValue.value.avatar = "avatar is required";
+    // } else {
+    //   errorValue.value.avatar = "";
+    // }
 
     if (DataUser.value.status == "") {
       isValue = false;
@@ -116,161 +101,56 @@
     } else {
       errorValue.value.status = "";
     }
-
+    // console.log(errorValue.value);
     return isValue;
   }
   
 
 
-
-  const getUser = (id) => {
-   axios
-      .get(`${API_BE}/api/v1/users/${id}`)
-      .then((response) => {
-        const data = response.data[0];
-        // console.log(data);
-
-        DataUser.value.id_user = data.id_user;
-        DataUser.value.name = data.name;
-        DataUser.value.age = data.age;
-        DataUser.value.gender = data.gender;
-        DataUser.value.phone = data.phone;
-        DataUser.value.address = data.address;
-        DataUser.value.email = data.email;
-        DataUser.value.username = data.username;
-        DataUser.value.password = data.password;
-        DataUser.value.avatar = data.avatar;
-        DataUser.value.status = data.status;
-
-        console.log(DataUser.value);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-
   onMounted( async () => {
     displayIMG("imageInput", "imageDisplay");
-
-    console.log("id", userId);
-    if (userId != 0){
-      getUser(userId);
-
-      console.log("img", DataUser.value);
-    }
-
-    
-
-    
   });
-  
 
-
-  // const saveUser = () => {
-  //   if(validate()){
-
-  //     const data = {
-  //       id_user: DataUser.value.id_user,
-  //       name: DataUser.value.name,
-  //       age: DataUser.value.age,
-  //       gender: DataUser.value.gender,
-  //       phone: DataUser.value.phone,
-  //       address: DataUser.value.address,
-  //       email: DataUser.value.email,
-  //       username: DataUser.value.username,
-  //       password: DataUser.value.password,
-  //       status: DataUser.value.status
-  //     };
-
-
-  //     console.log('dataa',data);
-  //     if(userId){
-  //       axios
-  //       .put(`${API_BE}/api/v1/users/${userId}`, data)
-  //       .then((req, res) => {
-  //         console.log('hehe',req);
-  //         notify({
-  //           type: 'success',
-  //           title: 'Update success',
-  //           text: 'Update success',
-  //         });
-  //         Cancel();
-  //       })
-  //       .catch((req, res, error) => {
-  //         console.log('hehe',req);
-  //         console.log(error);
-  //       });
-  //     }
-  //   }
-  // };
-
-  // const updateAvatar = (event) => {
-  //   const selectedFile = event.target.files[0];
-  //   if (selectedFile) {
-      
-  //     DataUser.value.avatar = selectedFile.name;
-  //     console.log('DataUser.value.avatar', DataUser.value.avatar);
-  //   }
-  // };
 
   const saveUser = () => {
-  if (validate()) {
-    // Lấy tệp avatar từ input
-    const avatarInput = document.getElementById('imageInput');
-    const selectedAvatar = avatarInput.files[0];
+    if(validate()){
 
-    // const data = {
-    //   id_user: DataUser.value.id_user,
-    //   name: DataUser.value.name,
-    //   age: DataUser.value.age,
-    //   gender: DataUser.value.gender,
-    //   phone: DataUser.value.phone,
-    //   address: DataUser.value.address,
-    //   email: DataUser.value.email,
-    //   username: DataUser.value.username,
-    //   password: DataUser.value.password,
-    //   status: DataUser.value.status
-    // };
+      // Lấy tệp avatar từ input
+      const avatarInput = document.getElementById('imageInput');
+      const selectedAvatar = avatarInput.files[0];
 
-    const data = DataUser.value;
+      const data = DataUser.value;
 
-    // Tạo FormData để chứa dữ liệu và tệp avatar
-    const formData = new FormData();
+      // Tạo FormData để chứa dữ liệu và tệp avatar
+     const formData = new FormData();
 
-    // Kiểm tra xem có tệp avatar đã được chọn không
-    if (selectedAvatar) {
+     if (selectedAvatar) {
       formData.append('avatar', selectedAvatar);
-    }
+      }
 
-    // Thêm dữ liệu người dùng vào FormData
     for (const key in data) {
         formData.append(key, data[key]);
       }
 
-
-    if (userId) {
       axios
-        .put(`${API_BE}/api/v1/users/${userId}`, formData)
+        .post(`${API_BE}/api/v1/users`, formData)
         .then((response) => {
-          console.log('Response:', response);
+          console.log(response);
           notify({
             type: 'success',
-            title: 'Update success',
-            text: 'Update success',
+            title: 'Create success',
+            text: 'Create success',
           });
           Cancel();
         })
         .catch((error) => {
-          console.error('Error:', error);
+          console.log(error);
         });
     }
-  }
-};
-
+  };
 
   const Cancel = () => {
-    router.push('/admin/users');
+    router.push('/users/ListUsers');
   }
 
 </script>
@@ -282,7 +162,7 @@
     <div class="w-20  cursor-pointer flex items-center">
       <font-awesome-icon :icon="['fas', 'chevron-left']" />
       <button
-        class="btn-SignUp hover:opacity-90 w-10 text-[04364A] font-bold border-b-2 border-[04364A] text-left ml-1 "
+        class="btn-SignUp hover:opacity-90 w-10 text-black font-bold border-b-2 border-black text-left ml-1 "
         @click="Cancel()"
       >
         Back
@@ -337,6 +217,25 @@
           </div>
 
           <div class="input  p-2 mb-4 w-3/4 relative" >
+            <label for="" class="text-base text-black font-semibold">Giới tính:</label>
+            <input 
+              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              name="gender" 
+              v-model="DataUser.gender"
+              type="text" 
+              placeholder="gender"
+              @blur="validate()"
+                :class="{'is-invalid': errorValue.gender}"
+              />
+
+              <div class="invalid-feedback text-left" v-if="errorValue.gender" > {{errorValue.gender }} </div>
+
+              <font-awesome-icon 
+                class="absolute right-6 bottom-5 text-xl cursor-pointer"
+                :icon="['fas', 'pen-to-square']" />
+          </div>
+
+          <div class="input  p-2 mb-4 w-3/4 relative" >
             <label for="" class="text-base text-black font-semibold">Số điện thoại:</label>
             <input 
               class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
@@ -354,6 +253,45 @@
                 class="absolute right-6 bottom-5 text-xl cursor-pointer"
                 :icon="['fas', 'pen-to-square']" />
           </div>
+
+          <div class="input  p-2 mb-4 w-3/4 relative" >
+            <label for="" class="text-base text-black font-semibold">Tên đăng nhập:</label>
+            <input 
+              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              name="username" 
+              v-model="DataUser.username"
+              type="text" 
+              placeholder="username"
+              @blur="validate()"
+                :class="{'is-invalid': errorValue.username}"
+              />
+
+              <div class="invalid-feedback text-left" v-if="errorValue.username" > {{errorValue.username }} </div>
+
+              <font-awesome-icon 
+                class="absolute right-6 bottom-5 text-xl cursor-pointer"
+                :icon="['fas', 'pen-to-square']" />
+          </div>
+
+          <div class="input  p-2 mb-4 w-3/4 relative" >
+            <label for="" class="text-base text-black font-semibold">Password:</label>
+            <input 
+              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              name="password" 
+              v-model="DataUser.password"
+              type="text" 
+              placeholder="password"
+              @blur="validate()"
+                :class="{'is-invalid': errorValue.password}"
+              />
+
+              <div class="invalid-feedback text-left" v-if="errorValue.password" > {{errorValue.password }} </div>
+
+              <font-awesome-icon 
+                class="absolute right-6 bottom-5 text-xl cursor-pointer"
+                :icon="['fas', 'pen-to-square']" />
+          </div>
+
 
           <div class="input  p-2 mb-4 w-3/4 relative" >
             <label for="" class="text-base text-black font-semibold">Địa chỉ:</label>
@@ -458,17 +396,16 @@
                 <div>
                   <img 
                   id="imageDisplay"
-                  :src="DataUser.avatar" 
                   alt="avt"
                   class="w-[500px] h-[600px] rounded-3xl shadow-xl "
                   >
 
-                  <input type="file" id="imageInput" name="avatar" >
+                  <input type="file" id="imageInput" name="avatar">
                 </div>
 
                 <div class="flex justify-center mt-6 w-3/4">
                   <button type="submit"  class="btn-SignIn hover:opacity-90 bg-[04364A] text-black font-bold py-2 px-10 rounded mr-8">
-                    Cập nhật thông tin
+                    Submit
                   </button>
                 </div>
 
@@ -476,14 +413,8 @@
             </div>
             
         
-  
-        
-  
-
-        
       </form>
   
-      
     </div>
 
   </div>

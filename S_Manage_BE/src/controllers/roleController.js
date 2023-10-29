@@ -1,4 +1,4 @@
-const RoleService = require('../services/roleService');
+const RoleService = require('../models/roleService');
 
 class RoleController {
     constructor() {
@@ -81,6 +81,16 @@ class RoleController {
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Failed to get role permissions', error });
+        }
+    }
+
+    async getAllRole(req, res) {
+        try {
+            const roles = await this.roleService.getAllRole();
+            res.status(200).json({ roles });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Failed to get all role', error });
         }
     }
 

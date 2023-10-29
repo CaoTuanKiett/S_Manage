@@ -1,4 +1,4 @@
-const statisticService = require('../services/statisticService');
+const statisticService = require('../models/statisticService');
 
 module.exports = {
     getStatisticUser: async (req, res) => {
@@ -13,6 +13,17 @@ module.exports = {
     getStatisticMoney: async (req, res) => {
         try {
             const statistics = await statisticService.getStatisticMoney();
+            res.status(200).json(statistics);
+        } catch (error) {
+            res.status(500).json({ error: 'An error occurred while fetching money statistics' + error });
+        }
+    }
+
+    ,
+    listMoney: async (req, res) => {
+        try {
+            const { year } = req.params;
+            const statistics = await statisticService.listmoney(year);
             res.status(200).json(statistics);
         } catch (error) {
             res.status(500).json({ error: 'An error occurred while fetching money statistics' + error });
