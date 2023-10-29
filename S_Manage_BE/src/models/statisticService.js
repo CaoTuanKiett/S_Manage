@@ -56,7 +56,7 @@ module.exports = {
                 .whereRaw(`bill.year= ${year}`)
                 .orderBy('user.id_user')
                 .orderBy('bill.month');
-
+                
             const mergedData = list.reduce((result, item) => {
                 const { id_user, name, name_major, ...rest } = item;
                 const key = `${id_user}_${name}_${name_major}`;

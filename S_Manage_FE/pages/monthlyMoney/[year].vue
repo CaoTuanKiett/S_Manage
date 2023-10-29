@@ -1,9 +1,9 @@
 <script setup>
   // import isLogin from "~/stores/isLogin";
+  import axios from "axios";
 
   const config= useRuntimeConfig();
   const API_BE = config.public.API_BASE_BE;
-
   
   const route = useRoute();
   const year = route.params.year;
@@ -20,148 +20,31 @@ const months = [
 ]
 
 
-const Datafake = [
-    {
-        "id_user": 1,
-        "name": "Alice",
-        "name_major": "Computer Science",
-        "unpaidMonths": 6,
-        "bills": [
-            {
-                "month": 1,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 2,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 3,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 4,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 5,
-                "bill_id": 1,
-                "bill_status": "paid"
-            },
-            {
-                "month": 6,
-                "bill_id": 8,
-                "bill_status": "unpaid"
-            },
-            {
-                "month": 7,
-                "bill_id": 24,
-                "bill_status": "unpaid"
-            },
-            {
-                "month": 8,
-                "bill_id": 20,
-                "bill_status": "unpaid"
-            },
-            {
-                "month": 9,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 10,
-                "bill_id": 16,
-                "bill_status": "unpaid"
-            },
-            {
-                "month": 11,
-                "bill_id": 14,
-                "bill_status": "unpaid"
-            },
-            {
-                "month": 12,
-                "bill_id": 12,
-                "bill_status": "unpaid"
-            }
-        ]
-    },
-    {
-        "id_user": 2,
-        "name": "Bob",
-        "name_major": "Business Administration",
-        "unpaidMonths": 3,
-        "bills": [
-            {
-                "month": 1,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 2,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 3,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 4,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 5,
-                "bill_id": 2,
-                "bill_status": "paid"
-            },
-            {
-                "month": 6,
-                "bill_id": 3,
-                "bill_status": "paid"
-            },
-            {
-                "month": 7,
-                "bill_id": 4,
-                "bill_status": "unpaid"
-            },
-            {
-                "month": 8,
-                "bill_id": 19,
-                "bill_status": "unpaid"
-            },
-            {
-                "month": 9,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 10,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 11,
-                "bill_id": 13,
-                "bill_status": "unpaid"
-            },
-            {
-                "month": 12,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            }
-        ]
-    }
-];
+const Data = ref([]);
+
+console.log(API_BE);
+
+const fetchData = async (yearr) => {
+      try {
+          const url = `${API_BE}/api/v1/statistic/list-money/${yearr}`;
+          const response = await axios.get(url);
+          console.log(response.data);
+          console.log("1");
+          return Data.value = response.data;
+      }
+      catch (error) {
+        console.log(error);
+          return [];
+      }
+  };
 
 
 onMounted(() => {
     // isLogin();
+    console.log('year', year);
+    if(1){
+      fetchData(year); 
+    }
   });
 
 </script>
@@ -202,7 +85,7 @@ onMounted(() => {
                   </thead>
                   <tbody>
                     <tr class="row100 body"
-                      v-for="user in Datafake"
+                      v-for="user in Data"
                       :key="user.id_user">
                       <td class="cell100 column6 text-center">{{user.id_user }}</td>
                       <td class="cell100 column2">{{ user.name  }}</td>
