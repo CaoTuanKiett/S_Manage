@@ -8,16 +8,16 @@ const authRouter = require('./routers/auth.router');
 const userRouter = require('./routers/user.router')
 
 const app = express();
-
+require('dotenv').config();
 const stripe = require('./routers/stripe/stripeRoute')
 const author = require('./routers/authorization/roleRoute')
 const statistic=require('./routers/statistics/statisticRoute')
 
-app.use('/payment', stripe);
+app.use(`${process.env.API_V1}/payment`, stripe);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/author', author);
-app.use('/statistic',statistic)
+app.use(`${process.env.API_V1}/author`, author);
+app.use(`${process.env.API_V1}/statistic`,statistic)
 
 const cors = require('cors');
 require('dotenv').config();
