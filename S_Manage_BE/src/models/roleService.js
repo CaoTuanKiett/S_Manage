@@ -39,6 +39,10 @@ class roleService {
             .select('*');
         return roles;
     }
+    async getPermission() {
+        const permissions = await knex('permision').select('*');
+        return permissions;
+    }
 
     async hasPermission(roleId, permission_id) {
         const permissions = await knex('role_permissions')
