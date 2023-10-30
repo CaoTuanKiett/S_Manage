@@ -57,9 +57,12 @@ module.exports = {
                 .orderBy('user.id_user')
                 .orderBy('bill.month');
                 
+            console.log("list",list);
             const mergedData = list.reduce((result, item) => {
                 const { id_user, name, name_major, ...rest } = item;
                 const key = `${id_user}_${name}_${name_major}`;
+
+                console.log('rest', rest);
 
                 if (!result[key]) {
                     result[key] = {
@@ -77,6 +80,8 @@ module.exports = {
 
                 return result;
             }, {});
+
+            console.log('mergedData', mergedData);
 
             const finalResult = Object.values(mergedData).map((item) => {
                 const { id_user, name, name_major, bills } = item;
@@ -110,6 +115,8 @@ module.exports = {
                     bills: finalBills
                 };
             });
+
+            console.log('finalResult', finalResult);
 
             return finalResult;
         } catch (error) {

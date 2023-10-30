@@ -5,6 +5,7 @@ const path = require('path');
 
 const authRouter = require('./routers/auth.router');
 const userRouter = require('./routers/user.router');
+const mailRouter = require('./routers/mail.router');
 
 const stripe = require('./routers/stripe/stripeRoute');
 const author = require('./routers/authorization/roleRoute');
@@ -46,6 +47,7 @@ app.get('/', (req, res) => {
 
 authRouter(app);
 userRouter(app);
+mailRouter(app);
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
