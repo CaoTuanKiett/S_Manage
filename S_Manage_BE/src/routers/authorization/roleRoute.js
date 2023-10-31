@@ -19,7 +19,7 @@ roleRoute.put('/:roleId', async (req, res) => {
     await roleController.updateRole(req, res);
 }),
     // Gán quyền hạn cho role
-    roleRoute.post('/:roleId/AddPermissions', async (req, res) => {
+roleRoute.post('/:roleId/AddPermissions', async (req, res) => {
         await roleController.assignPermissionToRole(req, res);
     });
 
