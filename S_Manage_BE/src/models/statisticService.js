@@ -62,7 +62,7 @@ module.exports = {
                 .where('bill.year', '2023')
                 .orderBy('user.id_user')
                 .orderBy('bill.month');
-            //console.log(list);
+
             const mergedData = list.reduce((result, item) => {
                 const { id_user, name, name_major, ...rest } = item;
                 const key = `${id_user}_${name}_${name_major}`;
