@@ -30,10 +30,9 @@ class mailModel {
             .orderBy('user.id_user')
             .orderBy('bill.month');
             
-        console.log("list",list);
         const mergedData = list.reduce((result, item) => {
             const { id_user, name,email, avatar, name_major, ...rest } = item;
-            const key = `${id_user}_${name}_${email}_${avatar}_${name_major}`;
+            const key = `${id_user}`;
 
             if (!result[key]) {
                 result[key] = {
@@ -52,7 +51,7 @@ class mailModel {
             return result;
         }, {});
 
-        console.log('mergedData', mergedData);
+        // console.log('mergedData', mergedData);
 
         return mergedData;
     } catch (error) {
