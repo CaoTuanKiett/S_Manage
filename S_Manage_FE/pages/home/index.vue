@@ -6,11 +6,9 @@ console.log(config.public.email)
 
 <template>
     <NuxtLayout name="custom">
-        <!-- <Sidebar />
         <div class="main ml-[255px]">
             <Header />
-            <Footer />
-        </div> -->
+        </div>
         <div>
             this is home page
         </div>

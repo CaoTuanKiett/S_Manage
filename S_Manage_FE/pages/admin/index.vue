@@ -2,8 +2,8 @@
 
 <template>
   <div>
-    <NuxtLayout name="admin">
-      <NuxtPage />
-    </NuxtLayout>
+   <NuxtLayout name="admin">
+     <NuxtPage />
+   </NuxtLayout>
   </div>
 </template>

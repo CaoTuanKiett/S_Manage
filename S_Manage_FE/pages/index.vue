@@ -1,3 +1,37 @@
+<script setup>
+import { notify, useNotification } from '@kyvg/vue3-notification';
+
+ 
+const username = ref('')
+const password = ref('')
+const router = useRouter()
+
+const login = async () => {
+  await useLazyFetch(`http://localhost:8080/api/v1/auth/login`,{
+    method: "POST",
+    body: JSON.stringify({username:username.value, password: password.value})
+   } ).then(response  => {
+
+    console.log(response.data.value)
+         if(response.data.value.data){
+            localStorage.setItem("accessToken", JSON.stringify(response.data.value.data))
+            useNotification(notify({
+                title: "Login successfully",
+                text: " You have been redirect to dashboard "
+            }))
+            router.push("/home")
+         }
+   }).catch(error => {
+       console.log(error)
+       useNotification(notify({
+        title: " Login failed ",
+        text: "Your username or password is wrong"
+       }))
+   })
+}
+
+</script>
+
 <template>
     <section class="flex items-center justify-center h-screen bg-background">
         <div class="w-full max-w-md">
@@ -15,12 +49,12 @@
                             <label for="email" class="block mb-2 text-sm font-medium text-secondary">Username</label>
                             <input type="email" name="email" id="email"
                                 class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 text-secondary  "
-                                placeholder="Username" required>
+                                placeholder="Username" required v-model="username">
                         </div>
                         <div class="form-group">
                             <label for="password" class="block mb-2 text-sm font-medium text-secondary">Password</label>
                             <input type="password" name="password" id="password" placeholder="••••••••"
-                                class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 "
+                                class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 " v-model="password"
                                 required>
                         </div>
                         <div class="flex items-center justify-between">
@@ -37,7 +71,7 @@
                             <a href="#"
                                 class="text-sm font-medium text-primary hover:underline dark:text-primary-500"><NuxtLink to="/resetPassword">Forgot password</NuxtLink></a>
                         </div>
-                        <v-btn block variant="outlined" size="x-large" class="mb-4 bg-primary"> Sign In </v-btn>
+                        <v-btn block variant="outlined" size="x-large" class="mb-4 bg-primary" @click="login" > Sign In </v-btn>
                         <p class="text-sm font-light text-secondary">
                             Don’t have an account yet? <a href="#"
                                 class="font-medium text-primary hover:underline dark:text-primary-500"><NuxtLink to="/Register">Sign up

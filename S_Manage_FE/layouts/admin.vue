@@ -4,14 +4,14 @@
        <Sidebar />
    </div>
 
-   <div class="w-5/6 relative ">
+   <div class="w-5/6  ">
        <Header />
 
        <div class="mt-20 w-full">
            <slot />
        </div>
 
-       <Footer />
+       <!-- <Footer /> -->
    </div>
   </div>
 </template>

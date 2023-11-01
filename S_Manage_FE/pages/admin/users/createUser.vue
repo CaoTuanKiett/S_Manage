@@ -8,7 +8,6 @@
 
   import displayIMG from '../../../middleware/displayIMG';
 
-
   const router = useRouter();
   const route = useRoute();
   const userId = route.params.id;
