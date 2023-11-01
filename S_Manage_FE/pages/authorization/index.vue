@@ -18,7 +18,7 @@
                                         </div>
                                     </td>
                                     <td class="px-2 py-2"  >
-                                        <input v-model="roleSelected.permissions[permission.permission_id]" class="h-5 w-5" type="checkbox"
+                                        <input v-model="roleSelected.rolePermission"  class="h-5 w-5" type="checkbox"
                                              >
                                        
                                     </td>
@@ -39,18 +39,18 @@ import { ref, onMounted } from 'vue';
 
 const rolesData = ref([]);
 const permissionData = ref([]);
-const permissionRole = ref([])
-
 const roleSelected = ref({
     role_id: null,
-    permissions:{}
+    rolePermission:null
 });
 
+const permission = ref('');
 
 const getRoles = async () => {
     try {
         const response = await axios.get('http://localhost:8080/author/get_all_role');
         rolesData.value = response.data;
+        console.log(rolesData.value)
     } catch (error) {
         console.error(error);
         rolesData.value = [];
@@ -61,39 +61,32 @@ const getPermission = async () => {
     try {
         const response = await axios.get('http://localhost:8080/author/get_all_permission');
         permissionData.value = response.data;
+        console.log(permissionData.value)
     } catch (error) {
         console.error(error);
         permissionData.value = [];
     }
 };
 
-
 const changeAdmin = async () => {
     try {
         const response = await axios.get(`http://localhost:8080/author/${roleSelected.value.role_id}/get_permissions/`);
         console.log(roleSelected.value.role_id)
         
-        permissionRole.value = response.data;
-        console.log(permissionRole.value)
-        roleSelected.value.permissions = permissionRole.value
-      
-        console.log(roleSelected.value.permissions.permissions.map(perm => perm.name_permission))
-    
+        roleSelected.value.rolePermission = response.data.permissions.map(item => item.permission_id);
+         console.log(roleSelected.value.rolePermission)
+       
     } catch (error) {
         console.error(error);
-        roleSelected.value.permissions = []
+        roleSelected.value.rolePermission = []
     }
 };
 
-
-
-
 const assignRoles = async () => {
     try { 
-
-        const response = await axios.post(`http://localhost:8080/${roleSelected.value.role_id}/author/AddPermissions/`, {
-            permission: parseInt(roleSelected.value.permissions.permissions.map(perm => perm.permission_id))
-
+         permission.value = roleSelected.value.rolePermission
+        const response = await axios.post(`http://localhost:8080/${roleSelected.value.role_id}/author/AddPermissions/`,{
+            permission: parseInt(permission.value)
         });
         if (response.status === 200) {
             console.log('Role has been assigned successfully!');
@@ -102,7 +95,7 @@ const assignRoles = async () => {
             console.log('Failed to assign role.');
         }
     } catch (error) {
-        console.error(error);
+       console.log(error);
     }
     
 };
