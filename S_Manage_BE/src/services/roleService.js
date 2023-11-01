@@ -30,8 +30,8 @@ class roleService {
         const permissions = await knex('role_permissions')
             .join('permission', 'role_permissions.permission_id', 'permission.permission_id')
             .where('role_permissions.role_id', role_id)
-            .select('permission.name_permission');
-        return permissions.map((permission) => permission.name_permission);
+            .select('*');
+        return permissions.map((permission) => permission);
     }
 
      async getAllRole() {

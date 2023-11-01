@@ -11,19 +11,34 @@ exports.getAllPayments = async (req, res) => {
 };
 exports.getPaymentDetail = async (req, res) => {
     try {
-        const payment_id = req.params.payment_id;
-        const paymentDetail = await stripeService.getPaymentDetail(payment_id);
-        res.status(200).json({ paymentDetail });
+   
+        const paymentDetail = await stripeService.getPaymentDetail();
+        res.status(200).json( {paymentDetail} );
     } catch (error) {
         console.error('Error getting payments:', error);
         res.status(500).json({ error: 'An error occurred while getting the payments' });
     }
 };
+
+exports.getPaymentDetailByID = async (req,res) => {
+    try {
+        const paymentID = req.params.paymentID
+       const paymentDetail = await stripeService.getPaymentDetailByID(paymentID)
+       res.status(200).json(paymentDetail)
+
+    } catch (error) {
+        console.log(error)
+           res.status(500).json({ error: 'An error occurred while getting the payments' });
+        
+    }
+}
+
+
 exports.getPaymentsByUserId = async (req, res) => {
     try {
         const userId = req.params.user_id;
         const payments = await stripeService.getPaymentsByUserId(userId);
-        res.status(200).json({ payments });
+        res.status(200).json(payments );
     } catch (error) {
         console.error('Error getting payments:', error);
         res.status(500).json({ error: 'An error occurred while getting the payments' });

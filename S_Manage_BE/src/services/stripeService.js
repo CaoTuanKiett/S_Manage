@@ -14,16 +14,15 @@ exports.getAllPayments = async () => {
 exports.getPaymentsByUserId = async (userId) => {
     return await db('payment').select('*').where('user_id', userId);
 };
-//payment detail
-exports.getPaymentDetail = async (paymentId) => {
+exports.getPaymentDetailByID = async (paymentId) => {
     const paymentDetail = await db('payment')
-        .select('payment.id_payment', 'payment.description', 'payment.account_name','bill_payment.amount', 'bill.*')
-        .join('bill_payment', 'payment.id_payment', 'bill_payment.payment_id')
+        .select('payment.payment_id', 'payment.description', 'payment.account_name','bill_payment.amount', 'bill.*')
+        .join('bill_payment', 'payment.payment_id', 'bill_payment.payment_id')
         .join('bill', 'bill_payment.bill_id', 'bill.bill_id')
-        .where('payment.id_payment', paymentId);
+        .where('payment.payment_id', paymentId);
 
     const PaymentInfo = {
-        payment_id: paymentDetail[0].id_payment,
+        payment_id: paymentDetail[0].payment_id,
         description: paymentDetail[0].description,
         account_name: paymentDetail[0].account_name
     };
@@ -52,6 +51,49 @@ exports.getPaymentDetail = async (paymentId) => {
 
     return result;
 };
+
+
+
+//payment detail
+exports.getPaymentDetail = async () => {
+    const paymentDetail = await db('payment')
+        .select('payment.payment_id', 'payment.description', 'payment.account_name','bill_payment.amount', 'bill.*')
+        .join('bill_payment', 'payment.payment_id', 'bill_payment.payment_id')
+        .join('bill', 'bill_payment.bill_id', 'bill.bill_id')
+
+    
+const PaymentInfo = paymentDetail.map(payment => {
+  return {
+    payment_id: payment.payment_id,
+    description: payment.description,
+    account_name: payment.account_name
+  };
+});
+
+    
+
+    const billDetails = paymentDetail.map(bill => {
+        return {
+            bill_id:bill.bill_id,
+            fee_type: bill.fee_type,
+            fee: bill.fee,
+            create_at: bill.create_at,
+            due_at: bill.due_at,
+            description: bill.description,
+            create_by: bill.create_by,
+            payer: bill.payer,
+            year: bill.year,
+            month: bill.month,
+            paid: bill.amount,     
+        };
+    });
+    const result = {
+        payment_info: PaymentInfo,
+        bill_details: billDetails
+    };
+
+    return result;
+};
 exports.createBill = async (req) => {
     const { fee_type, fee, description, create_by, payers,month,year } = req.body;
     const created_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
@@ -62,15 +104,14 @@ exports.createBill = async (req) => {
     const newBills = [];
     for (const payer of payers) {
         const newBill = await db('bill').insert({
-            fee_type: fee_type,
+            feetype: fee_type,
             fee: fee,
             create_at: created_at,
-            due_at: formatted_due_at,
+            bill_at: formatted_due_at,
             description: description,
             create_by: create_by,
             payer: payer,
-            year: year,
-            month:month,
+            
         });
         newBills.push(newBill);
     }
