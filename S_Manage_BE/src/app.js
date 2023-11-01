@@ -41,7 +41,7 @@ app.use(express.json({ limit: '50mb' }));
 
 
 app.get('/', (req, res) => {
-  res.send('Hello, World!');
+  res.send('Test Hello, World!');
 });
 
 authRouter(app);
