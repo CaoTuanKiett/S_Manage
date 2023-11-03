@@ -9,7 +9,8 @@ exports.seed = async function (knex) {
       // Thêm dữ liệu mới vào bảng "payment"
       return knex('payment').insert([
         {
-          user_id: 1,
+          paymentIntent_id: 1,
+          pay_account: 'payment',
           pay_method: 'Credit Card',
           create_at: new Date(),
           account_name: 'John Doe',
@@ -18,7 +19,8 @@ exports.seed = async function (knex) {
           description: "em Doe nop tien thang 10"
         },
         {
-          user_id: 2,
+          paymentIntent_id: 2,
+          pay_account: 'payment',
           pay_method: 'PayPal',
           create_at: new Date(),
           account_name: 'Jane Smith',

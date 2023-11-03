@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       email: process.env.NUXT_EMAIL,
+      API_BASE_BE: process.env.API_BASE_BE,
     },
   },
   devtools: { enabled: true },

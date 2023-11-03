@@ -7,12 +7,14 @@
   import { notify } from '@kyvg/vue3-notification';
 
   import displayIMG from '../../../middleware/displayIMG';
+  
+  const config= useRuntimeConfig();
+  const API_BE = config.public.API_BASE_BE;
 
   const router = useRouter();
   const route = useRoute();
   const userId = route.params.id;
 
-  const URL_BE = import.meta.env.VITE_APP_BASE_BE || 'http://localhost:8080'
 
   const DataUser = ref({
     id_user: "",
@@ -123,7 +125,7 @@
 
   const getUser = (id) => {
    axios
-      .get(`${URL_BE}/api/v1/users/${id}`)
+      .get(`${API_BE}/api/v1/users/${id}`)
       .then((response) => {
         const data = response.data[0];
         // console.log(data);
@@ -185,7 +187,7 @@
   //     console.log('dataa',data);
   //     if(userId){
   //       axios
-  //       .put(`${URL_BE}/api/v1/users/${userId}`, data)
+  //       .put(`${API_BE}/api/v1/users/${userId}`, data)
   //       .then((req, res) => {
   //         console.log('hehe',req);
   //         notify({
@@ -249,7 +251,7 @@
 
     if (userId) {
       axios
-        .put(`${URL_BE}/api/v1/users/${userId}`, formData)
+        .put(`${API_BE}/api/v1/users/${userId}`, formData)
         .then((response) => {
           console.log('Response:', response);
           notify({

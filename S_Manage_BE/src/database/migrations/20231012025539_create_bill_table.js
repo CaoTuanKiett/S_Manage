@@ -9,7 +9,9 @@ exports.up = function(knex) {
     table.string('payer').notNullable();
     table.decimal('fee', 10, 2).notNullable(); 
     table.dateTime('create_at').notNullable();
-    table.dateTime('create_by').notNullable();
+    table.integer('month').notNullable();
+    table.integer('year').notNullable();
+    table.string('create_by');
     table.dateTime('bill_at').notNullable();
     table.string('description');
 

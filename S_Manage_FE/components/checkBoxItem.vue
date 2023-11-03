@@ -1,7 +1,39 @@
+<script setup>
+  import { defineProps } from 'vue';
+
+  defineProps({ 
+    idMonth: { 
+      type: String,
+      required: true
+    },
+    isChecked: {
+      type: Boolean,
+      required: true,
+    },
+    isUnpaid: {
+      type: Boolean,
+      required: true,
+    },
+    isUnCharge: {
+      type: Boolean,
+      required: true,
+    },
+
+  })
+
+</script>
+
+
 <template>
   <div class="checkbox-wrapper-30">
     <span class="checkbox">
-      <input type="checkbox" />
+      <input 
+        :id="idMonth"
+        type="checkbox"
+        :checked="isChecked"
+        disabled="true"
+        :class="{'unPaid': isUnpaid, 'unCharge': isUnCharge}"
+        />
       <svg>
         <use xlink:href="#checkbox-30" class="checkbox"></use>
       </svg>
@@ -17,6 +49,14 @@
 
 
 <style scoped>
+
+  .unPaid {
+    background-color: red !important;
+  }
+
+  .unCharge {
+    background-color: rgb(201, 201, 221) !important;
+  }
   .checkbox-wrapper-30 .checkbox {
     --bg: #fff;
     --brdr: #d1d6ee;

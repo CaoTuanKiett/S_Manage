@@ -29,7 +29,15 @@ exports.getPaymentsByUserId = async (req, res) => {
         res.status(500).json({ error: 'An error occurred while getting the payments' });
     }
 };
-
+exports.getAllBill = async(req,res)=> {
+    try {
+        const newBills = await stripeService.getAllBill(req);
+        res.status(200).json({ message: 'get bill successfully', bill: newBills });
+    } catch (error) {
+        console.error('Error get bill:', error);
+        res.status(500).json({ error: 'An error occurred while get the bill' });
+    }
+}
 exports.createBill = async (req, res) => {
     try {
         const newBills = await stripeService.createBill(req);
@@ -39,7 +47,45 @@ exports.createBill = async (req, res) => {
         res.status(500).json({ error: 'An error occurred while creating the bill' });
     }
 };
+exports.updateBill = async (req, res) => {
+    const billId = req.params.id;
+    const { fee_type, fee, description, payer, year, month } = req.body;
 
+    try {
+        const updatedBill = await stripeService.updateBill(
+            billId,
+            fee_type,
+            fee,
+            description,
+            payer,
+            year,
+            month
+        );
+
+        if (updatedBill) {
+            return res.json({ message: 'Bill updated successfully' });
+        } else {
+            return res.status(404).json({ message: 'Bill not found' + error });
+        }
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal server error' + error });
+    }
+};
+exports.deleteBill = async (req, res) => {
+    const billId = req.params.id;
+
+    try {
+        const deletedBill = await stripeService.deleteBill(billId);
+
+        if (deletedBill) {
+            return res.json({ message: 'Bill deleted successfully' });
+        } else {
+            return res.status(404).json({ message: 'Bill not found' });
+        }
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal server error' + error });
+    }
+};
 exports.getUnpaidBill = async (req, res) => {
     try {
         const userId = req.params.user_id;
