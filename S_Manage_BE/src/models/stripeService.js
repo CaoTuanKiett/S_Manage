@@ -16,12 +16,17 @@ exports.getPaymentsByUserId = async (userId) => {
 };
 //payment detail
 exports.getPaymentDetail = async (paymentId) => {
-    const paymentDetail = await db('payment')
+    try {
+        const paymentDetail = await db('payment')
         .select('payment.id_payment', 'payment.description', 'payment.account_name','bill_payment.amount', 'bill.*')
         .join('bill_payment', 'payment.id_payment', 'bill_payment.payment_id')
-        .join('bill', 'bill_payment.bill_id', 'bill.bill_id')
+        .join('bill', 'bill_payment.bill_id', 'bill.id_bill')
         .where('payment.id_payment', paymentId);
 
+  if (!paymentDetail.length) {
+      console.log(`No payment found with id: ${paymentId}`);
+      return;
+    }
     const PaymentInfo = {
         payment_id: paymentDetail[0].id_payment,
         description: paymentDetail[0].description,
@@ -51,6 +56,10 @@ exports.getPaymentDetail = async (paymentId) => {
     };
 
     return result;
+    } catch (error) {
+     console.log(error)   
+    }
+    
 };
 exports.createBill = async (req) => {
     const { fee_type, fee, description, create_by, payers,month,year } = req.body;

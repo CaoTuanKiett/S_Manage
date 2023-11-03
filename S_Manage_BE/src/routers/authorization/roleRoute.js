@@ -40,7 +40,7 @@ roleRoute.get('/get_all_role', async (req, res) => {
     await roleController.getAllRole(req, res);
 });
 roleRoute.get('/get_all_permision', async (req, res) => {
-    await roleController.getAllPermission(req,res);
+    await roleController.getAllPermission(req, res);
 });
 
 // Kiểm tra quyền hạn của role

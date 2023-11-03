@@ -1,10 +1,11 @@
-const bodyParser = require('body-parser')
+
 const express = require('express');
 
 const app = express();
+
 const cors = require('cors');
 app.use(cors());
-
+const bodyParser = require('body-parser')
 
 
 const path = require('path');
@@ -14,9 +15,7 @@ const authRouter = require('./routers/auth.router');
 const userRouter = require('./routers/user.router');
 const mailRouter = require('./routers/mail.router');
 
-const stripe = require('./routers/stripe/stripeRoute');
-const author = require('./routers/authorization/roleRoute');
-const statistic = require('./routers/statistics/statisticRoute');
+
 
 
 
