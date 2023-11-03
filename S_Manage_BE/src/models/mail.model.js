@@ -3,7 +3,7 @@ const db = require('../database/connectDB');
 
 class mailModel {
 
-  selectUserLate  = async () => {
+    fetchOutstandingBills  = async () => {
     try {
         const list = await db
             .distinct('user.id_user', 'user.name','user.email','user.avatar', 'major.name_major', 'bill.month', 'bill.id_bill')
@@ -51,7 +51,6 @@ class mailModel {
             return result;
         }, {});
 
-        // console.log('mergedData', mergedData);
 
         return mergedData;
     } catch (error) {
