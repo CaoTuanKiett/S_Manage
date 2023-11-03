@@ -7,7 +7,7 @@
                         <form class="table-auto space-y-4" action="#">
                             <select v-model="selectedRoleId" placeholder="Select admin type" style="width:300px"
                                 @change="changeAdmin">
-                                <option v-for="(role, i) in rolesData" :key="i" :value="role.role_id">{{ role.name_role }}
+                                <option v-for="(role, i) in rolesData" :key="i" :value="role.id_role">{{ role.name_role }}
                                 </option>
                             </select>
                             <tbody>
@@ -43,7 +43,6 @@ const permissionData = ref([]);
 const selectedRoleId = ref(null)
 const rolePermission = ref({})
 
-const permission = ref('');
 
 const getRoles = async () => {
     try {

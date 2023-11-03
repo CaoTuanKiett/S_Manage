@@ -75,6 +75,13 @@
           </div>
           <VBtn class="bg-primary" @click="getPaymentDetail(pay.payment_id)">Details</VBtn>
 
+        </div> 
+        
+        <div v-for=" (payments , i ) in paymentDetailData " :key="i" >
+          <span v-for="bill in payments"  >
+           <PaymentDetail :payment="payments.payment_info" :bill="bill"  @hideForm="toggleForm" />
+          </span>
+
         </div>
 
 
