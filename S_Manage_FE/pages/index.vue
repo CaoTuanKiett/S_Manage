@@ -7,7 +7,7 @@ const password = ref('')
 const router = useRouter()
 
 const login = async () => {
-    await useLazyFetch(`http://localhost:8080/api/v1/auth/login`, {
+    await useLazyFetch(`http://localhost:9696/api/v1/auth/login`, {
         method: "POST",
         body: JSON.stringify({ username: username.value, password: password.value })
     }).then(response => {
@@ -29,7 +29,6 @@ const login = async () => {
         }))
     })
 }
-
 </script>
 
 <template>
@@ -96,7 +95,6 @@ const login = async () => {
 label {
     margin-bottom: 0.5rem;
 }
-
 input {
     padding: 0.5rem;
     border: 1px solid #ccc;

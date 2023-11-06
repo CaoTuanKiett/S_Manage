@@ -71,21 +71,16 @@
             <p> {{ pay.account_name }}</p>
           </div>
           <div class="message">
-            <p class=" ml-3">{{ pay.create_at.slice(0, 10) }}</p>
+            <p class=" ml-3">{{ pay.create_at.slice(0, 10)}}</p>
           </div>
-          <VBtn class="bg-primary" @click="getPaymentDetail(pay.payment_id)">Details</VBtn>
-
+          <VBtn class="bg-primary" @click="getPaymentDetail(pay.id_payment)">Details</VBtn>
         </div> 
         
         <div v-for=" (payments , i ) in paymentDetailData " :key="i" >
-          <span v-for="bill in payments"  >
-           <PaymentDetail :payment="payments.payment_info" :bill="bill"  @hideForm="toggleForm" />
+          <span v-for="bill in payments.bill_details"  >
+           <PaymentDetail :payment="payments.payment_info" :bill="bill" v-show="formID !== null"  @hideForm="toggleForm"/>
           </span>
-
         </div>
-
-
-
 
       </div>
     </div>
@@ -103,10 +98,11 @@ const paymentDetailData = ref([])
 
 const toggleForm = () => {
   formID.value = null
+  console.log(formID.value)
 }
 const getPayments = async () => {
   try {
-    const response = await axios.get('http://localhost:8080/payment/get-all-payments')
+    const response = await axios.get('http://localhost:9696/api/v1/payment/get-all-payments')
     if (response.data) {
       console.log(response.data)
       return paymentData.value = response.data
@@ -119,10 +115,12 @@ const getPayments = async () => {
 const getPaymentDetail = async (payment_id) => {
   try {
     formID.value = payment_id
-    const response = await axios.get(`http://localhost:8080/payment/get-payment-detail/${formID.value}`)
+    const response = await axios.get(`http://localhost:9696/api/v1/payment/get-payment-detail/${formID.value}`)
     if (response.data) {
       console.log(response.data)
       paymentDetailData.value = response.data
+      console.log(formID.value)
+
     }
   } catch (error) {
     console.log(error)
