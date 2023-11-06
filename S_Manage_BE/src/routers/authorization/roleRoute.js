@@ -39,9 +39,9 @@ roleRoute.get('/:roleId/get_permissions', async (req, res) => {
 roleRoute.get('/get_all_role', async (req, res) => {
     await roleController.getAllRole(req, res);
 });
-roleRoute.get('/get_all_permision', async (req, res) => {
+roleRoute.get('/get_all_permission', async (req, res) => {
     await roleController.getAllPermission(req, res);
-});
+})
 
 // Kiểm tra quyền hạn của role
 roleRoute.get('/:roleId/has_permission/:permission', async (req, res) => {

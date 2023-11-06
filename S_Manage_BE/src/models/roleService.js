@@ -14,19 +14,10 @@ class roleService {
         await knex('roles').where('id_role', roleId).update({ name_role: roleName, major_id: major_id });
     }
 
-    async assignPermissionToRole(roleId, permissions) {
-            await knex.transaction(async (trx) => {
-                // Xóa tất cả các permission cũ của role
-                await trx('role_permissions').where('role_id', roleId).del();
-
-                // Thêm các permission mới vào role
-                const permissionRecords = permissions.map((permission) => ({
-                    role_id: roleId,
-                    permission_id: permission
-                }));
-                await trx('role_permissions').insert(permissionRecords);
-            });
+    async assignPermissionToRole(roleId, permission) {
+        await knex('role_permissions').insert({ role_id: roleId, permission_id: permission });
     }
+    
     async revokePermissionFromRole(roleId, permission) {
         await knex('role_permissions').where({ role_id: roleId, permission_id: permission }).del();
     }
@@ -50,7 +41,8 @@ class roleService {
     }
 
       async getAllPermission() {
- return await knex('permission').select('*')
+        const permissions = await knex('permission').select('*');
+        return permissions;
       }
 
     async hasPermission(roleId, permission_id) {
