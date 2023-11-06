@@ -7,20 +7,20 @@
                         <form class="table-auto space-y-4" action="#">
                             <select v-model="selectedRoleId" placeholder="Select admin type" style="width:300px"
                                 @change="changeAdmin">
-                                <option v-for="(roles, i) in rolesData.roles" :key="i" :value="roles.id_role">{{ roles.name_role }}
+                                <option v-for="(role, i) in rolesData" :key="i" :value="role.id_role">{{ role.name_role }}
                                 </option>
                             </select>
                             <tbody>
-                                <tr v-for="(permission, i) in permissionData.permissions" :key="permission.id_permission">
+                                <tr v-for="(permission, i) in permissionData" :key="permission.permission_id">
                                     <td class="pb-4">
                                         <div class="mx-3">
                                             <p>{{ permission.name_permission }}</p>
                                         </div>
                                     </td>
                                     <td class="px-2 py-2">
-                                        <input v-model="rolePermission[permission.id_permission]"
+                                        <input :checked="isPermissionChecked(permission.id_permission)"
+                                            v-model="rolePermission[permission.id_permission]"
                                             :id="permission.id_permission" class="h-5 w-5" type="checkbox">
-                                            
                                     </td>
                                 </tr>
                             </tbody>
@@ -41,17 +41,19 @@ import { ref, onMounted } from 'vue';
 const rolesData = ref([]);
 const permissionData = ref([]);
 
-const selectedRoleId = ref(null)
+const selectedRoleId = ref(1)
+
 const rolePermission = ref({})
 
+const allPermission = ref([])
 
 const getRoles = async () => {
     try {
         const response = await axios.get('http://localhost:9696/api/v1/author/get_all_role');
         rolesData.value = response.data;
-        console.log(rolesData.value.roles)
+        console.log(rolesData.value)
     } catch (error) {
-        console.log(error);
+        console.error(error);
         rolesData.value = [];
     }
 };
@@ -60,9 +62,9 @@ const getPermission = async () => {
     try {
         const response = await axios.get('http://localhost:9696/api/v1/author/get_all_permission');
         permissionData.value = response.data;
-        console.log(permissionData.value.permissions)
+        console.log(permissionData.value)
     } catch (error) {
-        console.log(error);
+        console.error(error);
         permissionData.value = [];
     }
 };
@@ -70,60 +72,53 @@ const getPermission = async () => {
 const changeAdmin = async () => {
     try {
         const response = await axios.get(`http://localhost:9696/api/v1/author/${selectedRoleId.value}/get_permissions/`);
-        let permissions = response.data.permissions
+        let permissionsData = await response.data
 
-        console.log(response.data)
-
-        console.log(permissions)
-        rolePermission.value = {}
-        for (const permission of permissionData.value) {
-            rolePermission.value[permission.id_permission] =  permissions.some(perm => perm.id_permission === permission.id_permission);
+        if (!Array.isArray(permissionsData)) {
+            permissionsData = Object.values(permissionsData);
         }
-
+        allPermission.value = []
+        for (let permission of permissionsData) {
+            permission.forEach((item) => {
+                allPermission.value.push(item.id_permission);
+            });
+        }
     } catch (error) {
-        console.log(error);
-
+        console.error(error);
     }
 };
 
 const assignRoles = async () => {
     try {
         const permissionsToAssign = [];
-        const permissionsToDelete = [];
-        for (const permission of permissionData.value.permissions) {
+        // const permissionsToDelete = [];
+        for (const permission of permissionData.value) {
             if (rolePermission.value[permission.id_permission]) {
                 permissionsToAssign.push(permission.id_permission);
-            } else {
-                permissionsToDelete.push(permission.id_permission);
             }
         }
+        await axios.post(`http://localhost:9696/api/v1/author/${selectedRoleId.value}/AddPermissions/`, {
+            permissions: permissionsToAssign
 
-        if (permissionsToAssign.length > 0) {
-            await axios.post(`http://localhost:9696/api/v1/author/${selectedRoleId.value}/AddPermissions/`, {
-                permission: permissionsToAssign
-
-            });
-        }
-        if (permissionsToDelete.length > 0) {
-            await axios.delete(`http:localhost:9696/api/v1/author/${selectedRoleId.value}/DeletePermissions/`, {
-                permission: permissionsToDelete
-            });
-        }
-
-        if (permissionsToAssign.length > 0 || permissionsToDelete.length > 0) {
-            console.log('Role has been assigned successfully!');
-            window.location.reload();
-        } else {
-            console.log('Failed to assign role.');
-        }
+        }).then(response => {
+            console.log(response.data)
+        }).catch(error => {
+            console.log(error)
+        })
     } catch (error) {
         console.log(error);
     }
 };
-
+const isPermissionChecked = (permissionId) => {
+    if (allPermission.value.includes(permissionId)) {
+        return true;
+    } else {
+        return false;
+    }
+}
 onMounted(async () => {
     await getRoles();
     await getPermission();
-
+    await changeAdmin()
 });
 </script>
