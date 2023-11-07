@@ -42,15 +42,13 @@ const rolesData = ref([]);
 const permissionData = ref([]);
 
 const selectedRoleId = ref(1)
-
 const rolePermission = ref({})
-
 const allPermission = ref([])
 
 const getRoles = async () => {
     try {
         const response = await axios.get('http://localhost:9696/api/v1/author/get_all_role');
-        rolesData.value = response.data;
+        rolesData.value = response.data.roles;
         console.log(rolesData.value)
     } catch (error) {
         console.error(error);
@@ -61,7 +59,7 @@ const getRoles = async () => {
 const getPermission = async () => {
     try {
         const response = await axios.get('http://localhost:9696/api/v1/author/get_all_permission');
-        permissionData.value = response.data;
+        permissionData.value = response.data.permissions;
         console.log(permissionData.value)
     } catch (error) {
         console.error(error);
@@ -99,7 +97,6 @@ const assignRoles = async () => {
         }
         await axios.post(`http://localhost:9696/api/v1/author/${selectedRoleId.value}/AddPermissions/`, {
             permissions: permissionsToAssign
-
         }).then(response => {
             console.log(response.data)
         }).catch(error => {
