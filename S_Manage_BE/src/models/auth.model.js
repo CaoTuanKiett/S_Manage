@@ -183,7 +183,6 @@ class authModels {
       email: user.email
     };
 
-
     const token = generateToken(payloadUser);
 
     const time = new Date(Date.now() + 10 * 60 * 1000);

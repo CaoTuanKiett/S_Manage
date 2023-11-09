@@ -49,9 +49,7 @@ class userModels {
 
         if(dataImg){
           fileImg = dataImg.path;
-        }
-
-        
+        }        
         return knex(this.tableName).insert({
           name: data.name,
           age : data.age,
@@ -69,7 +67,6 @@ class userModels {
       }
     }
     );
-
   }
 
   selectAllUsers = () => {
