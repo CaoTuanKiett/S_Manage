@@ -12,25 +12,43 @@
                     </h1>
                     <form class="space-y-4" action="#">
                         <div >
-                            <label for="email" class="block mb-2 text-sm font-medium text-secondary">Username</label>
+                            <label for="email" class="block mb-2 text-sm font-medium text-secondary">Name</label>
                             <input type="email" name="email" id="email"
-                                class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 text-secondary  "
-                                placeholder="Username" required>
+                                class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 text-secondary  " v-model="name"
+                                placeholder="Name" required>
                         </div>
-                        <div >
-                            <label for="password" class="block mb-2 text-sm font-medium text-secondary">Password</label>
-                            <input type="password" name="password" id="password" placeholder="••••••••"
-                                class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 " required>
-                        </div>
-
+                       
+                          <div >
+                                <label for="email" class="block mb-2 text-sm font-medium text-secondary">Age</label>
+                                <input type="email" name="email" id="email"
+                                    class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 text-secondary  " v-model="age"
+                                    placeholder="Age" required>
+                            </div>
+                              <div >
+                                <label for="email" class="block mb-2 text-sm font-medium text-secondary">Gender</label>
+                                <input type="email" name="email" id="email"
+                                    class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 text-secondary  " v-model="gender"
+                                    placeholder="Gender" required>
+                            </div>
+                              <div >
+                                <label for="email" class="block mb-2 text-sm font-medium text-secondary">Username</label>
+                                <input type="email" name="email" id="email"
+                                    class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 text-secondary  " v-model="username"
+                                    placeholder="Username" required>
+                            </div>
+                          <div >
+                                <label for="password" class="block mb-2 text-sm font-medium text-secondary">Password</label>
+                                <input type="password" name="password" id="password" placeholder="••••••••"
+                                    class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 " required v-model="password" >
+                            </div>
                          <div >
                                 <label for="email" class="block mb-2 text-sm font-medium text-secondary">Email</label>
                                 <input type="email" name="email" id="email"
-                                    class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 text-secondary  "
+                                    class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 text-secondary  " v-model="email"
                                     placeholder="Email" required>
                             </div>
 
-                        <v-btn @click="changRoute" block variant="outlined" size="x-large" class="bg-primary mb-4"> Sign Up </v-btn>
+                        <v-btn @click="register" block variant="outlined" size="x-large" class="bg-primary mb-4"> Sign Up </v-btn>
                        
                     </form>
                 </div>
@@ -40,12 +58,45 @@
 </template>
 
 <script setup>
-import { routerKey } from 'vue-router';
+import axios from 'axios';
+import { useNotification } from '@kyvg/vue3-notification';
 
-const route = useRouter()
+const notify = useNotification();
+const router = useRouter()
 
-function changRoute(){
-    route.push('/')
+const username = ref('')
+const password = ref('')
+const email = ref('')
+const name = ref('')
+const age = ref('')
+const gender = ref('')
+
+
+const register = async () => {
+    try {
+        const response = await axios.post('http://localhost:9696/api/v1/auth/register', {
+            username: username.value,
+            password: password.value,
+            name: name.value,
+            gender: gender.value,
+            email: email.value,
+            age: parseInt(age.value)
+        })
+        if (response.data) {
+            notify.notify({
+                title: "Register successfully",
+                text: " You have been redirect to login "
+            })
+        }
+    } catch (error) {
+        console.log(error)
+        notify.notify({
+            text: "Register failed",
+            text: "Please type your information again",
+        })
+    }
+    
+
 }
 
 </script>
