@@ -89,9 +89,18 @@ $roboto: 'Roboto', sans-serif;
       <img class="main-img" src="https://res.cloudinary.com/dw1zug8d6/image/upload/v1542777688/group-3_3x.png" alt="">
       <p>Your payment was successful! You can <br>
         now continue using Artycoin.</p>
-      <VBtn class="btn btn-primary">
-        <NuxtLink to="/Home"> Continue </NuxtLink>
+      <VBtn class="btn btn-primary" @click="changeRoute()">
+        Continue
       </VBtn>
 
   </div>
-</div></template>
+</div>
+</template>
+
+<script setup>
+const router = useRouter()
+
+const changeRoute = () => {
+  router.push('/Home')
+}
+</script>
