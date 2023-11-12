@@ -60,7 +60,7 @@ class authModels {
           }
 
           const { salt, hashedPassword } = hashPassword(data.password);
-          return knex(this.tableName).insert({
+          const idUser = knex(this.tableName).insert({
             // idUser: data.idUser,
             name: data.name,
             age: data.age,
@@ -72,6 +72,15 @@ class authModels {
             password: hashedPassword,
             salt: salt,
             avatar: fileImg,
+          }).then((idUser) => {
+            knex('user_roles').insert({
+              user_id: idUser,
+              role_id: 1 // role member
+            }).catch( (e) => {
+              console.log(e);
+            })
+  
+            return idUser;
           });
         }
       }
