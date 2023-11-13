@@ -269,7 +269,7 @@ class authModels {
   async ResetPassword(data) {
     const token = data.query.token;
 
-    const passwordNew = data.body.password;
+    const passwordNew = data.body.passwordNew;
 
     if (!token) {
       return res.status(400).json({ error: 'Missing token in the request' });
@@ -298,7 +298,7 @@ class authModels {
       address: user.address,
       email: user.email,
       username: user.username,
-      password: data.body.password,
+      password: data.body.passwordNew,
       avatar: user.avatar,
       password_reset_token: null,
       password_reset_expiration: null,
