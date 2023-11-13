@@ -65,6 +65,9 @@ import { useNotification } from '@kyvg/vue3-notification';
 const notify = useNotification();
 const router = useRouter()
 
+const config= useRuntimeConfig();
+const URL_BE = config.public.API_BASE_BE;
+
 const username = ref('')
 const password = ref('')
 const email = ref('')
@@ -74,30 +77,30 @@ const gender = ref('')
 
 
 const register = async () => {
-  try {
-    const response = await axios.post('http://localhost:9696/api/v1/auth/register', {
-      username: username.value,
-      password: password.value,
-      name: name.value,
-      gender: gender.value,
-      email: email.value,
-      age: parseInt(age.value)
-    })
-    if (response.data) {
 
-      notify.notify({
-        title: "Register successfully",
-        text: " You have been redirect to login "
-      })
-      console.log(response.data)
-      router.push("/")
-    }
-  } catch (error) {
-    console.log(error)
-    notify.notify({
-      text: "Register failed",
-      text: "Please type your information again",
-    })
+    try {
+        const response = await axios.post(`${URL_BE}/api/v1/auth/register`, {
+            username: username.value,
+            password: password.value,
+            name: name.value,
+            gender: gender.value,
+            email: email.value,
+            age: parseInt(age.value)
+        })
+        if (response.data) {
+            notify.notify({
+                title: "Register successfully",
+                text: " You have been redirect to login "
+            })
+            router.push("/");
+        }
+    } catch (error) {
+        console.log(error)
+        notify.notify({
+            text: "Register failed",
+            text: "Please type your information again",
+        })
+
   }
 
 
