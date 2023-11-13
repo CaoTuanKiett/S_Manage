@@ -19,7 +19,7 @@
   <div 
       class="item-user flex items-center m-6 p-4 justify-around border-solid border-2 rounded-md"
      >
-      <img class="w-16 h-16 rounded-full" :src="DataUser.avatar" alt="avt">
+      <img class="w-16 h-16 rounded-full object-cover" :src="DataUser.avatar" alt="avt">
       <h3 class="font-bold text-lg" >{{DataUser.name}}</h3>
       <p class="font-medium text-base" >{{DataUser.age}}</p>
       <p class="font-medium text-base" >{{DataUser.gender}}</p>

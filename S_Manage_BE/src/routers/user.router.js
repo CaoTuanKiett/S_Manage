@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+require('dotenv').config();
 
 const userController = require('../controllers/user.controler');
 const awaitHandlerFactory = require('../middleware/awaitHandlerFactory.middleware');
@@ -19,21 +20,21 @@ app.use(uploadCloud.single('avatar'));
 const userRouter = (app) => {
   
 
-  router.get('/users'/*,checkPermission(1)*/, awaitHandlerFactory(userController.getAllUsers)); // localhost:8080/api/v1/users
+  router.get('/'/*,checkPermission(1)*/, awaitHandlerFactory(userController.getAllUsers)); // localhost:8080/api/v1/users
 
-  router.get('/users/:id', awaitHandlerFactory(userController.selectOneUser)); // localhost:8080/api/v1/users/1
+  router.get('/:id', awaitHandlerFactory(userController.selectOneUser)); // localhost:8080/api/v1/users/1
 
-  router.post('/users', uploadCloud.single('avatar') , userController.createUser); // localhost:8080/api/v1/users
+  router.post('/', uploadCloud.single('avatar') , userController.createUser); // localhost:8080/api/v1/users
 
-  router.put('/users/:id', uploadCloud.single('avatar') , userController.updateUser); // localhost:8080/api/v1/users/1 , using patch for partial update
+  router.put('/:id', uploadCloud.single('avatar') , userController.updateUser); // localhost:8080/api/v1/users/1 , using patch for partial update
 
-  router.delete('/users/:id', userController.deleteUser); // localhost:8080/api/v1/users/1
-
-
-  router.get('/users/search/:key', userController.searchUser); // localhost:8080/api/v1/users/search/key
+  router.delete('/:id', userController.deleteUser); // localhost:8080/api/v1/users/1
 
 
-  return app.use('/api/v1', router);
+  router.get('/search/:key', userController.searchUser); // localhost:8080/api/v1/users/search/key
+
+
+  return app.use(`${process.env.API_V1}/users`, router);
 }
 
 
