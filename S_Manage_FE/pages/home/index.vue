@@ -1,7 +1,14 @@
 <script setup>
-const config = useRuntimeConfig();
+import VueJwtDecode from 'vue-jwt-decode'
 
-console.log(config.public.email)
+
+
+const accessToken = localStorage.getItem('accessToken')
+
+
+console.log(VueJwtDecode.decode(JSON.parse(accessToken)))
+
+
 </script>
 
 <template>
