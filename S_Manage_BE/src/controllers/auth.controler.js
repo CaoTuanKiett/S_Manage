@@ -11,7 +11,7 @@ class authController {
       const data = req;
       const result = await authModels.register(data);
       console.log(result);
-      res.status(200).json({ message: 'Register Success' });
+      res.status(200).json({ message: 'Register Success' ,data: result });
     } catch (error) {
       if(req.file){
         destroyCloundIMG(req.file.path);

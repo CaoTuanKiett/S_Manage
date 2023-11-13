@@ -58,10 +58,10 @@
 </style>
 
 <template>
-  <div class=" m-auto  ">
+  <NuxtLayout name="admin">
+  <div class=" m-auto flex justify-center items-center  ">
     <div class="container ">
       <div class="transactions">
-
         <div class="transaction-content transaction1 relative" v-for="pay in paymentData.payments" :key="pay.payment_id">
           <div class="price">
             <p>${{ pay.amount_money }}</p>
@@ -85,6 +85,7 @@
       </div>
     </div>
   </div>
+ </NuxtLayout> 
 </template>
 
 <script setup>
