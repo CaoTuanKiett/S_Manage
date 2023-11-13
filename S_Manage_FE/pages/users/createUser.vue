@@ -17,7 +17,9 @@
   const userId = route.params.id;
   
   const config= useRuntimeConfig();
-  const API_BE = config.public.API_BASE_BE;
+  const URL_BE = config.public.API_BASE_BE;
+
+  const dataRole = ref([]);
 
   
 
@@ -76,19 +78,19 @@
       errorValue.value.email = "";
     }
 
-    if (DataUser.value.username == "") {
-      isValue = false;
-      errorValue.value.username = "username is required";
-    } else {
-      errorValue.value.username = "";
-    }
+    // if (DataUser.value.username == "") {
+    //   isValue = false;
+    //   errorValue.value.username = "username is required";
+    // } else {
+    //   errorValue.value.username = "";
+    // }
 
-    if (DataUser.value.password == "") {
-      isValue = false;
-      errorValue.value.password = "password is required";
-    } else {
-      errorValue.value.password = "";
-    }
+    // if (DataUser.value.password == "") {
+    //   isValue = false;
+    //   errorValue.value.password = "password is required";
+    // } else {
+    //   errorValue.value.password = "";
+    // }
 
     // if (DataUser.value.avatar == "") {
     //   isValue = false;
@@ -97,24 +99,37 @@
     //   errorValue.value.avatar = "";
     // }
 
-    if (DataUser.value.status == "") {
-      isValue = false;
-      errorValue.value.status = "status is required";
-    } else {
-      errorValue.value.status = "";
-    }
+    // if (DataUser.value.status == "") {
+    //   isValue = false;
+    //   errorValue.value.status = "status is required";
+    // } else {
+    //   errorValue.value.status = "";
+    // }
     // console.log(errorValue.value);
     return isValue;
+  }
+
+  const getRole = () => {
+    axios
+      .get(`${URL_BE}/api/v1/author/get_all_role`)
+      .then((res) => {
+        return dataRole.value = res.data
+      })
+      .catch((error) => {
+        console.log(error);
+      })
   }
   
 
 
   onMounted( async () => {
     displayIMG("imageInput", "imageDisplay");
+    getRole();
   });
 
 
   const saveUser = () => {
+    console.log("heheh");
     if(validate()){
 
       // Lấy tệp avatar từ input
@@ -135,7 +150,7 @@
       }
 
       axios
-        .post(`${API_BE}/api/v1/users`, formData)
+        .post(`${URL_BE}/api/v1/users`, formData)
         .then((response) => {
           console.log(response);
           notify({
@@ -152,7 +167,7 @@
   };
 
   const Cancel = () => {
-    router.push('/users/ListUsers');
+    router.push('/users');
   }
 
 </script>
@@ -256,7 +271,7 @@
                 :icon="['fas', 'pen-to-square']" />
           </div>
 
-          <div class="input  p-2 mb-4 w-3/4 relative" >
+          <div class="input  p-2 mb-4 w-3/4 hidden" >
             <label for="" class="text-base text-black font-semibold">Tên đăng nhập:</label>
             <input 
               class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
@@ -275,7 +290,7 @@
                 :icon="['fas', 'pen-to-square']" />
           </div>
 
-          <div class="input  p-2 mb-4 w-3/4 relative" >
+          <div class="input  p-2 mb-4 w-3/4 hidden" >
             <label for="" class="text-base text-black font-semibold">Password:</label>
             <input 
               class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
@@ -299,34 +314,15 @@
             <label for="" class="text-base text-black font-semibold">Địa chỉ:</label>
             <input 
               class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
-              name="age" 
-              v-model="DataUser.age"
+              name="address" 
+              v-model="DataUser.address"
               type="text" 
-              placeholder="age"
+              placeholder="address"
               @blur="validate()"
-                :class="{'is-invalid': errorValue.age}"
+                :class="{'is-invalid': errorValue.address}"
               />
 
               <div class="invalid-feedback text-left" v-if="errorValue.age" > {{errorValue.age }} </div>
-
-              <font-awesome-icon 
-                class="absolute right-6 bottom-5 text-xl cursor-pointer"
-                :icon="['fas', 'pen-to-square']" />
-          </div>
-
-          <div class="input  p-2 mb-4 w-3/4 relative" >
-            <label for="" class="text-base text-black font-semibold">User Name:</label>
-            <input 
-              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
-              name="username" 
-              v-model="DataUser.username"
-              type="text" 
-              placeholder="username"
-              @blur="validate()"
-                :class="{'is-invalid': errorValue.username}"
-              />
-
-              <div class="invalid-feedback text-left" v-if="errorValue.username" > {{errorValue.username }} </div>
 
               <font-awesome-icon 
                 class="absolute right-6 bottom-5 text-xl cursor-pointer"
@@ -353,9 +349,9 @@
                 :icon="['fas', 'pen-to-square']" />
           </div>
 
-          <div class="input  p-2 mb-4 w-3/4 relative" >
+          <div class="input  p-2 mb-4 w-3/4 hidden" >
             <label for="" class="text-base text-black font-semibold">Quyền truy cập:</label>
-            <input 
+            <!-- <input 
               class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
               name="role" 
               v-model="DataUser.role"
@@ -363,7 +359,20 @@
               placeholder="role"
               @blur="validate()"
                 :class="{'is-invalid': errorValue.role}"
-              />
+              /> -->
+
+              <div>
+                <select 
+                  name="role" id="role" 
+                  v-model="DataUser.role"
+                  >
+                  <option 
+                  v-for="role in dataRole.roles"
+                  :key="role.id_role"
+                  :value="role.name_role"
+                  >{{ role.name_role }}</option>
+                </select>
+              </div>
 
               <div class="invalid-feedback text-left" v-if="errorValue.role" > {{errorValue.role }} </div>
 
@@ -372,7 +381,7 @@
                 :icon="['fas', 'pen-to-square']" />
           </div>
 
-          <div class="input  p-2 mb-4 w-3/4 relative" >
+          <div class="input  p-2 mb-4 w-3/4 hidden" >
             <label for="" class="text-base text-black font-semibold">Trạng thái:</label>
             <input 
               class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 

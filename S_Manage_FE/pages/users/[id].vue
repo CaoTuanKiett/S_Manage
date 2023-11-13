@@ -16,7 +16,12 @@
   const route = useRoute();
   const userId = route.params.id;
 
-  const URL_BE = import.meta.env.VITE_APP_BASE_BE || 'http://localhost:8080'
+  const config= useRuntimeConfig();
+  const URL_BE = config.public.API_BASE_BE;
+
+
+  const dataRole = ref([]);
+
 
   const DataUser = ref({
     id_user: "",
@@ -29,7 +34,9 @@
     username: "",
     password: "",
     avatar: "",
-    status: ""
+    status: "",
+    nameRole: "",
+    idRole: ""
   });
 
   const errorValue = ref({
@@ -143,6 +150,8 @@
         DataUser.value.password = data.password;
         DataUser.value.avatar = data.avatar;
         DataUser.value.status = data.status;
+        DataUser.value.nameRole = data.name_role;
+        DataUser.value.idRole = data.id_role;
 
         console.log(DataUser.value);
       })
@@ -151,6 +160,18 @@
       });
   };
 
+  const getRole = () => {
+    axios
+      .get(`${URL_BE}/api/v1/author/get_all_role`)
+      .then((res) => {
+        console.log(res.data);
+        return dataRole.value = res.data
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
+
 
   onMounted( async () => {
     displayIMG("imageInput", "imageDisplay");
@@ -158,6 +179,8 @@
     console.log("id", userId);
     if (userId != 0){
       getUser(userId);
+
+      getRole();
 
       console.log("img", DataUser.value);
     }
@@ -169,73 +192,15 @@
   
 
 
-  // const saveUser = () => {
-  //   if(validate()){
-
-  //     const data = {
-  //       id_user: DataUser.value.id_user,
-  //       name: DataUser.value.name,
-  //       age: DataUser.value.age,
-  //       gender: DataUser.value.gender,
-  //       phone: DataUser.value.phone,
-  //       address: DataUser.value.address,
-  //       email: DataUser.value.email,
-  //       username: DataUser.value.username,
-  //       password: DataUser.value.password,
-  //       status: DataUser.value.status
-  //     };
-
-
-  //     console.log('dataa',data);
-  //     if(userId){
-  //       axios
-  //       .put(`${URL_BE}/api/v1/users/${userId}`, data)
-  //       .then((req, res) => {
-  //         console.log('hehe',req);
-  //         notify({
-  //           type: 'success',
-  //           title: 'Update success',
-  //           text: 'Update success',
-  //         });
-  //         Cancel();
-  //       })
-  //       .catch((req, res, error) => {
-  //         console.log('hehe',req);
-  //         console.log(error);
-  //       });
-  //     }
-  //   }
-  // };
-
-  // const updateAvatar = (event) => {
-  //   const selectedFile = event.target.files[0];
-  //   if (selectedFile) {
-      
-  //     DataUser.value.avatar = selectedFile.name;
-  //     console.log('DataUser.value.avatar', DataUser.value.avatar);
-  //   }
-  // };
-
   const saveUser = () => {
   if (validate()) {
     // Lấy tệp avatar từ input
     const avatarInput = document.getElementById('imageInput');
     const selectedAvatar = avatarInput.files[0];
 
-    // const data = {
-    //   id_user: DataUser.value.id_user,
-    //   name: DataUser.value.name,
-    //   age: DataUser.value.age,
-    //   gender: DataUser.value.gender,
-    //   phone: DataUser.value.phone,
-    //   address: DataUser.value.address,
-    //   email: DataUser.value.email,
-    //   username: DataUser.value.username,
-    //   password: DataUser.value.password,
-    //   status: DataUser.value.status
-    // };
-
     const data = DataUser.value;
+
+    console.log("data", data);
 
     // Tạo FormData để chứa dữ liệu và tệp avatar
     const formData = new FormData();
@@ -272,7 +237,7 @@
 
 
   const Cancel = () => {
-    router.push('/users/listUsers');
+    router.push('/users');
   }
 
 </script>
@@ -417,7 +382,7 @@
 
           <div class="input  p-2 mb-4 w-3/4 relative" >
             <label for="" class="text-base text-black font-semibold">Quyền truy cập:</label>
-            <input 
+            <!-- <input 
               class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
               name="role" 
               v-model="DataUser.role"
@@ -425,7 +390,21 @@
               placeholder="role"
               @blur="validate()"
                 :class="{'is-invalid': errorValue.role}"
-              />
+              /> -->
+              
+              <div>
+                <select 
+                  name="role" id="role" 
+                  v-model="DataUser.idRole"
+                  >
+                  <option 
+                  v-for="role in dataRole.roles"
+                  :key="role.id_role"
+                  :value="role.id_role"
+                  :selected="role.id_role === DataUser.idRole"
+                  >{{ role.name_role }}</option>
+                </select>
+              </div>
 
               <div class="invalid-feedback text-left" v-if="errorValue.role" > {{errorValue.role }} </div>
 

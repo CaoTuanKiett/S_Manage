@@ -43,14 +43,16 @@ class userModels {
       if (result.length > 0) {
         return Promise.reject({ message: 'Email or username already exists' });
       } else {
-        const { salt, hashedPassword } = hashPassword(data.password);
+        const { salt, hashedPassword } = hashPassword(data.password || '12345');
 
         let fileImg = null;
 
         if(dataImg){
           fileImg = dataImg.path;
-        }        
-        return knex(this.tableName).insert({
+        }
+
+        
+        const idUser = knex(this.tableName).insert({
           name: data.name,
           age : data.age,
           gender : data.gender,
@@ -58,12 +60,28 @@ class userModels {
           address: data.address,
           salt : salt,
           email : data.email,
-          username : data.username,
+          username : data.username || data.email,
           password : hashedPassword,
           avatar : fileImg,
           // createdBy : data.createdBy,
-          status : data.status,
-        });
+          status : data.status || "active",
+        }).then((idUser) => {
+          knex('user_roles').insert({
+            user_id: idUser,
+            role_id: 1 // role member
+          }).catch( (e) => {
+            console.log(e);
+          })
+
+          return idUser;
+        })
+
+        ;
+
+        
+        
+
+        
       }
     }
     );
@@ -73,8 +91,44 @@ class userModels {
     return knex(this.tableName).select('*');
   }
 
+  idUser = 'id_user';
+  name = 'name';
+  age = 'age';
+  gender = 'gender';
+  phone = 'phone';
+  address = 'address';
+  email = 'email';
+  username = 'username';
+  password = 'password';
+  salt = 'salt';
+  avatar = 'avatar';
+  passwordResetToken = 'password_reset_token';
+  passwordResetExpiration = 'password_reset_expiration';
+  createdAt = 'created_at';
+  createdBy = 'created_by';
+  status = 'status';
+
   selectOneUser = (id) => {
-    return knex(this.tableName).select('*').where(this.idUser, id);
+    return knex(this.tableName).select(
+      'user.id_user',
+      'user.name',
+      'user.age',
+      'user.gender',
+      'user.phone',
+      'user.address',
+      'user.email',
+      'user.username',
+      'user.avatar',
+      // 'user.password',
+      'user.created_at',
+      'user.created_by',
+      'user.status',
+      'roles.name_role',
+      'roles.id_role'
+      )
+      .leftJoin('user_roles', 'user.id_user', 'user_roles.user_id')
+      .leftJoin('roles', 'user_roles.role_id', 'roles.id_role')
+      .where(this.idUser, id);
   }
 
   selectOneMail= (mail) => {
@@ -125,7 +179,22 @@ class userModels {
           createdBy: data.createdBy,
           // createdAt: data.createdAt,
           status: data.status,
-        });
+        })
+       ;
+
+       console.log("dataa", data);
+
+       try {
+        await knex("user_roles")
+          .where("user_id", id)
+          .update({
+            "role_id": data.idRole || 1,
+          });
+      
+        console.log("oke");
+      } catch (error) {
+        console.log("fail", error);
+      }
   
       return updatedUser;
     } catch (error) {
