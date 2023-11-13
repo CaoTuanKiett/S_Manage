@@ -37,10 +37,10 @@ class roleService {
 
     async getRolePermissions(roleId) {
         const permissions = await knex('role_permissions')
-            .join('permission', 'role_permissions.permission_id', 'permission.permission_id')
+            .join('permission', 'role_permissions.permission_id', 'permission.id_permission')
             .where('role_permissions.role_id', roleId)
-            .select('permission.permission_name');
-        return permissions.map((permission) => permission.permission_name);
+            .select('*');
+        return permissions.map((permission) => permission);
     }
 
     async getAllRole() {
@@ -49,13 +49,18 @@ class roleService {
         return roles;
     }
 
+      async getAllPermission() {
+        const permissions = await knex('permission').select('*');
+        return permissions;
+      }
+
     async hasPermission(roleId, permission_id) {
         const permissions = await knex('role_permissions')
             .join('permission', 'role_permissions.permission_id', 'permission.permission_id')
             .where('role_permissions.role_id', roleId)
-            .select('permission.permission_id');
+            .select('*');
 
         return permissions.map((perm) => perm.permission_id).includes(parseInt(permission_id));
     }
 }
-module.exports = roleService;
+module.exports = roleService

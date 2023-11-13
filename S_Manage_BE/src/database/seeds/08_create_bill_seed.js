@@ -10,9 +10,9 @@ exports.seed = async function(knex) {
       return knex('bill').insert([
         {
           feetype: 'Late Fee',
-          payer: 'John Doe', // Thay đổi tên người thanh toán (payer)
+          payer: 1, // Thay đổi tên người thanh toán (payer)
           fee: 50.00,
-          created_at: new Date(),
+          create_at: new Date(),
           month: 1, // Thay đổi tháng và năm
           year: 2023,
           create_by: 'Admin', // Thay đổi người tạo
@@ -21,9 +21,9 @@ exports.seed = async function(knex) {
         },
         {
           feetype: 'Penalty',
-          payer: 'Jane Smith', // Thay đổi tên người thanh toán (payer)
+          payer: 2, // Thay đổi tên người thanh toán (payer)
           fee: 25.00,
-          created_at: new Date(),
+          create_at: new Date(),
           month: 2, // Thay đổi tháng và năm
           year: 2023,
           create_by: 'Manager', // Thay đổi người tạo

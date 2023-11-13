@@ -67,6 +67,7 @@ module.exports = {
                 const { id_user, name, name_major, ...rest } = item;
                 const key = `${id_user}_${name}_${name_major}`;
                 //console.log(rest);
+
                 if (!result[key]) {
                     result[key] = {
                         id_user,
@@ -82,7 +83,9 @@ module.exports = {
                 result[key].bills.push(rest);
                 //console.log(result[key].bills);
                 return result;
+
             }, {}); const finalResult = Object.values(mergedData).map((item) => {
+
                 const { id_user, name, name_major, bills } = item;
                 const billMap = {};
 
@@ -114,6 +117,8 @@ module.exports = {
                     bills: finalBills
                 };
             });
+
+            console.log('finalResult', finalResult);
 
             return finalResult;
         } catch (error) {

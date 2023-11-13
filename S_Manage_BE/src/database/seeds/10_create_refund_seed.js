@@ -9,13 +9,13 @@ exports.seed = async function(knex) {
       // Thêm dữ liệu mới vào bảng "refund"
       return knex('refund').insert([
         {
-          due_id: 1,
+          payment_id: 1,
           amount: 25.00,
           status: 'Refunded',
           create_at: new Date(),
         },
         {
-          due_id: 2,
+          payment_id: 2,
           amount: 10.00,
           status: 'Refunded',
           create_at: new Date(),
