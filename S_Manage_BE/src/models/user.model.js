@@ -43,6 +43,7 @@ class userModels {
       if (result.length > 0) {
         return Promise.reject({ message: 'Email or username already exists' });
       } else {
+        // Password default 12345
         const { salt, hashedPassword } = hashPassword(data.password || '12345');
 
         let fileImg = null;

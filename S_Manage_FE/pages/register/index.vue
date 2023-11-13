@@ -64,6 +64,9 @@ import { useNotification } from '@kyvg/vue3-notification';
 const notify = useNotification();
 const router = useRouter()
 
+const config= useRuntimeConfig();
+const URL_BE = config.public.API_BASE_BE;
+
 const username = ref('')
 const password = ref('')
 const email = ref('')
@@ -74,7 +77,7 @@ const gender = ref('')
 
 const register = async () => {
     try {
-        const response = await axios.post('http://localhost:9696/api/v1/auth/register', {
+        const response = await axios.post(`${URL_BE}/api/v1/auth/register`, {
             username: username.value,
             password: password.value,
             name: name.value,
