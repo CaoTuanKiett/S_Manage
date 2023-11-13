@@ -39,11 +39,14 @@ input {
 
 <script setup>
 import { notify, useNotification } from '@kyvg/vue3-notification'
+const config= useRuntimeConfig();
+ const URL_BE = config.public.API_BASE_BE;
+
 
 const email = ref('')
 const router = useRouter()
 const resetPass = async () => {
-    await useLazyFetch(`${import.meta.env.API_BASE_BE}/auth/forgot-password`, {
+    await useLazyFetch(`${URL_BE}/api/v1/auth/forgot-password`, {
         method: "POST",
         body: JSON.stringify({ email: email.value })
     }).then(response => {
