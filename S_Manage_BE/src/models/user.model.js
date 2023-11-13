@@ -86,7 +86,6 @@ class userModels {
       }
     }
     );
-
   }
 
   selectAllUsers = () => {

@@ -16,9 +16,6 @@
   const searchKeyword = ref("");
   const router = useRouter();
 
-  
-
-
 //   const isLogin = () => {
 //       const token = Cookies.get('auth_token');
 //       if (!token) {
