@@ -140,7 +140,7 @@ exports.deleteBill = async (billId) => {
 
 exports.getUnpaidBill = async (userId) => {
     const unpaidBills = await db('bill')
-        .select('bill_id', 'fee_type', db.raw('fee - (SELECT COALESCE(SUM(amount), 0) FROM bill_payment WHERE bill_payment.bill_id = bill.bill_id) AS unpaid_fee'), 'description', 'payer')
+        .select('bill_id', 'fee_type','month', db.raw('fee - (SELECT COALESCE(SUM(amount), 0) FROM bill_payment WHERE bill_payment.bill_id = bill.bill_id) AS unpaid_fee'), 'description', 'payer')
         .where('payer', userId)
         .whereExists(function () {
             this.select('bill_id')
@@ -150,7 +150,7 @@ exports.getUnpaidBill = async (userId) => {
                 .havingRaw('SUM(amount) < fee');
         })
         .union(function () {
-            this.select('bill_id', 'fee_type', 'fee as unpaid_fee', 'description', 'payer')
+            this.select('bill_id', 'fee_type', 'month', 'fee as unpaid_fee', 'description', 'payer')
                 .from('bill')
                 .where('payer', userId)
                 .whereNotExists(function () {
