@@ -31,6 +31,21 @@ module.exports = {
 
         return { totalAmountMoney, totalFee };
     },
+
+    getYears: async () => {
+        const ListYear = await db('bill').select('year')
+
+        // Extract unique years using Set
+        const uniqueYearsSet = new Set(ListYear.map(item => item.year));
+
+        // Convert Set back to an array if needed
+        const uniqueYears = Array.from(uniqueYearsSet);
+
+        return uniqueYears;
+
+        // return ListYear
+    },
+
     listmoney: async (year) => {
         try {
             const list = await db

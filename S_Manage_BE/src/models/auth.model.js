@@ -178,7 +178,8 @@ class authModels {
 
   forgotPassword = async (data) => {
 
-    const mailTo = data.email;
+    const mailTo = data[0].email;
+    console.log(mailTo);
     // Lấy thông tin user từ email
     const users = await userModel.selectOneMail(mailTo);
     const user = users[0];
@@ -220,6 +221,7 @@ class authModels {
       .then(result => {
         // Gửi email ở đây sau khi cập nhật thành công
         const resetUrl = `${process.env.BASE_URL}/api/v1/auth/reset-password?token=${token}`;
+        const resetUrl2 = `${process.env.BASE_URL_FE}/resetPassword?token=${token}`;
 
         const mailOptions = {
           emailFrom: process.env.EMAIL_USER,
@@ -228,7 +230,7 @@ class authModels {
           html: `
                 <p>You requested a password reset. Click the link below to reset your password:</p>
                 <a 
-                  href="${resetUrl}" 
+                  href="${resetUrl2}" 
                   style="
                     background-color: #072541; 
                     border: none;
@@ -257,7 +259,8 @@ class authModels {
         return mailService.sendEmail(mailOptions);
       })
       .then(() => {
-        return Promise.reject({ message: 'Password reset and email sent successfully' });
+        console.log('Password reset and email sent successfully' );
+        // return Promise.reject({ message: 'Password reset and email sent successfully' });
       })
       .catch(error => {
         console.error(error);
@@ -268,7 +271,6 @@ class authModels {
 
   async ResetPassword(data) {
     const token = data.query.token;
-
     const passwordNew = data.body.passwordNew;
 
     if (!token) {
@@ -283,8 +285,6 @@ class authModels {
     const users = await userModel.selectOneMail(email);
     const user = users[0];
 
-    console.log(dateNow < decodedToken.passwordResetExpires);
-
     if (!user && dateNow < decodedToken.passwordResetExpires) {
       return res.status(401).json({ error: 'Invalid or expired password reset token' });
     }
@@ -298,7 +298,7 @@ class authModels {
       address: user.address,
       email: user.email,
       username: user.username,
-      password: data.body.passwordNew,
+      password: passwordNew,
       avatar: user.avatar,
       password_reset_token: null,
       password_reset_expiration: null,
@@ -322,11 +322,13 @@ class authModels {
         return mailService.sendEmail(mailOptions);
       })
       .then(() => {
-        return Promise.reject({ message: 'Password reset and email sent successfully' });
+        console.log( 'Password reset and email sent successfully');
+        // return Promise.reject({ message: 'Password reset and email sent successfully' });
       })
       .catch(error => {
         console.error(error);
-        return Promise.reject({ message: "Failed to send email" });
+        console.log("Failed to send email");
+        // return Promise.reject({ message: "Failed to send email" });
       });
 
   }

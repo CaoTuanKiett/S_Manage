@@ -129,7 +129,6 @@
 
 
   const saveUser = () => {
-    console.log("heheh");
     if(validate()){
 
       // Lấy tệp avatar từ input

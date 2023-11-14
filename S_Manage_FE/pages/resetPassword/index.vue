@@ -20,7 +20,8 @@ input {
                             <label for="email" class="block mb-2 text-sm font-medium text-secondary">New password</label>
                             <input type="email" name="email" id="email"
                                 class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 text-secondary  "
-                                required v-model="passwordNew">
+                                required
+                                v-model="passwordNew">
                         </div>
 
                         <v-btn block variant="outlined" size="x-large" class="bg-primary mb-4" @click="resetPass"> Send
@@ -34,16 +35,29 @@ input {
 </template>
 
 <script setup>
+import { useRoute } from 'vue-router';
+  import axios from 'axios';
 import { notify, useNotification } from '@kyvg/vue3-notification'
+const route = useRoute();
+
+const config = useRuntimeConfig();
+const API_BE = config.public.API_BASE_BE;
+
+const token = route.query.token;
 
 const passwordNew = ref('')
+const data = ref([]);
+
+
 const router = useRouter()
 const resetPass = async () => {
-    await useLazyFetch(`${import.meta.env.API_BASE_BE}/api/v1/auth/reset-password`, {
-        method: "POST",
-        body: JSON.stringify({ passwordNew: passwordNew.value })
-    }).then(response => {
-        if (response.data.value) {
+    data.value.push({"passwordNew": passwordNew.value})
+
+    const DataPassword = data.value[0];
+
+    await axios.post(`${API_BE}/api/v1/auth/reset-password?token=${token}`, DataPassword )
+    .then(response => {
+        if (response.status) {
             useNotification(
                 notify({
                     title: "Send email Success",
@@ -51,7 +65,7 @@ const resetPass = async () => {
                 })
             )
             router.push("/")
-            console.log(response.data.value)
+            console.log(response.status)
         }
 
 
