@@ -7,12 +7,12 @@ input {
 }
 </style>
 <template>
-    <section class="bg-background flex items-center justify-center h-screen">
+    <section class="flex items-center justify-center h-screen bg-background">
         <div class="w-full max-w-md">
-       
-            <div class="bg-surface rounded-lg shadow border-2 border-gray-700">
+
+            <div class="border-2 border-gray-700 rounded-lg shadow bg-surface">
                 <div class="p-6 space-y-4">
-                
+
                     <form class="space-y-4" action="#">
 
 
@@ -23,7 +23,7 @@ input {
                                 required v-model="passwordNew">
                         </div>
 
-                        <v-btn block variant="outlined" size="x-large" class="bg-primary mb-4" @click="resetPass"> Send
+                        <v-btn block variant="outlined" size="x-large" class="mb-4 bg-primary" @click="resetPass"> Send
                         </v-btn>
 
                     </form>
@@ -34,30 +34,66 @@ input {
 </template>
 
 <script setup>
+
+
+import { useRoute } from 'vue-router';
 import axios from 'axios';
+import { notify, useNotification } from '@kyvg/vue3-notification'
+const route = useRoute();
+
+const config = useRuntimeConfig();
+const API_BE = config.public.API_BASE_BE;
+
+const token = route.query.token;
+
 import { useToast } from 'vue-toastification'
 const toast = useToast()
 
+
 const passwordNew = ref('')
+const data = ref([]);
+
+
+
 const router = useRouter()
-const config = useRuntimeConfig();
 const URL_BE = config.public.API_BASE_BE;
 
 const resetPass = async () => {
-    try {
-        const response = await axios.post(`${URL_BE}/api/v1/auth/reset-password`, {
-            passwordNew: passwordNew.value
-        });
-        if (response.status === 200) {
-            toast.success('Reset password successfully');
-            router.push("/");
-            console.log(response.data);
-        }
-    } catch (error) {
-        toast.error('Reset password failed');
-        console.log(error);
+
+    const resetPass = async () => {
+        data.value.push({ "passwordNew": passwordNew.value })
+
+        const DataPassword = data.value[0];
+
+        await axios.post(`${API_BE}/api/v1/auth/reset-password?token=${token}`, DataPassword)
+            .then(response => {
+                if (response.status) {
+                    useNotification(
+                        notify({
+                            title: "Send email Success",
+                            text: "Check your email",
+                        })
+                    )
+                    toast.success('Reset password successfully')
+                    router.push("/")
+                    console.log(response.status)
+                }
+
+
+
+            }).catch(error => {
+                useNotification(notify({
+                    title: " Send email unsuccessfully ",
+                    text: " Please type your email again ",
+                    type: "warn"
+                }))
+                toast.success('Send email unsuccessfully')
+                console.log(error)
+            })
     }
-};
+}
+
+
 
 
 </script>
