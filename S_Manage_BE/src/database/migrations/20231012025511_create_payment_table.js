@@ -5,7 +5,6 @@
 exports.up = function(knex) {
   return knex.schema.createTable('payment', function (table) {
     table.increments('id_payment').primary();
-    table.integer('user_id').unsigned().notNullable();
     table.integer('paymentIntent_id').unsigned().notNullable();
     table.string('pay_account').notNullable();
     table.string('pay_method').notNullable();
@@ -17,7 +16,7 @@ exports.up = function(knex) {
 
     // Tạo foreign key constraint để liên kết user_id với bảng "user"
     table
-      .foreign('user_id')
+      .foreign('paymentIntent_id')
       .references('id_user')
       .inTable('user')
       .onDelete('CASCADE');

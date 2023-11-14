@@ -56,10 +56,11 @@ module.exports = {
                 .whereRaw(`bill.year= ${year}`)
                 .orderBy('user.id_user')
                 .orderBy('bill.month');
-                
+
             const mergedData = list.reduce((result, item) => {
                 const { id_user, name, name_major, ...rest } = item;
                 const key = `${id_user}_${name}_${name_major}`;
+                //console.log(rest);
 
                 if (!result[key]) {
                     result[key] = {
@@ -74,19 +75,19 @@ module.exports = {
                     result[key].unpaidMonths++; // Tăng số tháng unpaid khi trạng thái là 'unpaid'
                 }
                 result[key].bills.push(rest);
-
+                //console.log(result[key].bills);
                 return result;
-            }, {});
 
-            const finalResult = Object.values(mergedData).map((item) => {
+            }, {}); const finalResult = Object.values(mergedData).map((item) => {
+
                 const { id_user, name, name_major, bills } = item;
                 const billMap = {};
 
                 bills.forEach((bill) => {
                     const { month, bill_id, bill_status } = bill;
                     billMap[month] = {
-                        bill_id: bill_id || null,
-                        bill_status: bill_id ? bill_status : 'unchanged'
+                        bill_id: bill_id,
+                        bill_status: bill_status
                     };
                 });
 
@@ -110,6 +111,8 @@ module.exports = {
                     bills: finalBills
                 };
             });
+
+            console.log('finalResult', finalResult);
 
             return finalResult;
         } catch (error) {

@@ -1,8 +1,8 @@
-const RoleService = require('../models/roleService');
+const roleService = require('../models/roleService');
 
 class RoleController {
     constructor() {
-        this.roleService = new RoleService();
+        this.roleService = new roleService();
     }
 
     async createRole(req, res) {
@@ -40,12 +40,12 @@ class RoleController {
     async assignPermissionToRole(req, res) {
         try {
             const { roleId } = req.params
-            const { permission } = req.body;
-            await this.roleService.assignPermissionToRole(roleId, permission);
+            const { permissions } = req.body;
+            await this.roleService.assignPermissionToRole(roleId, permissions);
             res.status(200).json({ message: 'Permission assigned to role' });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ message: 'Failed to assign permission to role', error });
+            res.status(500).json({ message: 'Failed to assign permission to role'+ error });
         }
     }
 
@@ -87,10 +87,21 @@ class RoleController {
     async getAllRole(req, res) {
         try {
             const roles = await this.roleService.getAllRole();
-            res.status(200).json({ roles });
+            res.status(200).json({roles});
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Failed to get all role', error });
+        }
+    }
+
+    async getAllPermission(req,res){
+        try {
+            const permissions = await this.roleService.getAllPermission();
+            res.status(200).json({permissions})
+        } catch (error) {
+            console.log(error)
+                        res.status(500).json({ message: 'Failed to get all permission', error });
+
         }
     }
 

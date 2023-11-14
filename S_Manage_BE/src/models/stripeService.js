@@ -16,12 +16,17 @@ exports.getPaymentsByUserId = async (userId) => {
 };
 //payment detail
 exports.getPaymentDetail = async (paymentId) => {
-    const paymentDetail = await db('payment')
+    try {
+        const paymentDetail = await db('payment')
         .select('payment.id_payment', 'payment.description', 'payment.account_name','bill_payment.amount', 'bill.*')
         .join('bill_payment', 'payment.id_payment', 'bill_payment.payment_id')
-        .join('bill', 'bill_payment.bill_id', 'bill.bill_id')
+        .join('bill', 'bill_payment.bill_id', 'bill.id_bill')
         .where('payment.id_payment', paymentId);
 
+  if (!paymentDetail.length) {
+      console.log(`No payment found with id: ${paymentId}`);
+      return;
+    }
     const PaymentInfo = {
         payment_id: paymentDetail[0].id_payment,
         description: paymentDetail[0].description,
@@ -51,6 +56,10 @@ exports.getPaymentDetail = async (paymentId) => {
     };
 
     return result;
+    } catch (error) {
+     console.log(error)   
+    }
+    
 };
 exports.createBill = async (req) => {
     const { fee_type, fee, description, create_by, payers,month,year } = req.body;
@@ -58,6 +67,8 @@ exports.createBill = async (req) => {
     const due_at = new Date();
     due_at.setDate(due_at.getDate() + 30);
     const formatted_due_at = due_at.toISOString().slice(0, 19).replace('T', ' ');
+    // const decodedToken = jwt.verify(token, 'YOUR_SECRET_KEY');
+    // const create_by = decodedToken.userId;
 
     const newBills = [];
     for (const payer of payers) {
@@ -76,6 +87,41 @@ exports.createBill = async (req) => {
     }
 
     return newBills;
+};
+exports.updateBill = async (billId, fee_type, fee, description, payer, year, month) => {
+    try {
+        const updatedBill = await db('bill')
+            .where({ bill_id: billId })
+            .update({
+                fee_type: fee_type,
+                fee: fee,
+                description: description,
+                payer: payer,
+                year: year,
+                month: month,
+            });
+
+        return updatedBill;
+    } catch (error) {
+        throw error;
+    }
+};
+exports.getAllBill = async () => {
+    try {
+        const data = await db('bill').select('*');
+        return data;
+    } catch (error) {
+        throw error;
+    }
+}
+exports.deleteBill = async (billId) => {
+    try {
+        const deletedBill = await db('bill').where({ bill_id: billId }).del();
+
+        return deletedBill;
+    } catch (error) {
+        throw error;
+    }
 };
 
 exports.getUnpaidBill = async (userId) => {

@@ -1,18 +1,38 @@
-const jsonwebtoken = require('jsonwebtoken');
-const role = require('../models/roleService')
-const roleService = new role();
-function checkRoleHasPermission(permission) {
-    return async (req, res, next) => {
-        const author = req.headers.authorization.substring(7);
-        const role = jsonwebtoken.verify(author, process.env.secretKey).role;
-        // Kiểm tra quyền truy cập
-        if (await roleService.hasPermission(role, permission)) {
-            next(); // Cho phép truy cập tiếp theo
-        } else {
-            res.status(403).json({ message: 'Access denied' });
-            console.log("access denied"); // Truy cập bị từ chối
-        }
-    };
-}
+const jwt = require('jsonwebtoken');
+const { cacheService } = require('../services/cacheService');
+require('dotenv').config();
 
-module.exports = { checkRoleHasPermission };
+const canAccessBy = (...allowedPermissions) => {
+    return async (req, res, next) => {
+        const authHeader = req.headers['authorization'];
+
+        if (!authHeader) {
+            return res.sendStatus(401);
+        }
+
+        const token = authHeader.split(' ')[1];
+
+        await jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+            if (err) {
+                return res.sendStatus(401); // invalid token
+            }
+
+            const userCache = await cacheService.getOneUser(decoded.id);
+
+            if (!userCache || !userCache.permissions) {
+                return res.sendStatus(403); // unauthorized
+            }
+
+            const permissionArray = [...allowedPermissions];
+            const result = userCache.permissions.map((item) => permissionArray.includes(item)).find((val) => val === true);
+
+            if (!result) {
+                return res.sendStatus(403);
+            }
+
+            next();
+        });
+    };
+};
+
+module.exports = canAccessBy;
