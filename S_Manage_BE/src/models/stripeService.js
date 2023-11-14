@@ -18,58 +18,55 @@ exports.getPaymentsByUserId = async (userId) => {
 exports.getPaymentDetail = async (paymentId) => {
     try {
         const paymentDetail = await db('payment')
-        .select('payment.id_payment', 'payment.description', 'payment.account_name','bill_payment.amount', 'bill.*')
-        .join('bill_payment', 'payment.id_payment', 'bill_payment.payment_id')
-        .join('bill', 'bill_payment.bill_id', 'bill.id_bill')
-        .where('payment.id_payment', paymentId);
+            .select('payment.id_payment', 'payment.description', 'payment.account_name', 'bill_payment.amount', 'bill.*')
+            .join('bill_payment', 'payment.id_payment', 'bill_payment.payment_id')
+            .join('bill', 'bill_payment.bill_id', 'bill.id_bill')
+            .where('payment.id_payment', paymentId);
 
-  if (!paymentDetail.length) {
-      console.log(`No payment found with id: ${paymentId}`);
-      return;
-    }
-    const PaymentInfo = {
-        payment_id: paymentDetail[0].id_payment,
-        description: paymentDetail[0].description,
-        account_name: paymentDetail[0].account_name
-    };
-
-    const billDetails = paymentDetail.map(bill => {
-        return {
-            bill_id:bill.id_bill,
-            fee_type: bill.fee_type,
-            fee: bill.fee,
-            create_at: bill.create_at,
-            due_at: bill.due_at,
-            description: bill.description,
-            create_by: bill.create_by,
-            payer: bill.payer,
-            year: bill.year,
-            month: bill.month,
-            paid: bill.amount,
-            
+        if (!paymentDetail.length) {
+            console.log(`No payment found with id: ${paymentId}`);
+            return;
+        }
+        const PaymentInfo = {
+            payment_id: paymentDetail[0].id_payment,
+            description: paymentDetail[0].description,
+            account_name: paymentDetail[0].account_name
         };
-    });
 
-    const result = {
-        payment_info: PaymentInfo,
-        bill_details: billDetails
-    };
+        const billDetails = paymentDetail.map(bill => {
+            return {
+                bill_id: bill.id_bill,
+                fee_type: bill.fee_type,
+                fee: bill.fee,
+                create_at: bill.create_at,
+                due_at: bill.due_at,
+                description: bill.description,
+                create_by: bill.create_by,
+                payer: bill.payer,
+                year: bill.year,
+                month: bill.month,
+                paid: bill.amount,
 
-    return result;
+            };
+        });
+
+        const result = {
+            payment_info: PaymentInfo,
+            bill_details: billDetails
+        };
+
+        return result;
     } catch (error) {
-     console.log(error)   
+        console.log(error)
     }
-    
+
 };
 exports.createBill = async (req) => {
-    const { fee_type, fee, description, create_by, payers,month,year } = req.body;
+    const { fee_type, fee, description, create_by, payers, month, year } = req.body;
     const created_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const due_at = new Date();
     due_at.setDate(due_at.getDate() + 30);
     const formatted_due_at = due_at.toISOString().slice(0, 19).replace('T', ' ');
-    // const decodedToken = jwt.verify(token, 'YOUR_SECRET_KEY');
-    // const create_by = decodedToken.userId;
-
     const newBills = [];
     for (const payer of payers) {
         const newBill = await db('bill').insert({
@@ -81,7 +78,7 @@ exports.createBill = async (req) => {
             create_by: create_by,//admin id
             payer: payer,
             year: year,
-            month:month,
+            month: month,
         });
         newBills.push(newBill);
     }
@@ -108,7 +105,9 @@ exports.updateBill = async (billId, fee_type, fee, description, payer, year, mon
 };
 exports.getAllBill = async () => {
     try {
-        const data = await db('bill').select('*').orderBy('bill_id', 'desc');
+        const data = await db('bill').select('bill.*', 'user.name')
+            .join('user', 'bill.payer', 'user.id_user')
+            .orderBy('bill_id', 'desc');
         return data;
     } catch (error) {
         throw error;
@@ -141,7 +140,7 @@ exports.deleteBill = async (billId) => {
 
 exports.getUnpaidBill = async (userId) => {
     const unpaidBills = await db('bill')
-        .select('bill_id', 'fee_type', db.raw('fee - (SELECT COALESCE(SUM(amount), 0) FROM bill_payment WHERE bill_payment.bill_id = bill.bill_id) AS unpaid_fee'), 'description', 'payer')
+        .select('bill_id', 'fee_type','month', db.raw('fee - (SELECT COALESCE(SUM(amount), 0) FROM bill_payment WHERE bill_payment.bill_id = bill.bill_id) AS unpaid_fee'), 'description', 'payer')
         .where('payer', userId)
         .whereExists(function () {
             this.select('bill_id')
@@ -151,7 +150,7 @@ exports.getUnpaidBill = async (userId) => {
                 .havingRaw('SUM(amount) < fee');
         })
         .union(function () {
-            this.select('bill_id', 'fee_type', 'fee as unpaid_fee', 'description', 'payer')
+            this.select('bill_id', 'fee_type', 'month', 'fee as unpaid_fee', 'description', 'payer')
                 .from('bill')
                 .where('payer', userId)
                 .whereNotExists(function () {
@@ -167,7 +166,8 @@ exports.createSessionPayment = async (req) => {
     const session = await stripeInstance.checkout.sessions.create({
         payment_method_types: ["card"],
         mode: "payment",
-        success_url: `${process.env.DOMAIN}/success?session_id={CHECKOUT_SESSION_ID}&order=${encodeURI(JSON.stringify(req.body))}`,
+        // success_url: `${process.env.DOMAIN}/success?session_id={CHECKOUT_SESSION_ID}&order=${encodeURI(JSON.stringify(req.body))}`,
+        success_url: `${process.env.URL_SUCCESS}`,
         cancel_url: `${process.env.DOMAIN}/checkout?payment_fail=true`,
         line_items: req.body.items.map(item => {
             return {
@@ -205,7 +205,7 @@ exports.handleWebhook = async (req) => {
     switch (event.type) {
         case 'checkout.session.completed':
             const session = event.data.object;
-            const payment= await db('payment').insert({
+            const payment = await db('payment').insert({
                 amount_money: session.amount_total,
                 user_id: session.metadata.user_id,
                 account_name: session.customer_details.name,
@@ -223,7 +223,7 @@ exports.handleWebhook = async (req) => {
             for (const item of lineItems) {
                 await db('bill_payment').insert({
                     bill_id: item.price.product.metadata.bill_id,
-                    payment_id:payment_id,
+                    payment_id: payment_id,
                     amount: item.amount_total
                 });
             }

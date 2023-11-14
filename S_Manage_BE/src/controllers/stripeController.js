@@ -105,7 +105,7 @@ exports.getUnpaidBill = async (req, res) => {
         res.status(200).json({ unpaidBills });
     } catch (error) {
         console.error('Error getting unpaid bill:', error);
-        res.status(500).json({ error: 'An error occurred while getting the unpaid bill' });
+        res.status(500).json({ error: 'An error occurred while getting the unpaid bill' +error });
     }
 };
 
@@ -125,7 +125,7 @@ exports.handleWebhook = async (req, res) => {
         res.status(200).json('Webhook processed successfully');
     } catch (error) {
         console.error('Error processing webhook:', error);
-        res.status(500).json({ error: 'An error occurred while processing the webhook' });
+        res.status(500).json({ error: 'An error occurred while processing the webhook' +error});
     }
 };
 
