@@ -24,6 +24,12 @@ export default defineNuxtConfig({
     },
   },
 
+  //noti nuxt3
+   build:{
+    transpile: ['vue-toastification']
+  },
+
+
   //vuetify
   modules: ["@invictus.codes/nuxt-vuetify", "@pinia/nuxt"],
 

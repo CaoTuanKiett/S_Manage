@@ -34,22 +34,21 @@ input {
 </template>
 
 <script setup>
-import { notify, useNotification } from '@kyvg/vue3-notification'
+import { useToast } from 'vue-toastification'
+const toast = useToast()
 
 const passwordNew = ref('')
 const router = useRouter()
+const config = useRuntimeConfig();
+const URL_BE = config.public.API_BASE_BE;
 const resetPass = async () => {
-    await useLazyFetch(`${import.meta.env.API_BASE_BE}/api/v1/auth/reset-password`, {
+    await useLazyFetch(`${URL_BE}/api/v1/auth/reset-password`, {
         method: "POST",
         body: JSON.stringify({ passwordNew: passwordNew.value })
     }).then(response => {
         if (response.data.value) {
-            useNotification(
-                notify({
-                    title: "Send email Success",
-                    text: "Check your email",
-                })
-            )
+           
+            toast.success('Reset password successfully')
             router.push("/")
             console.log(response.data.value)
         }
@@ -57,12 +56,7 @@ const resetPass = async () => {
 
 
     }).catch(error => {
-        useNotification(notify({
-            title: " Send email unsuccessfully ",
-            text: " Please type your email again ",
-            type: "warn"
-        }))
-
+       toast.error('Reset password failed')
         console.log(error)
     })
 }
