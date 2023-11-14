@@ -137,7 +137,6 @@
       .get(`${URL_BE}/api/v1/users/${id}`)
       .then((response) => {
         const data = response.data[0];
-        // console.log(data);
 
         DataUser.value.id_user = data.id_user;
         DataUser.value.name = data.name;
@@ -268,7 +267,7 @@
           <div class="input  p-2 mb-4 w-3/4 relative" >
             <label for="" class="text-base text-black font-semibold">Họ và tên:</label>
             <input 
-              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              class="bg-gray-200 focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
               name="name" 
               v-model="DataUser.name"
               type="text" 
@@ -280,14 +279,14 @@
               <div class="invalid-feedback text-left" v-if="errorValue.name" > {{errorValue.name }} </div>
 
               <font-awesome-icon 
-                class="absolute right-6 bottom-5 text-xl cursor-pointer"
+                class="absolute right-6 top-12 text-xl cursor-pointer"
                 :icon="['fas', 'pen-to-square']" />
           </div>
 
           <div class="input  p-2 mb-4 w-3/4 relative" >
             <label for="" class="text-base text-black font-semibold">Tuổi:</label>
             <input 
-              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              class="bg-gray-200 focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
               name="age" 
               v-model="DataUser.age"
               type="text" 
@@ -299,14 +298,14 @@
               <div class="invalid-feedback text-left" v-if="errorValue.age" > {{errorValue.age }} </div>
 
               <font-awesome-icon 
-                class="absolute right-6 bottom-5 text-xl cursor-pointer"
+                class="absolute right-6 top-12 text-xl cursor-pointer"
                 :icon="['fas', 'pen-to-square']" />
           </div>
 
           <div class="input  p-2 mb-4 w-3/4 relative" >
             <label for="" class="text-base text-black font-semibold">Số điện thoại:</label>
             <input 
-              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              class="bg-gray-200 focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
               name="phone" 
               v-model="DataUser.phone"
               type="text" 
@@ -318,14 +317,14 @@
               <div class="invalid-feedback text-left" v-if="errorValue.phone" > {{errorValue.phone }} </div>
 
               <font-awesome-icon 
-                class="absolute right-6 bottom-5 text-xl cursor-pointer"
+                class="absolute right-6 top-12 text-xl cursor-pointer"
                 :icon="['fas', 'pen-to-square']" />
           </div>
 
           <div class="input  p-2 mb-4 w-3/4 relative" >
             <label for="" class="text-base text-black font-semibold">Địa chỉ:</label>
             <input 
-              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              class="bg-gray-200 focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
               name="age" 
               v-model="DataUser.age"
               type="text" 
@@ -337,14 +336,14 @@
               <div class="invalid-feedback text-left" v-if="errorValue.age" > {{errorValue.age }} </div>
 
               <font-awesome-icon 
-                class="absolute right-6 bottom-5 text-xl cursor-pointer"
+                class="absolute right-6 top-12 text-xl cursor-pointer"
                 :icon="['fas', 'pen-to-square']" />
           </div>
 
           <div class="input  p-2 mb-4 w-3/4 relative" >
             <label for="" class="text-base text-black font-semibold">User Name:</label>
             <input 
-              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              class="bg-gray-200 focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
               name="username" 
               v-model="DataUser.username"
               type="text" 
@@ -356,7 +355,7 @@
               <div class="invalid-feedback text-left" v-if="errorValue.username" > {{errorValue.username }} </div>
 
               <font-awesome-icon 
-                class="absolute right-6 bottom-5 text-xl cursor-pointer"
+                class="absolute right-6 top-12 text-xl cursor-pointer"
                 :icon="['fas', 'pen-to-square']" />
           </div>
 
@@ -364,7 +363,7 @@
           <div class="input  p-2 mb-4 w-3/4 relative" >
             <label for="" class="text-base text-black font-semibold">Emai:</label>
             <input 
-              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              class="bg-gray-200 focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
               name="email" 
               v-model="DataUser.email"
               type="text" 
@@ -376,14 +375,14 @@
               <div class="invalid-feedback text-left" v-if="errorValue.email" > {{errorValue.email }} </div>
 
               <font-awesome-icon 
-                class="absolute right-6 bottom-5 text-xl cursor-pointer"
+                class="absolute right-6 top-12 text-xl cursor-pointer"
                 :icon="['fas', 'pen-to-square']" />
           </div>
 
           <div class="input  p-2 mb-4 w-3/4 relative" >
             <label for="" class="text-base text-black font-semibold">Quyền truy cập:</label>
             <!-- <input 
-              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              class="bg-gray-200 focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
               name="role" 
               v-model="DataUser.role"
               type="text" 
@@ -396,6 +395,7 @@
                 <select 
                   name="role" id="role" 
                   v-model="DataUser.idRole"
+                  class="bg-gray-200 focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base"
                   >
                   <option 
                   v-for="role in dataRole.roles"
@@ -409,14 +409,14 @@
               <div class="invalid-feedback text-left" v-if="errorValue.role" > {{errorValue.role }} </div>
 
               <font-awesome-icon 
-                class="absolute right-6 bottom-5 text-xl cursor-pointer"
+                class="absolute right-6 top-12 text-xl cursor-pointer"
                 :icon="['fas', 'pen-to-square']" />
           </div>
 
           <div class="input  p-2 mb-4 w-3/4 relative" >
             <label for="" class="text-base text-black font-semibold">Trạng thái:</label>
             <input 
-              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              class="bg-gray-200 focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
               name="status" 
               v-model="DataUser.status"
               type="text" 
@@ -428,7 +428,7 @@
               <div class="invalid-feedback text-left" v-if="errorValue.status" > {{errorValue.status }} </div>
 
               <font-awesome-icon 
-                class="absolute right-6 bottom-5 text-xl cursor-pointer"
+                class="absolute right-6 top-12 text-xl cursor-pointer"
                 :icon="['fas', 'pen-to-square']" />
           </div>
           

@@ -32,7 +32,9 @@
     username: "",
     password: "",
     avatar: "",
-    status: ""
+    status: "",
+    nameRole: "",
+    idRole: ""
   });
 
   const errorValue = ref({
@@ -197,7 +199,7 @@
           <div class="input  p-2 mb-4 w-3/4 relative" >
             <label for="" class="text-base text-black font-semibold">Họ và tên:</label>
             <input 
-              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              class="bg-gray-200 focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
               name="name" 
               v-model="DataUser.name"
               type="text" 
@@ -209,14 +211,14 @@
               <div class="invalid-feedback text-left" v-if="errorValue.name" > {{errorValue.name }} </div>
 
               <font-awesome-icon 
-                class="absolute right-6 bottom-5 text-xl cursor-pointer"
+                class="absolute right-6 top-12 text-xl cursor-pointer"
                 :icon="['fas', 'pen-to-square']" />
           </div>
 
           <div class="input  p-2 mb-4 w-3/4 relative" >
             <label for="" class="text-base text-black font-semibold">Tuổi:</label>
             <input 
-              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              class=" bg-gray-200 focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
               name="age" 
               v-model="DataUser.age"
               type="text" 
@@ -228,14 +230,14 @@
               <div class="invalid-feedback text-left" v-if="errorValue.age" > {{errorValue.age }} </div>
 
               <font-awesome-icon 
-                class="absolute right-6 bottom-5 text-xl cursor-pointer"
+                class="absolute right-6 top-12 text-xl cursor-pointer"
                 :icon="['fas', 'pen-to-square']" />
           </div>
 
           <div class="input  p-2 mb-4 w-3/4 relative" >
             <label for="" class="text-base text-black font-semibold">Giới tính:</label>
             <input 
-              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              class="bg-gray-200 focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
               name="gender" 
               v-model="DataUser.gender"
               type="text" 
@@ -247,14 +249,14 @@
               <div class="invalid-feedback text-left" v-if="errorValue.gender" > {{errorValue.gender }} </div>
 
               <font-awesome-icon 
-                class="absolute right-6 bottom-5 text-xl cursor-pointer"
+                class="absolute right-6 top-12 text-xl cursor-pointer"
                 :icon="['fas', 'pen-to-square']" />
           </div>
 
           <div class="input  p-2 mb-4 w-3/4 relative" >
             <label for="" class="text-base text-black font-semibold">Số điện thoại:</label>
             <input 
-              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              class="bg-gray-200 focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
               name="phone" 
               v-model="DataUser.phone"
               type="text" 
@@ -266,14 +268,14 @@
               <div class="invalid-feedback text-left" v-if="errorValue.phone" > {{errorValue.phone }} </div>
 
               <font-awesome-icon 
-                class="absolute right-6 bottom-5 text-xl cursor-pointer"
+                class="absolute right-6 top-12 text-xl cursor-pointer"
                 :icon="['fas', 'pen-to-square']" />
           </div>
 
           <div class="input  p-2 mb-4 w-3/4 hidden" >
             <label for="" class="text-base text-black font-semibold">Tên đăng nhập:</label>
             <input 
-              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              class="bg-gray-200 focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
               name="username" 
               v-model="DataUser.username"
               type="text" 
@@ -285,14 +287,14 @@
               <div class="invalid-feedback text-left" v-if="errorValue.username" > {{errorValue.username }} </div>
 
               <font-awesome-icon 
-                class="absolute right-6 bottom-5 text-xl cursor-pointer"
+                class="absolute right-6 top-12 text-xl cursor-pointer"
                 :icon="['fas', 'pen-to-square']" />
           </div>
 
           <div class="input  p-2 mb-4 w-3/4 hidden" >
             <label for="" class="text-base text-black font-semibold">Password:</label>
             <input 
-              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              class="bg-gray-200 focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
               name="password" 
               v-model="DataUser.password"
               type="text" 
@@ -304,7 +306,7 @@
               <div class="invalid-feedback text-left" v-if="errorValue.password" > {{errorValue.password }} </div>
 
               <font-awesome-icon 
-                class="absolute right-6 bottom-5 text-xl cursor-pointer"
+                class="absolute right-6 top-12 text-xl cursor-pointer"
                 :icon="['fas', 'pen-to-square']" />
           </div>
 
@@ -312,7 +314,7 @@
           <div class="input  p-2 mb-4 w-3/4 relative" >
             <label for="" class="text-base text-black font-semibold">Địa chỉ:</label>
             <input 
-              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              class="bg-gray-200 focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
               name="address" 
               v-model="DataUser.address"
               type="text" 
@@ -324,7 +326,7 @@
               <div class="invalid-feedback text-left" v-if="errorValue.age" > {{errorValue.age }} </div>
 
               <font-awesome-icon 
-                class="absolute right-6 bottom-5 text-xl cursor-pointer"
+                class="absolute right-6 top-12 text-xl cursor-pointer"
                 :icon="['fas', 'pen-to-square']" />
           </div>
 
@@ -332,7 +334,7 @@
           <div class="input  p-2 mb-4 w-3/4 relative" >
             <label for="" class="text-base text-black font-semibold">Emai:</label>
             <input 
-              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              class="bg-gray-200 focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
               name="email" 
               v-model="DataUser.email"
               type="text" 
@@ -344,14 +346,14 @@
               <div class="invalid-feedback text-left" v-if="errorValue.email" > {{errorValue.email }} </div>
 
               <font-awesome-icon 
-                class="absolute right-6 bottom-5 text-xl cursor-pointer"
+                class="absolute right-6 top-12 text-xl cursor-pointer"
                 :icon="['fas', 'pen-to-square']" />
           </div>
 
-          <div class="input  p-2 mb-4 w-3/4 hidden" >
+          <div class="input  p-2 mb-4 w-3/4 " >
             <label for="" class="text-base text-black font-semibold">Quyền truy cập:</label>
             <!-- <input 
-              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              class="bg-gray-200 focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
               name="role" 
               v-model="DataUser.role"
               type="text" 
@@ -363,12 +365,14 @@
               <div>
                 <select 
                   name="role" id="role" 
-                  v-model="DataUser.role"
+                  v-model="DataUser.idRole"
+                  class="bg-gray-200 focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base"
                   >
+                  <option selected disabled>Chọn quyền truy cập:</option>
                   <option 
                   v-for="role in dataRole.roles"
                   :key="role.id_role"
-                  :value="role.name_role"
+                  :value="role.id_role"
                   >{{ role.name_role }}</option>
                 </select>
               </div>
@@ -376,14 +380,15 @@
               <div class="invalid-feedback text-left" v-if="errorValue.role" > {{errorValue.role }} </div>
 
               <font-awesome-icon 
-                class="absolute right-6 bottom-5 text-xl cursor-pointer"
-                :icon="['fas', 'pen-to-square']" />
+                class="absolute right-6 top-12 text-xl cursor-pointer z-10"
+                :icon="['fas', 'chevron-down']" />
+
           </div>
 
           <div class="input  p-2 mb-4 w-3/4 hidden" >
             <label for="" class="text-base text-black font-semibold">Trạng thái:</label>
             <input 
-              class="focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
+              class="bg-gray-200 focus:outline-none placeholder:text-slate-500 w-full border-2 rounded px-3 py-2  pr-12 mt-2 text-base" 
               name="status" 
               v-model="DataUser.status"
               type="text" 
@@ -395,7 +400,7 @@
               <div class="invalid-feedback text-left" v-if="errorValue.status" > {{errorValue.status }} </div>
 
               <font-awesome-icon 
-                class="absolute right-6 bottom-5 text-xl cursor-pointer"
+                class="absolute right-6 top-12 text-xl cursor-pointer"
                 :icon="['fas', 'pen-to-square']" />
           </div>
           

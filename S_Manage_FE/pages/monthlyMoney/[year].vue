@@ -77,7 +77,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
+  <div class="bg-white">
     <div class="limiter">
       <div class="relative flex items-center  mt-8 w-36 h-12">
         <font-awesome-icon

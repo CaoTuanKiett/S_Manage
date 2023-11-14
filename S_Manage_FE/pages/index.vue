@@ -51,7 +51,7 @@ toast.error('Login failed')
           <h1 class="text-2xl font-bold leading-tight tracking-tight text-center text-gray-900 ">
             Sign in to your account
           </h1>
-          <form @change="login" class="space-y-4" action="#">
+          <form @submit="login" class="space-y-4" action="#">
             <div class="form-group">
               <label for="email" class="block mb-2 text-sm font-medium text-secondary">Username</label>
               <input type="email" name="email" id="email"
