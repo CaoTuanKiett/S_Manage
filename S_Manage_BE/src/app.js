@@ -1,5 +1,6 @@
 
 const express = require('express');
+const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
@@ -16,7 +17,7 @@ const path = require('path');
 
 const port = process.env.PORT;
 
-const app = express();
+
 // đừng nhét cái ni xuống dưới pleaseeeeeee !!!!!!!
 app.use(`${process.env.API_V1}/payment`, stripe);
 app.use(express.json());

@@ -4,7 +4,23 @@ export default defineComponent({
         const store = useSidebarStore();
         const { toggleMenu } = store;
         const is_expanded = computed(() => store.is_expanded);
-        return { is_expanded, toggleMenu }
+        const showLogout = ref(false)
+        const clickShow = () => {
+            showLogout.value = !showLogout.value
+        }
+         const router = useRouter()
+        const accessToken = localStorage.getItem('accessToken')
+        const isLogin = computed(() => Boolean(accessToken.value))
+
+        const logout = () => {
+            if (isLogin) {
+                localStorage.removeItem('accessToken')
+                router.push("/")
+                window.location.href = '/'
+            }
+        }
+
+        return { is_expanded, toggleMenu, showLogout, clickShow, logout, isLogin }
     }
 });
 </script>
@@ -26,8 +42,11 @@ export default defineComponent({
                     <Nuxt-link to="" class="text-base font-bold">Yuh Wepo</Nuxt-link>
                     <span class="text-xs">Admin</span>
                 </div>
-                <font-awesome-icon :icon="['fas', 'chevron-down']" class="cursor-pointer text-m" />
+                <div class="relative" >
+                <font-awesome-icon @click="clickShow" :icon="['fas', 'chevron-down']" class="cursor-pointer text-m " />
+                <VBtn @click="logout" class="bg-primary relative top-16 right-24  rounded  " v-if="showLogout" >Logout</VBtn>
             </div>
+        </div>
         </div>
     </header>
 </template>
