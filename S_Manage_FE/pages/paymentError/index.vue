@@ -101,6 +101,6 @@ $roboto: 'Roboto', sans-serif;
 const router = useRouter()
 
 const changeRoute = () => {
-    router.push('/Home')
+    router.push('/home')
 }
 </script>

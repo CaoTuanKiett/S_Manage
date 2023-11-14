@@ -8,7 +8,9 @@ import { useDecodeTokenStore } from '#imports';
         const is_expanded = computed(() => store.is_expanded);
            
       const decoded = useDecodeTokenStore()
-      decoded.decodeToken 
+      decoded.decodeToken  
+   
+
       const role_id = decoded.decoded.role
       console.log(role_id)
  
