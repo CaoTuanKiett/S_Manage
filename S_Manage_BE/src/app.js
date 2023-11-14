@@ -17,12 +17,6 @@ const path = require('path');
 const port = process.env.PORT;
 
 const app = express();
-// đừng nhét cái ni xuống dưới pleaseeeeeee !!!!!!!
-app.use(`${process.env.API_V1}/payment`, stripe);
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.use(cors());
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -30,6 +24,14 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   next();
 });
+
+// đừng nhét cái ni xuống dưới pleaseeeeeee !!!!!!!
+app.use(`${process.env.API_V1}/payment`, stripe);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(cors());
+
 
 // Cấu hình express.static để phục vụ tệp ảnh từ thư mục 'assets'
 app.use('/assets', express.static(path.join(__dirname, 'assets')));

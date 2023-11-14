@@ -47,59 +47,73 @@
                         <tr class="h-11">
                             <th class="px-6 bg-[#fafafa] text-start text-[#262626] font-normal">Title</th>
                             <th class="px-6 bg-[#fafafa] text-start text-[#262626] font-normal">Description</th>
+                            <th class="px-6 bg-[#fafafa] text-start text-[#262626] font-normal">Amount</th>
+                            <th class="px-6 bg-[#fafafa] text-start text-[#262626] font-normal">Username</th>
                             <th class="px-6 bg-[#fafafa] text-start text-[#262626] font-normal">Create Date</th>
                             <th class="w-[10%] text-start text-[#262626] font-normal px-6 bg-[#fafafa]">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(itemBill, index) in paginatedList" :key="index" class="h-[72px] hover:bg-gray-100">
-                            <td class="px-6 border-b border-r border-[#f0f0f0] text-[#595959]">{{ itemBill.title }}</td>
-                            <td class="px-6 border-b border-r border-[#f0f0f0] text-[#595959]">{{ itemBill.desc }}</td>
-                            <td class="px-6 border-b border-r border-[#f0f0f0] text-[#595959]">{{ itemBill.createDate }}
+                        <tr v-for="(itemBill, index) in paginatedList" :key="itemBill.bill_id"
+                            class="h-[72px] hover:bg-gray-100">
+                            <td class="px-6 border-b border-r border-[#f0f0f0] text-[#595959]">{{ itemBill.fee_type }}</td>
+                            <td class="px-6 border-b border-r border-[#f0f0f0] text-[#595959]">{{ itemBill.description }}
+                            </td>
+                            <td class="px-6 border-b border-r border-[#f0f0f0] text-[#595959]">{{ itemBill.fee }}
+                            </td>
+                            <td class="px-6 border-b border-r border-[#f0f0f0] text-[#595959]">{{ itemBill.payer }}
+                            </td>
+                            <td class="px-6 border-b border-r border-[#f0f0f0] text-[#595959]">{{
+                                formatDate(itemBill.create_at) }}
                             </td>
                             <td class="px-6 border-b border-[#f0f0f0] text-[#595959] align-middle">
-                                <button class="text-blue-500" @click="handleOpenEditBill(itemBill.id)"><font-awesome-icon
-                                        :icon="['fas', 'edit']" /></button>
-                                <Popup :is-open="openPopupsEditId[itemBill.id]"
-                                    @update-is-open="handleCloseEditBill(itemBill.id)">
-                                    <template #popup-header>
-                                        <h2 class="text-2xl font-bold text-center text-blue-500">Edit Bill</h2>
-                                    </template>
-                                    <template #default>
-                                        <billForm :bill="billEdit" :users="users"></billForm>
-                                    </template>
-                                    <template #popup-footer>
-                                        <button @click="editBill(itemBill.id)"
-                                            class="p-3 text-white bg-blue-500 rounded-md hover:bg-blue-400">
-                                            Update
-                                        </button>
-                                    </template>
-                                </Popup>
-                                <button class="ml-3 text-red-500" @click="openDeleteBill(itemBill.id)"><font-awesome-icon
-                                        :icon="['fas', 'trash-alt']" /></button>
-                                <Popup :is-open="openPopupsDeleteId[itemBill.id]"
-                                    @update-is-open="handleCloseDeleteBill(itemBill.id)" :type="'confirm'">
-                                    <template #popup-header>
-                                        <h2 class="text-2xl font-bold text-center text-blue-500">
-                                            Want to delete this bill?
-                                        </h2>
-                                    </template>
-                                    <template #default>
-                                        <!-- <billForm :bill="bill" :users="users"></billForm> -->
-                                        Once deleted, it cannot be undone. Do you confirm deletion?
-                                    </template>
-                                    <template #popup-footer>
-                                        <button @click="deleteBill(itemBill.id)"
-                                            class="p-3 text-white bg-blue-500 rounded-md hover:bg-blue-400">
-                                            Delete
-                                        </button>
-                                    </template>
-                                </Popup>
+                                <div class="text-center w-100">
+                                    <button class="text-blue-500"
+                                        @click="handleOpenEditBill(itemBill.bill_id)"><font-awesome-icon
+                                            :icon="['fas', 'edit']" /></button>
+                                    <Popup :is-open="openPopupsEditId[itemBill.bill_id]"
+                                        @update-is-open="handleCloseEditBill(itemBill.bill_id)">
+                                        <template #popup-header>
+                                            <h2 class="text-2xl font-bold text-center text-blue-500">Edit Bill</h2>
+                                        </template>
+                                        <template #default>
+                                            <billForm :bill="billEdit" :users="users"></billForm>
+                                        </template>
+                                        <template #popup-footer>
+                                            <button @click="editBill(itemBill.bill_id)"
+                                                class="p-3 text-white bg-blue-500 rounded-md hover:bg-blue-400">
+                                                Update
+                                            </button>
+                                        </template>
+                                    </Popup>
+                                    <button class="ml-3 text-red-500"
+                                        @click="openDeleteBill(itemBill.bill_id)"><font-awesome-icon
+                                            :icon="['fas', 'trash-alt']" /></button>
+                                    <Popup :is-open="openPopupsDeleteId[itemBill.bill_id]"
+                                        @update-is-open="handleCloseDeleteBill(itemBill.bill_id)" :type="'confirm'">
+                                        <template #popup-header>
+                                            <h2 class="text-2xl font-bold text-center text-blue-500">
+                                                Want to delete this bill?
+                                            </h2>
+                                        </template>
+                                        <template #default>
+                                            <!-- <billForm :bill="bill" :users="users"></billForm> -->
+                                            Once deleted, it cannot be undone. Do you confirm deletion?
+                                        </template>
+                                        <template #popup-footer>
+                                            <button @click="deleteBill(itemBill.bill_id)"
+                                                class="p-3 text-white bg-blue-500 rounded-md hover:bg-blue-400">
+                                                Delete
+                                            </button>
+                                        </template>
+                                    </Popup>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-                <div class="px-6 text-center pt-[30px] flex gap-3 align-center justify-center">
+                <div v-if="filteredList.length > 0"
+                    class="px-6 text-center pt-[30px] flex gap-3 align-center justify-center">
                     <!-- <v-pagination v-model="page" :length="8" :total-visible="5"></v-pagination> -->
                     <button class="px-3 py-1 bg-gray-100 rounded-md" :class="currentPage === 1 ? 'invisible' : 'visible'"
                         @click="currentPage > 1 ? currentPage-- : currentPage = 1">Previous</button>
@@ -115,6 +129,9 @@
                         @click="currentPage < totalPages ? currentPage++ : currentPage = totalPages">Next</button>
                 </div>
             </div>
+            <div v-if="isLoading" class="loading-overlay">
+                <div class="loader"></div>
+            </div>
         </div>
     </NuxtLayout>
 </template>
@@ -123,6 +140,9 @@
 import { ref } from 'vue';
 import Popup from '~/components/Popup.vue';
 import billForm from '~/components/billForm.vue';
+import axios from 'axios';
+import { useToast } from 'vue-toastification';
+import { useBillStore } from '@/stores/bill';
 
 export default {
     components: {
@@ -136,6 +156,8 @@ export default {
             openPopupsDeleteId: {},
             searchQuery: '',
             dialog: false,
+            userId: null,
+            isLoading: false,
             bill: {
                 title: '',
                 desc: '',
@@ -145,12 +167,12 @@ export default {
                 selected: [],
             },
             billEdit: {
-                title: 'Tiền tháng 11',
-                desc: 'tiền tháng 11 nè',
+                title: '',
+                desc: '',
                 currentMonth: 11,
                 currentYear: 2023,
                 amount: 2023,
-                selected: [1, 2, 3, 5, 8, 10],
+                selected: [],
             },
             currentPage: 1,
             itemsPerPage: 8,
@@ -216,71 +238,39 @@ export default {
                     join_year: 2022,
                 },
             ],
-            listBill: [
-                {
-                    id: 1,
-                    title: 'Tiền tháng 1',
-                    desc: 'Điện nước',
-                    createDate: '2021-09-30',
-                },
-                {
-                    id: 2,
-                    title: 'Tiền tháng 2',
-                    desc: 'Điện nước',
-                    createDate: '2021-09-30',
-                },
-                {
-                    id: 3,
-                    title: 'Tiền tháng 3',
-                    desc: 'Điện nước',
-                    createDate: '2021-09-30',
-                },
-                {
-                    id: 4,
-                    title: 'Tiền tháng 4',
-                    desc: 'Điện nước',
-                    createDate: '2021-09-30',
-                },
-                {
-                    id: 5,
-                    title: 'Tiền tháng 5',
-                    desc: 'Điện nước',
-                    createDate: '2021-09-30',
-                },
-                {
-                    id: 6,
-                    title: 'Tiền tháng 6',
-                    desc: 'Điện nước',
-                    createDate: '2021-09-30',
-                },
-                {
-                    id: 7,
-                    title: 'Tiền tháng 7',
-                    desc: 'Điện nước',
-                    createDate: '2021-09-30',
-                },
-                {
-                    id: 8,
-                    title: 'Tiền tháng 8',
-                    desc: 'Điện nước',
-                    createDate: '2021-09-30',
-                },
-                {
-                    id: 9,
-                    title: 'Tiền tháng 9',
-                    desc: 'Điện nước',
-                    createDate: '2021-09-30',
-                },
-                {
-                    id: 10,
-                    title: 'Tiền tháng 10',
-                    desc: 'Điện nước',
-                    createDate: '2021-09-30',
-                },
-            ]
+            listBill: [],
         }
     },
     methods: {
+        async getAllBill() {
+            try {
+                const res = await axios.get(`${this.$config.public.API_BASE_BE}/api/v1/payment/bill`);
+                if (res.status === 200) {
+                    const billStore = useBillStore();
+                    billStore.setBills(res.data.bill);
+                    this.listBill = billStore.$state.listBill;
+                    // console.log(this.listBill);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        },
+        async getBillById(id) {
+            try {
+                const res = await axios.get(`${this.$config.public.API_BASE_BE}/api/v1/payment/bill/${id}`);
+                console.log(res);
+                if (res.status === 200) {
+                    this.billEdit.title = res.data[0].fee_type;
+                    this.billEdit.desc = res.data[0].description;
+                    this.billEdit.currentMonth = res.data[0].month;
+                    this.billEdit.currentYear = res.data[0].year;
+                    this.billEdit.amount = res.data[0].fee;
+                    this.billEdit.selected = res.data[0].payer;
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        },
         handleOpenCreateBill() {
             this.isPopupOpen = true;
             this.bill = {
@@ -294,26 +284,38 @@ export default {
         },
         handleOpenEditBill(id) {
             this.openPopupsEditId[id] = true;
+            this.getBillById(id);
         },
         handleCloseEditBill(id) {
             this.openPopupsEditId[id] = false;
         },
-        createBill() {
-            console.log({
-                title: this.bill.title,
-                desc: this.bill.desc,
+        async createBill() {
+            this.isLoading = true;
+            const toast = useToast();
+            await axios.post(`${this.$config.public.API_BASE_BE}/api/v1/payment/create-bill`, {
+                fee_type: this.bill.title,
+                description: this.bill.desc,
                 month: this.bill.currentMonth,
                 year: this.bill.currentYear,
-                amount: Number(this.bill.amount),
-                for_user: this.bill.selected,
+                fee: Number(this.bill.amount),
+                payers: this.bill.selected,
+                create_by: this.userId,
             })
-            this.listBill.push({
-                id: this.listBill.length + 1,
-                title: this.bill.title,
-                desc: this.bill.desc,
-                createDate: new Date().toISOString().slice(0, 10),
-            });
-            this.isPopupOpen = false;
+                .then(res => {
+                    // console.log(res);
+                    if (res.status === 200) {
+                        this.isPopupOpen = false;
+                        toast.success(res.data.message);
+                        this.getAllBill();
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    toast.error('Create bill failed!');
+                })
+                .finally(() => {
+                    this.isLoading = false;
+                });
         },
         openDeleteBill(id) {
             this.openPopupsDeleteId[id] = true;
@@ -321,22 +323,52 @@ export default {
         handleCloseDeleteBill(id) {
             this.openPopupsDeleteId[id] = false;
         },
-        deleteBill(id) {
-            this.listBill = this.listBill.filter(bill => bill.id !== id);
-            this.handleCloseDeleteBill(id);
+        async deleteBill(id) {
+            // this.listBill = this.listBill.filter(bill => bill.id !== id);
+            await axios.delete(`${this.$config.public.API_BASE_BE}/api/v1/payment/bill/${id}`)
+                .then(res => {
+                    if (res.status === 200) {
+                        const toast = useToast();
+                        toast.success(res.data.message);
+                        this.handleCloseDeleteBill(id);
+                        this.getAllBill();
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        },
+        formatDate(isoString) {
+            let date = new Date(isoString);
+            return date.toISOString().split('T')[0];
         }
     },
     mounted() {
+        const accessToken = localStorage.getItem('accessToken');
+        const base64Url = accessToken.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(
+            atob(base64)
+                .split('')
+                .map(function (c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                })
+                .join('')
+        );
+        const user = JSON.parse(jsonPayload);
+        console.log(user.idUser);
+        this.userId = user.idUser;
 
+        this.getAllBill();
     },
     computed: {
         sortedListBill() {
             return this.listBill.sort((a, b) => b.id - a.id);
         },
         filteredList() {
-            return this.sortedListBill.filter(itemBill => {
-                return itemBill.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                    itemBill.desc.toLowerCase().includes(this.searchQuery.toLowerCase());
+            return this.listBill.filter(itemBill => {
+                return itemBill.fee_type.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    itemBill.description.toLowerCase().includes(this.searchQuery.toLowerCase());
             });
         },
         totalPages() {
@@ -361,5 +393,50 @@ export default {
 
 .v-field__field {
     background: #fff !important;
+}
+
+.loading-overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+.loader {
+    border: 4px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 4px solid #3498db;
+    width: 30px;
+    height: 30px;
+    -webkit-animation: spin 2s linear infinite;
+    /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 </style>

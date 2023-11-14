@@ -108,7 +108,7 @@ exports.updateBill = async (billId, fee_type, fee, description, payer, year, mon
 };
 exports.getAllBill = async () => {
     try {
-        const data = await db('bill').select('*');
+        const data = await db('bill').select('*').orderBy('bill_id', 'desc');
         return data;
     } catch (error) {
         throw error;
