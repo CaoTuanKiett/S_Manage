@@ -12,10 +12,10 @@ const login = async () => {
     method: "POST",
     body: JSON.stringify({ username: username.value, password: password.value })
   }).then(response => {
-
-    console.log(response.data.value)
+    console.log(response.data.value.data)
     if (response.data.value.data) {
-      localStorage.setItem("accessToken", JSON.stringify(response.data.value.data))
+      const token = response.data.value.data
+      localStorage.setItem("accessToken", JSON.stringify(token))
       useNotification(notify({
         title: "Login successfully",
         text: " You have been redirect to dashboard "
