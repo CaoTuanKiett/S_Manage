@@ -28,44 +28,17 @@
                         Không có bill nào!
                     </div>
                     <div v-else class="min-h-[60vh] mt-6">
-                        <!-- <ul class="flex flex-col">
-                            <li v-for="unpaidBill in filteredUnpaidBills" :key="index" class="min-w-[24%]">
-                                <div
-                                    class="flex flex-col gap-3 px-6 py-4 bg-gray-100 rounded-lg shadow-md align-center hover:shadow-lg">
-                                    <h2 class="text-blue-500">
-                                        {{ unpaidBill.fee_type }}
-                                    </h2>
-                                    <p class="text-sm text-gray-500 font-italic">
-                                        {{ unpaidBill.description }}
-                                    </p>
-                                    <button
-                                        class="px-3 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-400 w-100 justify-self-end"
-                                        @click="paidBill(unpaidBill.payer)">
-                                        Paid
-                                    </button>
-                                </div>
-                            </li>
-                        </ul> -->
                         <table class="border-collapse table-auto w-100">
                             <thead>
                                 <tr class="h-11">
                                     <th class="px-6 bg-[#fafafa] text-start text-[#262626] font-normal">Title</th>
                                     <th class="px-6 bg-[#fafafa] text-start text-[#262626] font-normal">Description</th>
+                                    <th class="px-6 bg-[#fafafa] text-start text-[#262626] font-normal">Amount</th>
                                     <th class="w-[10%] text-start text-[#262626] font-normal px-6 bg-[#fafafa]">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- <tr class="h-[72px] hover:bg-gray-100">
-                            <td class="px-6 border-b border-r border-[#f0f0f0] text-[#595959]">Tiền tháng 1</td>
-                            <td class="px-6 border-b border-r border-[#f0f0f0] text-[#595959]">Điện nước</td>
-                            <td class="px-6 border-b border-r border-[#f0f0f0] text-[#595959]">2021-09-30</td>
-                            <td class="px-6 border-b border-[#f0f0f0] text-[#595959] align-middle">
-                                <button class="text-blue-500"><font-awesome-icon :icon="['fas', 'edit']" /></button>
-                                <button class="ml-3 text-red-500"><font-awesome-icon
-                                        :icon="['fas', 'trash-alt']" /></button>
-                            </td>
-                        </tr> -->
-                                <tr v-for="(unpaidBill, index) in unpaidBills" :key="index"
+                                <tr v-for="(unpaidBill, index) in filteredUnpaidBills" :key="index"
                                     class="h-[72px] hover:bg-gray-100">
                                     <td class="px-6 border-b border-r border-[#f0f0f0] text-[#595959]">{{
                                         unpaidBill.fee_type
@@ -74,10 +47,13 @@
                                     <td class="px-6 border-b border-r border-[#f0f0f0] text-[#595959]">{{
                                         unpaidBill.description }}
                                     </td>
+                                    <td class="px-6 border-b border-r border-[#f0f0f0] text-[#595959]">{{
+                                        unpaidBill.unpaid_fee }}
+                                    </td>
                                     <td class="px-6 border-b border-[#f0f0f0] text-[#595959] align-middle text-center">
                                         <label for="" class="flex justify-center w-5 h-5 m-auto align-center">
                                             <input ref="checkPayment" type="checkbox" class="cursor-pointer w-100 h-100"
-                                                @change="addPayment($event, unpaidBill.bill_id, unpaidBill.description, unpaidBill.unpaid_fee)">
+                                                @change="addPayment($event, unpaidBill.bill_id, unpaidBill.description, unpaidBill.unpaid_fee, unpaidBill.month)">
                                         </label>
                                     </td>
                                 </tr>
@@ -91,7 +67,26 @@
 </template>
 
 <script>
+import axios from 'axios';
+// import useDecodeTokenStore from '@/stores/decodeToken';
 export default {
+    mounted() {
+        const accessToken = localStorage.getItem('accessToken');
+        const base64Url = accessToken.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(
+            atob(base64)
+                .split('')
+                .map(function (c) {
+                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+                })
+                .join('')
+        );
+        const user = JSON.parse(jsonPayload);
+        console.log(user.idUser);
+        this.userId = user.idUser;
+        this.getUnpaidBill(user.idUser);
+    },
     data() {
         return {
             // unpaidBills: [],
@@ -99,83 +94,32 @@ export default {
             payment: [],
             currentPage: 1,
             itemsPerPage: 8,
-            unpaidBills: [
-                {
-                    "bill_id": 3,
-                    "fee_type": "MonthFee 8",
-                    "unpaid_fee": "80.00",
-                    "description": "MonthFee 8",
-                    "payer": 2
-                },
-                {
-                    "bill_id": 4,
-                    "fee_type": "MonthFee 10",
-                    "unpaid_fee": "500.00",
-                    "description": "MonthFee 8",
-                    "payer": 2
-                },
-                {
-                    "bill_id": 13,
-                    "fee_type": "MonthFee 11",
-                    "unpaid_fee": "200.00",
-                    "description": "MonthFee 11",
-                    "payer": 2
-                },
-                {
-                    "bill_id": 19,
-                    "fee_type": "MonthFee 13",
-                    "unpaid_fee": "200000.00",
-                    "description": "MonthFee 13",
-                    "payer": 2
-                },
-                {
-                    "bill_id": 27,
-                    "fee_type": "MonthFee 7",
-                    "unpaid_fee": "200000.00",
-                    "description": "MonthFee 7",
-                    "payer": 2
-                },
-                {
-                    "bill_id": 31,
-                    "fee_type": "MonthFee 7",
-                    "unpaid_fee": "200000.00",
-                    "description": "MonthFee 7",
-                    "payer": 2
-                },
-                {
-                    "bill_id": 39,
-                    "fee_type": "MonthFee 7",
-                    "unpaid_fee": "200000.00",
-                    "description": "MonthFee 7",
-                    "payer": 2
-                },
-                {
-                    "bill_id": 40,
-                    "fee_type": "MonthFee 7",
-                    "unpaid_fee": "250000.00",
-                    "description": "MonthFee 7",
-                    "payer": 2
-                },
-                {
-                    "bill_id": 45,
-                    "fee_type": "MonthFee 7",
-                    "unpaid_fee": "350000.00",
-                    "description": "MonthFee 7",
-                    "payer": 2
-                },
-            ]
+            unpaidBills: [],
+            userId: null,
         }
     },
     methods: {
+        async getUnpaidBill(id) {
+            try {
+                const response = await axios.get(`${this.$config.public.API_BASE_BE}/api/v1/payment/get-unpaid-bill/${id}`);
+                console.log(response);
+                if (response.status === 200) {
+                    this.unpaidBills = response.data.unpaidBills;
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        },
         paidBill(payer) {
             console.log(payer)
         },
-        addPayment(event, bill_id, description, price) {
+        addPayment(event, bill_id, description, price, month) {
             if (event.target.checked) {
                 this.payment.push({
                     bill_id,
                     description,
-                    price
+                    price: parseInt(price),
+                    month
                 });
             } else {
                 const paymentIndex = this.payment.findIndex(item => item.bill_id === bill_id);
@@ -184,19 +128,29 @@ export default {
                 }
             }
         },
-        createPayment() {
-            const data = {
-                "user_id": 2,
-                "description": "Thanh toán tiền tháng",
-                "items": this.payment,
+        async createPayment() {
+            try {
+                const response = await axios.post(`${this.$config.public.API_BASE_BE}/api/v1/payment/stripe-checkout`, {
+                    "user_id": this.userId,
+                    "description": "Thanh toán tiền tháng",
+                    "items": this.payment,
+                });
+                console.log(response);
+                if (response.status === 200) {
+                    this.payment = [];
+                    window.location.href = response.data;
+                }
+            } catch (error) {
+                console.log(error);
             }
-            console.log(data)
         }
     },
     computed: {
         filteredUnpaidBills() {
             return this.unpaidBills.filter((unpaidBill) => {
-                return unpaidBill.fee_type.toLowerCase().includes(this.searchQuery.toLowerCase())
+                return unpaidBill.fee_type.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    unpaidBill.description.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                    unpaidBill.unpaid_fee.toString().includes(this.searchQuery.toLowerCase())
             })
         },
         totalPages() {
