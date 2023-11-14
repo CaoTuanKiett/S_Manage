@@ -96,8 +96,6 @@ const assignRoles = async () => {
       } else if(rolePermission.value[permission.id_permission] === false ){
          allPermission.value.splice(allPermission.value.indexOf(permission.id_permission),1)
        }
-
-      
     }
 
     console.log(allPermission.value)
