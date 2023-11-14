@@ -34,32 +34,26 @@ module.exports = {
     listmoney: async (year) => {
         try {
             const list = await db
-                .distinct('user.id_user', 'user.name', 'major.name_major', 'bill.month', 'payment_summary.bill_id')
+                .distinct('user.id_user', 'user.name', 'major.name_major', 'bill.month', 'bill.bill_id')
                 .select(
                     'user.id_user',
                     'user.name',
                     'major.name_major',
                     'bill.month',
-                    'payment_summary.bill_id',
-                    db.raw(`CASE WHEN payment_summary.total_amount >= bill.fee THEN 'paid'         
-                    ELSE 'unpaid'       
-                    END AS bill_status`)
+                    'bill.bill_id',
+                    db.raw(`CASE
+                    WHEN bill_payment.bill_id IS NOT NULL AND bill_payment.payment_id IS NOT NULL THEN 'paid'
+                    ELSE 'unpaid'
+                END as bill_status`)
                 )
                 .from('user')
                 .join('user_roles', 'user.id_user', 'user_roles.user_id')
                 .join('roles', 'user_roles.role_id', 'roles.id_role')
                 .join('major', 'roles.major_id', 'major.id_major')
                 .leftJoin('bill', 'bill.payer', 'user.id_user')
-                .leftJoin(
-                    db
-                        .select('bill_payment.bill_id', db.raw('SUM(amount) AS total_amount'))
-                        .from('bill_payment')
-                        .groupBy('bill_payment.bill_id')
-                        .as('payment_summary'),
-                    'bill.bill_id',
-                    'payment_summary.bill_id'
-                )
-                .where('bill.year', '2023')
+                .leftJoin('bill_payment', 'bill.bill_id', 'bill_payment.bill_id')
+                .leftJoin('payment', 'bill_payment.payment_id', 'payment.id_payment')
+                .whereRaw(`bill.year= ${year}`)
                 .orderBy('user.id_user')
                 .orderBy('bill.month');
 

@@ -71,6 +71,18 @@ exports.updateBill = async (req, res) => {
         return res.status(500).json({ message: 'Internal server error' + error });
     }
 };
+exports.getBillByID = async (req, res) => {
+    const billId = req.params.id;
+
+
+        const bill = await stripeService.getBillByID(billId);
+
+        if (bill!=null) {
+            return res.json( bill );
+        } else {
+            return res.status(404).json({ message: 'Bill not found' });
+        }
+};
 exports.deleteBill = async (req, res) => {
     const billId = req.params.id;
 

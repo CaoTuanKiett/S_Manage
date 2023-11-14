@@ -1,7 +1,7 @@
 
 const knex = require('../database/connectDB');
 
-const  avtDefault = require('../middleware/avtDefault');
+const avtDefault = require('../middleware/avtDefault');
 
 const {
   hashPassword,
@@ -40,52 +40,52 @@ class userModels {
       .where(this.email, data.email)
       .orWhere(this.username, data.username)
       .then((result) => {
-      if (result.length > 0) {
-        return Promise.reject({ message: 'Email or username already exists' });
-      } else {
-        // Password default 12345
-        const { salt, hashedPassword } = hashPassword(data.password || '12345');
+        if (result.length > 0) {
+          return Promise.reject({ message: 'Email or username already exists' });
+        } else {
+          // Password default 12345
+          const { salt, hashedPassword } = hashPassword(data.password || '12345');
 
-        let fileImg = null;
+          let fileImg = null;
 
-        if(dataImg){
-          fileImg = dataImg.path;
-        }
+          if (dataImg) {
+            fileImg = dataImg.path;
+          }
 
-        
-        const idUser = knex(this.tableName).insert({
-          name: data.name,
-          age : data.age,
-          gender : data.gender,
-          phone: data.phone,
-          address: data.address,
-          salt : salt,
-          email : data.email,
-          username : data.username || data.email,
-          password : hashedPassword,
-          avatar : fileImg,
-          // createdBy : data.createdBy,
-          status : data.status || "active",
-        }).then((idUser) => {
-          knex('user_roles').insert({
-            user_id: idUser,
-            role_id: 1 // role member
-          }).catch( (e) => {
-            console.log(e);
+
+          const idUser = knex(this.tableName).insert({
+            name: data.name,
+            age: data.age,
+            gender: data.gender,
+            phone: data.phone,
+            address: data.address,
+            salt: salt,
+            email: data.email,
+            username: data.username || data.email,
+            password: hashedPassword,
+            avatar: fileImg,
+            // createdBy : data.createdBy,
+            status: data.status || "active",
+          }).then((idUser) => {
+            knex('user_roles').insert({
+              user_id: idUser,
+              role_id: data.role ? data.role : 1
+            }).catch((e) => {
+              console.log(e);
+            })
+
+            return idUser;
           })
 
-          return idUser;
-        })
+            ;
 
-        ;
 
-        
-        
 
-        
+
+
+        }
       }
-    }
-    );
+      );
   }
 
   selectAllUsers = () => {
@@ -126,13 +126,13 @@ class userModels {
       'user.status',
       'roles.name_role',
       'roles.id_role'
-      )
+    )
       .leftJoin('user_roles', 'user.id_user', 'user_roles.user_id')
       .leftJoin('roles', 'user_roles.role_id', 'roles.id_role')
       .where(this.idUser, id);
   }
 
-  selectOneMail= (mail) => {
+  selectOneMail = (mail) => {
     return knex(this.tableName).select('*').where(this.email, mail);
   }
 
@@ -142,25 +142,25 @@ class userModels {
 
     let fileImg = null;
 
-    if (dataImg){
+    if (dataImg) {
       fileImg = dataImg.path;
-    }else{
+    } else {
       fileImg = data.avatar;
     }
 
     const { salt, hashedPassword } = hashPassword(data.password);
-  
+
     try {
       // Kiểm tra xem email hoặc username đã tồn tại
       const existingUser = await knex(this.tableName)
         .where(this.email, data.email)
         .orWhere(this.username, data.username)
         .select();
-  
+
       if (existingUser.length > 0 && existingUser[0].id_user !== parseInt(id)) {
         throw new Error('Email or username already exists');
       }
-  
+
       // Tiến hành cập nhật dữ liệu
       const updatedUser = await knex(this.tableName)
         .where(this.idUser, id)
@@ -181,22 +181,22 @@ class userModels {
           // createdAt: data.createdAt,
           status: data.status,
         })
-       ;
+        ;
 
-       console.log("dataa", data);
+      console.log("dataa", data);
 
-       try {
+      try {
         await knex("user_roles")
           .where("user_id", id)
           .update({
             "role_id": data.idRole || 1,
           });
-      
+
         console.log("oke");
       } catch (error) {
         console.log("fail", error);
       }
-  
+
       return updatedUser;
     } catch (error) {
       throw error;
@@ -204,7 +204,7 @@ class userModels {
   }
 
 
-  
+
 
   deleteUser = (id) => {
     return knex(this.tableName).where(this.idUser, id).del();
@@ -213,7 +213,7 @@ class userModels {
   searchUser = (key) => {
     return knex(this.tableName)
       .select('*')
-      .where( this.name, 'like', `%${key}%`)
+      .where(this.name, 'like', `%${key}%`)
       .orWhere(this.age, 'like', `%${key}%`)
       .orWhere(this.gender, 'like', `%${key}%`)
       .orWhere(this.phone, 'like', `%${key}%`)
