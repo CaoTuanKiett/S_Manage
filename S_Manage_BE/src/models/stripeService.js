@@ -35,7 +35,7 @@ exports.getPaymentDetail = async (paymentId) => {
 
     const billDetails = paymentDetail.map(bill => {
         return {
-            bill_id:bill.bill_id,
+            bill_id:bill.id_bill,
             fee_type: bill.fee_type,
             fee: bill.fee,
             create_at: bill.create_at,
@@ -78,7 +78,7 @@ exports.createBill = async (req) => {
             create_at: created_at,
             due_at: formatted_due_at,
             description: description,
-            create_by: create_by,
+            create_by: create_by,//admin id
             payer: payer,
             year: year,
             month:month,

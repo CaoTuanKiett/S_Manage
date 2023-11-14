@@ -60,7 +60,7 @@ class authModels {
           }
 
           const { salt, hashedPassword } = hashPassword(data.password);
-          return knex(this.tableName).insert({
+          const idUser = knex(this.tableName).insert({
             // idUser: data.idUser,
             name: data.name,
             age: data.age,
@@ -72,6 +72,15 @@ class authModels {
             password: hashedPassword,
             salt: salt,
             avatar: fileImg,
+          }).then((idUser) => {
+            knex('user_roles').insert({
+              user_id: idUser,
+              role_id: 1 // role member
+            }).catch( (e) => {
+              console.log(e);
+            })
+  
+            return idUser;
           });
         }
       }
@@ -183,7 +192,6 @@ class authModels {
       email: user.email
     };
 
-
     const token = generateToken(payloadUser);
 
     const time = new Date(Date.now() + 10 * 60 * 1000);
@@ -261,7 +269,7 @@ class authModels {
   async ResetPassword(data) {
     const token = data.query.token;
 
-    const passwordNew = data.body.password;
+    const passwordNew = data.body.passwordNew;
 
     if (!token) {
       return res.status(400).json({ error: 'Missing token in the request' });
@@ -290,7 +298,7 @@ class authModels {
       address: user.address,
       email: user.email,
       username: user.username,
-      password: data.body.password,
+      password: data.body.passwordNew,
       avatar: user.avatar,
       password_reset_token: null,
       password_reset_expiration: null,

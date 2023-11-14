@@ -1,7 +1,7 @@
 <script setup>
-const config = useRuntimeConfig();
 
-console.log(config.public.email)
+
+
 </script>
 
 <template>

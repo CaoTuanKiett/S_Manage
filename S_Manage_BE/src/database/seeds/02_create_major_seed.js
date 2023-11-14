@@ -9,11 +9,14 @@ exports.seed = async function(knex) {
    // Thêm dữ liệu mới vào bảng "major"
    return knex('major').insert([
      {
-       name_major: 'Computer Science',
+       name_major: 'Memee',
      },
      {
        name_major: 'Business Administration',
      },
+     {
+        name_major: 'Business Administration',
+      },
      // Thêm dữ liệu cho các bản ghi khác tại đây (nếu cần)
    ]);
  });

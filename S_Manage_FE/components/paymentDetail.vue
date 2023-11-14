@@ -15,11 +15,11 @@
         <p class="font-normal text-xs leading-1.4">{{ payment.account_name }}</p>
       </div>
       <table class="w-full px-20 table-auto border">
-        <thead class="py-4">
-          <tr class="px-8 py-3">
+        <thead class="py-4 w-full h-full">
+          <tr class="px-8 py-3  ">
             <th
-              class="px-5 py-3 font-normal text-xs bg-gray-300 text-white border-t border-l border-b border-gray-300 w-screen"
-              v-for="col in tableColumn" :key="col" align="center">
+              class="px-5 py-3 font-normal text-xs bg-gray-300 text-white border-gray-300 w-screen"
+              v-for="col in tableColumn" :key="col">
               {{ col }}
             </th>
           </tr>
