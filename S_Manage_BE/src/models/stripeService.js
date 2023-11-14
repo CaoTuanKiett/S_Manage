@@ -166,7 +166,8 @@ exports.createSessionPayment = async (req) => {
     const session = await stripeInstance.checkout.sessions.create({
         payment_method_types: ["card"],
         mode: "payment",
-        success_url: `${process.env.DOMAIN}/success?session_id={CHECKOUT_SESSION_ID}&order=${encodeURI(JSON.stringify(req.body))}`,
+        // success_url: `${process.env.DOMAIN}/success?session_id={CHECKOUT_SESSION_ID}&order=${encodeURI(JSON.stringify(req.body))}`,
+        success_url: `${process.env.URL_SUCCESS}`,
         cancel_url: `${process.env.DOMAIN}/checkout?payment_fail=true`,
         line_items: req.body.items.map(item => {
             return {

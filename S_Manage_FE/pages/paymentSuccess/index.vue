@@ -93,14 +93,14 @@ $roboto: 'Roboto', sans-serif;
         Continue
       </VBtn>
 
+    </div>
   </div>
-</div>
 </template>
 
 <script setup>
 const router = useRouter()
 
 const changeRoute = () => {
-  router.push('/Home')
+  router.push('/money/user')
 }
 </script>

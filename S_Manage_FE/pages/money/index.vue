@@ -61,7 +61,7 @@
                             </td>
                             <td class="px-6 border-b border-r border-[#f0f0f0] text-[#595959]">{{ itemBill.fee }}
                             </td>
-                            <td class="px-6 border-b border-r border-[#f0f0f0] text-[#595959]">{{ itemBill.payer }}
+                            <td class="px-6 border-b border-r border-[#f0f0f0] text-[#595959]">{{ itemBill.name }}
                             </td>
                             <td class="px-6 border-b border-r border-[#f0f0f0] text-[#595959]">{{
                                 formatDate(itemBill.create_at) }}
@@ -74,10 +74,11 @@
                                     <Popup :is-open="openPopupsEditId[itemBill.bill_id]"
                                         @update-is-open="handleCloseEditBill(itemBill.bill_id)">
                                         <template #popup-header>
-                                            <h2 class="text-2xl font-bold text-center text-blue-500">Edit Bill</h2>
+                                            <h2 class="text-2xl font-bold text-center text-blue-500">Edit Bill for {{
+                                                itemBill.name }}</h2>
                                         </template>
                                         <template #default>
-                                            <billForm :bill="billEdit" :users="users"></billForm>
+                                            <billForm :bill="billEdit"></billForm>
                                         </template>
                                         <template #popup-footer>
                                             <button @click="editBill(itemBill.bill_id)"
@@ -316,6 +317,26 @@ export default {
                 .finally(() => {
                     this.isLoading = false;
                 });
+        },
+        async editBill(id) {
+            try {
+                const res = await axios.put(`${this.$config.public.API_BASE_BE}/api/v1/payment/bill/${id}`, {
+                    fee_type: this.billEdit.title,
+                    description: this.billEdit.desc,
+                    month: this.billEdit.currentMonth,
+                    year: this.billEdit.currentYear,
+                    fee: Number(this.billEdit.amount),
+                    payer: this.billEdit.payer,
+                });
+                if (res.status === 200) {
+                    const toast = useToast();
+                    toast.success(res.data.message);
+                    this.handleCloseEditBill(id);
+                    this.getAllBill();
+                }
+            } catch (err) {
+                console.log(err);
+            }
         },
         openDeleteBill(id) {
             this.openPopupsDeleteId[id] = true;

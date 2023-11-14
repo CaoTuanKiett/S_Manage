@@ -35,7 +35,7 @@
             <input type="text" v-model="bill.amount" id="amount" name="amount" placeholder="Amount"
                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
         </div>
-        <div class="flex flex-col gap-2">
+        <div v-if="users.length > 0" class="flex flex-col gap-2">
             <label class="text-start" for="for_user">For User</label>
             <!-- <input type="text" v-model="amount" id="for_user" name="amount" placeholder="Amount"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"> -->

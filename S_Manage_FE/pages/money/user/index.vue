@@ -28,24 +28,6 @@
                         Không có bill nào!
                     </div>
                     <div v-else class="min-h-[60vh] mt-6">
-                        <!-- <ul class="flex flex-col">
-                            <li v-for="unpaidBill in filteredUnpaidBills" :key="index" class="min-w-[24%]">
-                                <div
-                                    class="flex flex-col gap-3 px-6 py-4 bg-gray-100 rounded-lg shadow-md align-center hover:shadow-lg">
-                                    <h2 class="text-blue-500">
-                                        {{ unpaidBill.fee_type }}
-                                    </h2>
-                                    <p class="text-sm text-gray-500 font-italic">
-                                        {{ unpaidBill.description }}
-                                    </p>
-                                    <button
-                                        class="px-3 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-400 w-100 justify-self-end"
-                                        @click="paidBill(unpaidBill.payer)">
-                                        Paid
-                                    </button>
-                                </div>
-                            </li>
-                        </ul> -->
                         <table class="border-collapse table-auto w-100">
                             <thead>
                                 <tr class="h-11">
@@ -71,7 +53,7 @@
                                     <td class="px-6 border-b border-[#f0f0f0] text-[#595959] align-middle text-center">
                                         <label for="" class="flex justify-center w-5 h-5 m-auto align-center">
                                             <input ref="checkPayment" type="checkbox" class="cursor-pointer w-100 h-100"
-                                                @change="addPayment($event, unpaidBill.bill_id, unpaidBill.description, unpaidBill.unpaid_fee)">
+                                                @change="addPayment($event, unpaidBill.bill_id, unpaidBill.description, unpaidBill.unpaid_fee, unpaidBill.month)">
                                         </label>
                                     </td>
                                 </tr>
@@ -119,7 +101,7 @@ export default {
     methods: {
         async getUnpaidBill(id) {
             try {
-                const response = await axios.get(`${this.$config.public.API_BASE_BE}/api/v1/payment/get-unpaid-bill/${2}`);
+                const response = await axios.get(`${this.$config.public.API_BASE_BE}/api/v1/payment/get-unpaid-bill/${id}`);
                 console.log(response);
                 if (response.status === 200) {
                     this.unpaidBills = response.data.unpaidBills;
@@ -131,12 +113,13 @@ export default {
         paidBill(payer) {
             console.log(payer)
         },
-        addPayment(event, bill_id, description, price) {
+        addPayment(event, bill_id, description, price, month) {
             if (event.target.checked) {
                 this.payment.push({
                     bill_id,
                     description,
                     price: parseInt(price),
+                    month
                 });
             } else {
                 const paymentIndex = this.payment.findIndex(item => item.bill_id === bill_id);
@@ -148,7 +131,7 @@ export default {
         async createPayment() {
             try {
                 const response = await axios.post(`${this.$config.public.API_BASE_BE}/api/v1/payment/stripe-checkout`, {
-                    "user_id": 2,
+                    "user_id": this.userId,
                     "description": "Thanh toán tiền tháng",
                     "items": this.payment,
                 });
