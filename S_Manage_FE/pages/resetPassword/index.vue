@@ -48,10 +48,10 @@ const resetPass = async () => {
         const response = await axios.post(`${URL_BE}/api/v1/auth/reset-password`, {
             passwordNew: passwordNew.value
         });
-        if (response.data.value) {
+        if (response.status === 200) {
             toast.success('Reset password successfully');
             router.push("/");
-            console.log(response.data.value);
+            console.log(response.data);
         }
     } catch (error) {
         toast.error('Reset password failed');

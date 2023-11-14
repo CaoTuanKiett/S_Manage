@@ -77,7 +77,7 @@ export default defineComponent({
                     :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Setting</span>
             </Nuxt-link>
         </div>
-        <VBtn @click="logout"  class="bg-primary">Logout</VBtn>
+        <VBtn @click="logout" class="bg-primary">Logout</VBtn>
     </div>
 </template>
 

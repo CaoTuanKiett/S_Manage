@@ -38,6 +38,7 @@ input {
 </template>
 
 <script setup>
+import axios from 'axios';
 import { useToast } from 'vue-toastification'
 const toast = useToast()
 
@@ -48,24 +49,20 @@ const config = useRuntimeConfig();
 const URL_BE = config.public.API_BASE_BE;
 
 const resetPass = async () => {
-    await useLazyFetch(`${URL_BE}/auth/forgot-password`, {
-        method: "POST",
-        body: JSON.stringify({ email: email.value })
-    }).then(response => {
-        if (response.data.value) {
-           toast.success('Send email successfully')
-            router.push("/")
-            console.log(response.data.value)
+    try {
+        const response = await axios.post(`${URL_BE}/api/v1/auth/forgot-password`, {
+            passwordNew: passwordNew.value
+        });
+        if (response.status === 200) {
+            toast.success('Send email successfully');
+            router.push("/");
+            console.log(response.data);
         }
-
-
-
-    }).catch(error => {
-        toast.error('Send email failed')
-
-        console.log(error)
-    })
-}
+    } catch (error) {
+        toast.error('Send email failed');
+        console.log(error);
+    }
+};
 
 
 </script>
