@@ -78,6 +78,7 @@ const changeAdmin = async () => {
     for (let permission of permissionsData) {
       permission.forEach((item) => {
         allPermission.value.push(item.id_permission);
+        
       });
     }
   } catch (error) {
@@ -88,13 +89,15 @@ const changeAdmin = async () => {
 const assignRoles = async () => {
   try {
 
-    // const permissionsToDelete = [];
+    
     for (const permission of permissionData.value) {
       if (rolePermission.value[permission.id_permission]) {
-        allPermission.value.push(permission.id_permission)
-      } else if (!rolePermission.value[permission.id_permission]) {
-        allPermission.value.splice(permission.id_permission, 1)
-      }
+           allPermission.value.push(permission.id_permission)
+      } else if(rolePermission.value[permission.id_permission] === false ){
+         allPermission.value.splice(allPermission.value.indexOf(permission.id_permission),1)
+       }
+
+      
     }
 
     console.log(allPermission.value)
