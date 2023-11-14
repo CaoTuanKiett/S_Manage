@@ -32,11 +32,12 @@
   "dependencies": {
     "@kyvg/vue3-notification": "^3.0.2",
     "@mdi/font": "^7.3.67",
-    "@pinia/nuxt": "^0.5.0",
+    "@pinia/nuxt": "^0.5.1",
     "axios": "^1.5.1",
+    "dotenv": "^16.3.1",
     "js-cookie": "^3.0.5",
-    "jsonwebtoken": "^9.0.2",
     "pinia": "^2.1.7",
-    "vue-jwt-decode": "^0.1.0"
+    "vue-jwt-decode": "^0.1.0",
+    "vue-toastification": "^2.0.0-rc.5"
   }
 }

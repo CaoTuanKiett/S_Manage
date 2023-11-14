@@ -37,6 +37,9 @@
 import axios, { all } from 'axios';
 import { ref, onMounted } from 'vue';
 
+const config = useRuntimeConfig();
+const URL_BE = config.public.API_BASE_BE;
+
 const rolesData = ref([]);
 const permissionData = ref([]);
 
@@ -46,7 +49,7 @@ const allPermission = ref([])
 
 const getRoles = async () => {
   try {
-    const response = await axios.get('http://localhost:9696/api/v1/author/get_all_role');
+    const response = await axios.get(`${URL_BE}/api/v1/author/get_all_role`);
     rolesData.value = response.data.roles;
     console.log(rolesData.value)
   } catch (error) {
@@ -57,7 +60,7 @@ const getRoles = async () => {
 
 const getPermission = async () => {
   try {
-    const response = await axios.get('http://localhost:9696/api/v1/author/get_all_permission');
+    const response = await axios.get(`${URL_BE}/api/v1/author/get_all_permission`);
     permissionData.value = response.data.permissions;
     console.log(permissionData.value)
   } catch (error) {
@@ -68,7 +71,7 @@ const getPermission = async () => {
 
 const changeAdmin = async () => {
   try {
-    const response = await axios.get(`http://localhost:9696/api/v1/author/${selectedRoleId.value}/get_permissions/`);
+    const response = await axios.get(`${URL_BE}/api/v1/author/${selectedRoleId.value}/get_permissions/`);
     let permissionsData = response.data
 
     if (!Array.isArray(permissionsData)) {
@@ -78,6 +81,7 @@ const changeAdmin = async () => {
     for (let permission of permissionsData) {
       permission.forEach((item) => {
         allPermission.value.push(item.id_permission);
+        
       });
     }
   } catch (error) {
@@ -88,17 +92,17 @@ const changeAdmin = async () => {
 const assignRoles = async () => {
   try {
 
-    // const permissionsToDelete = [];
+    
     for (const permission of permissionData.value) {
       if (rolePermission.value[permission.id_permission]) {
-        allPermission.value.push(permission.id_permission)
-      } else if (!rolePermission.value[permission.id_permission]) {
-        allPermission.value.splice(permission.id_permission, 1)
-      }
+           allPermission.value.push(permission.id_permission)
+      } else if(rolePermission.value[permission.id_permission] === false ){
+         allPermission.value.splice(allPermission.value.indexOf(permission.id_permission),1)
+       }
     }
 
     console.log(allPermission.value)
-    await axios.post(`http://localhost:9696/api/v1/author/${selectedRoleId.value}/AddPermissions/`, {
+    await axios.post(`${URL_BE}/api/v1/author/${selectedRoleId.value}/AddPermissions/`, {
       permissions: allPermission.value
     }).then(response => {
       console.log(response.data)

@@ -67,6 +67,8 @@ exports.createBill = async (req) => {
     const due_at = new Date();
     due_at.setDate(due_at.getDate() + 30);
     const formatted_due_at = due_at.toISOString().slice(0, 19).replace('T', ' ');
+    // const decodedToken = jwt.verify(token, 'YOUR_SECRET_KEY');
+    // const create_by = decodedToken.userId;
 
     const newBills = [];
     for (const payer of payers) {
@@ -76,7 +78,7 @@ exports.createBill = async (req) => {
             create_at: created_at,
             due_at: formatted_due_at,
             description: description,
-            create_by: create_by,
+            create_by: create_by,//admin id
             payer: payer,
             year: year,
             month:month,
@@ -106,12 +108,27 @@ exports.updateBill = async (billId, fee_type, fee, description, payer, year, mon
 };
 exports.getAllBill = async () => {
     try {
-        const data = await db('bill').select('*');
+        const data = await db('bill').select('*').orderBy('bill_id', 'desc');
         return data;
     } catch (error) {
         throw error;
     }
 }
+exports.getBillByID = async (billId) => {
+    try {
+        const data = await db('bill').select('*').where({ bill_id: billId });
+
+        // Check if the data array is empty
+        if (data.length === 0) {
+            return null;
+        }
+        return data;
+    } catch (error) {
+        throw error;
+        console.log(error);
+    }
+}
+
 exports.deleteBill = async (billId) => {
     try {
         const deletedBill = await db('bill').where({ bill_id: billId }).del();

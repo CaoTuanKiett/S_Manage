@@ -39,8 +39,14 @@ input {
 </template>
 
 <script setup>
+
   import axios from 'axios';
 import { notify, useNotification } from '@kyvg/vue3-notification'
+
+import { useToast } from 'vue-toastification'
+const toast = useToast()
+
+
 
 const config = useRuntimeConfig();
 const API_BE = config.public.API_BASE_BE;
@@ -79,6 +85,7 @@ const resetPass = async () => {
         console.log(error)
     })
 }
+
 
 
 </script>

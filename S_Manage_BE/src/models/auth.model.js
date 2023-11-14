@@ -96,7 +96,7 @@ class authModels {
           const account = result[0];
           if (comparePassword(account.password, account.salt, data.password)) {
             const payload = {
-              idUser: account.idUser,
+              idUser: account.id_user,
               username: account.username,
               email: account.email,
               phone: account.phone,

@@ -35,6 +35,7 @@ input {
 </template>
 
 <script setup>
+
 import { useRoute } from 'vue-router';
   import axios from 'axios';
 import { notify, useNotification } from '@kyvg/vue3-notification'
@@ -45,11 +46,18 @@ const API_BE = config.public.API_BASE_BE;
 
 const token = route.query.token;
 
+import { useToast } from 'vue-toastification'
+const toast = useToast()
+
+
 const passwordNew = ref('')
 const data = ref([]);
 
 
 const router = useRouter()
+const config = useRuntimeConfig();
+const URL_BE = config.public.API_BASE_BE;
+const resetPass = async () => {
 const resetPass = async () => {
     data.value.push({"passwordNew": passwordNew.value})
 
@@ -64,6 +72,7 @@ const resetPass = async () => {
                     text: "Check your email",
                 })
             )
+            toast.success('Reset password successfully')
             router.push("/")
             console.log(response.status)
         }
@@ -76,10 +85,11 @@ const resetPass = async () => {
             text: " Please type your email again ",
             type: "warn"
         }))
-
+        toast.success('Send email unsuccessfully')
         console.log(error)
     })
 }
+
 
 
 </script>
