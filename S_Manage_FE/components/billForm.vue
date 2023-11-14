@@ -1,20 +1,20 @@
 <template>
     <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-2">
-            <label for="title">Title</label>
+            <label class="text-start" for="title">Title</label>
             <input type="text" id="title" name="title" placeholder="Title"
                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
                 v-model="bill.title" v-focus>
         </div>
         <div class="flex flex-col gap-2">
-            <label for="description">Description</label>
+            <label class="text-start" for="description">Description</label>
             <textarea type="text" id="description" name="description" placeholder="Description"
                 class="w-full px-4 py-2 border border-gray-300 rounded-md resize-none focus:outline-none focus:border-blue-500 min-h-[100px]"
                 v-model="bill.desc"></textarea>
         </div>
         <div class="flex gap-2">
             <div class="flex flex-col flex-1 gap-2">
-                <label for="month">Month</label>
+                <label class="text-start" for="month">Month</label>
                 <select id="month" name="month" v-model="bill.currentMonth" @change="() => console.log(currentMonth)"
                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                     <!-- <option value="">Month</option> -->
@@ -22,7 +22,7 @@
                 </select>
             </div>
             <div class="flex flex-col flex-1 gap-2">
-                <label for="year">Year</label>
+                <label class="text-start" for="year">Year</label>
                 <select id="year" name="year" v-model="bill.currentYear"
                     class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
                     <!-- <option value="">Year</option> -->
@@ -31,12 +31,12 @@
             </div>
         </div>
         <div class="flex flex-col gap-2">
-            <label for="amount">Amount</label>
+            <label class="text-start" for="amount">Amount</label>
             <input type="text" v-model="bill.amount" id="amount" name="amount" placeholder="Amount"
                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500">
         </div>
-        <div class="flex flex-col gap-2">
-            <label for="for_user">For User</label>
+        <div v-if="users.length > 0" class="flex flex-col gap-2">
+            <label class="text-start" for="for_user">For User</label>
             <!-- <input type="text" v-model="amount" id="for_user" name="amount" placeholder="Amount"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"> -->
             <template class="block">
