@@ -53,6 +53,10 @@ const passwordNew = ref('')
 const data = ref([]);
 
 
+
+const router = useRouter()
+const URL_BE = config.public.API_BASE_BE;
+
 const resetPass = async () => {
     const resetPass = async () => {
         data.value.push({ "passwordNew": passwordNew.value })
