@@ -1,7 +1,7 @@
 <script setup>
 import axios from 'axios';
 import { useToast } from 'vue-toastification'
-import axios from 'axios';
+
 const toast = useToast()
 
 const config = useRuntimeConfig();
