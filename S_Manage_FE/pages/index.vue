@@ -1,13 +1,14 @@
 <script setup>
 import { notify, useNotification } from '@kyvg/vue3-notification';
-
+const config= useRuntimeConfig();
+ const URL_BE = config.public.API_BASE_BE;
 
 const username = ref('')
 const password = ref('')
 const router = useRouter()
 
 const login = async () => {
-  await useLazyFetch(`http://localhost:9696/api/v1/auth/login`, {
+  await useLazyFetch(`${URL_BE}/api/v1/auth/login`, {
     method: "POST",
     body: JSON.stringify({ username: username.value, password: password.value })
   }).then(response => {

@@ -441,7 +441,7 @@
                   id="imageDisplay"
                   :src="DataUser.avatar" 
                   alt="avt"
-                  class="w-[500px] h-[600px] rounded-3xl shadow-xl "
+                  class="w-[500px] h-[600px] rounded-3xl shadow-xl object-cover "
                   >
 
                   <input type="file" id="imageInput" name="avatar" >

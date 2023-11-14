@@ -1,3 +1,4 @@
+
 <style scoped>
 input {
     padding: 0.5rem;
@@ -69,3 +70,4 @@ const resetPass = async () => {
 
 </script>
    
+

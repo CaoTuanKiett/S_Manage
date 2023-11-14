@@ -1,12 +1,5 @@
 <script setup>
-import VueJwtDecode from 'vue-jwt-decode'
 
-
-
-const accessToken = localStorage.getItem('accessToken')
-
-
-console.log(VueJwtDecode.decode(JSON.parse(accessToken)))
 
 
 </script>

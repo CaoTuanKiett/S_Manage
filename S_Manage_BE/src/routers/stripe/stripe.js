@@ -32,7 +32,7 @@ stripeRouter.get('/get-payments/:user_id', async (req, res) => {
 stripeRouter.post('/create-bill', express.json(), express.urlencoded({ extended: true }), async (req, res) => {
     try {
         // Lấy thông tin từ request body
-        const { fee_type, fee, description, create_by, payers } = req.body;
+        const { fee_type, fee, description, create_by, payers, month, year } = req.body;
         const created_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
         const due_at = new Date();
         due_at.setDate(due_at.getDate() + 30);
@@ -49,7 +49,9 @@ stripeRouter.post('/create-bill', express.json(), express.urlencoded({ extended:
                 due_at: formatted_due_at,
                 description: description,
                 create_by: create_by,
-                payer: payer
+                payer: payer,
+                month: month,
+                year: year
             });
             newBills.push(newBill);
         }
