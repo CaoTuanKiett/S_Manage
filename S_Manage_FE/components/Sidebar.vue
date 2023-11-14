@@ -1,10 +1,24 @@
 <script>
+import { routerKey } from 'vue-router';
+
 export default defineComponent({
     setup() {
         const store = useSidebarStore();
         const { toggleMenu } = store;
         const is_expanded = computed(() => store.is_expanded);
-        return { is_expanded, toggleMenu }
+        const router = useRouter()
+        const accessToken = localStorage.getItem('accessToken')
+        const isLogin = computed(() => Boolean(accessToken.value))
+         
+        const logout = () => {
+            if(isLogin){
+                localStorage.removeItem('accessToken')
+                router.push("/")
+                window.location.href = '/'
+            }
+        }
+
+        return { is_expanded, toggleMenu, logout, isLogin }
     }
 });
 </script>
@@ -62,6 +76,7 @@ export default defineComponent({
                 <span class="transition-all text whitespace-nowrap"
                     :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Setting</span>
             </Nuxt-link>
+            <VBtn @click="logout"  class="bg-primary">Logout</VBtn>
         </div>
     </div>
 </template>

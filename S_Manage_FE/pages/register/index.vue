@@ -20,15 +20,17 @@
 
             <div>
               <label for="email" class="block mb-2 text-sm font-medium text-secondary">Age</label>
-              <input type="email" name="email" id="email"
-                class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 text-secondary  "
-                v-model="age" placeholder="Age" required>
+                <input v-model="age" type="number"
+                      class="w-full px-4 py-2 rounded border focus:outline-none focus:border-blue-500" required />
             </div>
             <div>
               <label for="email" class="block mb-2 text-sm font-medium text-secondary">Gender</label>
-              <input type="email" name="email" id="email"
-                class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 text-secondary  "
-                v-model="gender" placeholder="Gender" required>
+                              <select v-model="gender" class="w-full px-4 py-2 rounded border focus:outline-none focus:border-blue-500">
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Khác</option>
+                  </select>
+
             </div>
             <div>
               <label for="email" class="block mb-2 text-sm font-medium text-secondary">Username</label>
@@ -60,9 +62,9 @@
 
 <script setup>
 import axios from 'axios';
-import { useNotification } from '@kyvg/vue3-notification';
+import { useToast } from 'vue-toastification'
+const toast = useToast()
 
-const notify = useNotification();
 const router = useRouter()
 
 const config= useRuntimeConfig();
@@ -88,18 +90,12 @@ const register = async () => {
             age: parseInt(age.value)
         })
         if (response.data) {
-            notify.notify({
-                title: "Register successfully",
-                text: " You have been redirect to login "
-            })
+            toast.success('Register successfully')
             router.push("/");
         }
     } catch (error) {
         console.log(error)
-        notify.notify({
-            text: "Register failed",
-            text: "Please type your information again",
-        })
+        toast.error('Register failed')
 
   }
 

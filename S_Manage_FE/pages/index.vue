@@ -1,11 +1,15 @@
 <script setup>
-import { notify, useNotification } from '@kyvg/vue3-notification';
+import { useToast } from 'vue-toastification'
+const toast = useToast()
+
 const config= useRuntimeConfig();
  const URL_BE = config.public.API_BASE_BE;
 
 const username = ref('')
 const password = ref('')
 const router = useRouter()
+
+const accessToken = localStorage.getItem('accessToken')
 
 const login = async () => {
   await useLazyFetch(`${URL_BE}/api/v1/auth/login`, {
@@ -16,20 +20,23 @@ const login = async () => {
     if (response.data.value.data) {
       const token = response.data.value.data
       localStorage.setItem("accessToken", JSON.stringify(token))
-      useNotification(notify({
-        title: "Login successfully",
-        text: " You have been redirect to dashboard "
-      }))
-      router.push("/home")
+     toast.success('Login successfully')
+      router.push("/home");
     }
   }).catch(error => {
     console.log(error)
-    useNotification(notify({
-      title: " Login failed ",
-      text: "Your username or password is wrong"
-    }))
+toast.error('Login failed')
   })
 }
+ const checkToken = async () => {
+    if(accessToken){
+      window.location.href = router.resolve('/home').href
+    }
+ }
+ onMounted( async () => {
+  await checkToken()
+  })
+
 </script>
 
 <template>
