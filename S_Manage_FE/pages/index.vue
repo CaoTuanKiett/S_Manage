@@ -16,7 +16,7 @@ const login = async () => {
     method: "POST",
     body: JSON.stringify({ username: username.value, password: password.value })
   }).then(response => {
-    console.log(response.data.value.data)
+
     if (response.data.value.data) {
       const token = response.data.value.data
       localStorage.setItem("accessToken", JSON.stringify(token))
@@ -76,7 +76,7 @@ toast.error('Login failed')
                 </div>
               </div>
               <a href="#" class="text-sm font-medium text-primary hover:underline dark:text-primary-500">
-                <NuxtLink to="/resetPassword">Forgot password</NuxtLink>
+                <NuxtLink to="/forgotPassword">Forgot password</NuxtLink>
               </a>
             </div>
             <v-btn block variant="outlined" size="x-large" class="mb-4 bg-primary" @click="login"> Sign In
