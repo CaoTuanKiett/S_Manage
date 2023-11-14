@@ -1,4 +1,5 @@
 <script setup>
+import axios from 'axios';
 import { useToast } from 'vue-toastification'
 import axios from 'axios';
 const toast = useToast()
@@ -13,10 +14,7 @@ const router = useRouter()
 const accessToken = localStorage.getItem('accessToken')
 
 const login = async () => {
-  // await useLazyFetch(`${URL_BE}/api/v1/auth/login`, {
-  //   method: "POST",
-  //   body: JSON.stringify({ username: username.value, password: password.value })
-  // }).then(response => {
+
   await axios.post(`${URL_BE}/api/v1/auth/login`, {
     username: username.value,
     password: password.value
@@ -39,6 +37,7 @@ const checkToken = async () => {
   }
 }
 onMounted(async () => {
+
   await checkToken()
 })
 
@@ -56,6 +55,7 @@ onMounted(async () => {
           <h1 class="text-2xl font-bold leading-tight tracking-tight text-center text-gray-900 ">
             Sign in to your account
           </h1>
+
 
           <form @submit="login" class="space-y-4" action="#">
 

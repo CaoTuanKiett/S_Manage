@@ -35,6 +35,7 @@ input {
 
 <script setup>
 
+
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 import { notify, useNotification } from '@kyvg/vue3-notification'
@@ -58,6 +59,7 @@ const router = useRouter()
 const URL_BE = config.public.API_BASE_BE;
 
 const resetPass = async () => {
+
     const resetPass = async () => {
         data.value.push({ "passwordNew": passwordNew.value })
 
@@ -90,6 +92,7 @@ const resetPass = async () => {
             })
     }
 }
+
 
 
 

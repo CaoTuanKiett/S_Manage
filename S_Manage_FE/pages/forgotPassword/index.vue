@@ -40,6 +40,7 @@ input {
 
 <script setup>
 
+
   import axios from 'axios';
 import { notify, useNotification } from '@kyvg/vue3-notification'
 
@@ -57,6 +58,7 @@ const router = useRouter();
 const data = ref([])
 
 const resetPass = async () => {
+
 
     data.value.push({"email": email.value})
     
@@ -85,6 +87,7 @@ const resetPass = async () => {
         console.log(error)
     })
 }
+
 
 
 

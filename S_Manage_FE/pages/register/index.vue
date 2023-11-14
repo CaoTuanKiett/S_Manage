@@ -10,7 +10,9 @@
           <h1 class="text-2xl font-bold leading-tight tracking-tight text-center text-gray-900">
             Sign up
           </h1>
+
           <form @submit="register()" class="space-y-4" action="#">
+
             <div>
               <label for="email" class="block mb-2 text-sm font-medium text-secondary">Name</label>
               <input type="email" name="email" id="email"

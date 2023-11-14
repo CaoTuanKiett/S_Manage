@@ -1,5 +1,6 @@
 
 const express = require('express');
+const app = express();
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
@@ -16,7 +17,6 @@ const path = require('path');
 
 const port = process.env.PORT;
 
-const app = express();
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
