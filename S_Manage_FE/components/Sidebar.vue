@@ -76,8 +76,8 @@ export default defineComponent({
                 <span class="transition-all text whitespace-nowrap"
                     :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Setting</span>
             </Nuxt-link>
-            <VBtn @click="logout"  class="bg-primary">Logout</VBtn>
         </div>
+        <VBtn @click="logout"  class="bg-primary">Logout</VBtn>
     </div>
 </template>
 

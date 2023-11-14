@@ -1,4 +1,5 @@
 <script setup>
+import axios from 'axios';
 import { useToast } from 'vue-toastification'
 const toast = useToast()
 
@@ -12,22 +13,23 @@ const router = useRouter()
 const accessToken = localStorage.getItem('accessToken')
 
 const login = async () => {
-  await useLazyFetch(`${URL_BE}/api/v1/auth/login`, {
-    method: "POST",
-    body: JSON.stringify({ username: username.value, password: password.value })
-  }).then(response => {
-    console.log(response.data.value.data)
-    if (response.data.value.data) {
-      const token = response.data.value.data
-      localStorage.setItem("accessToken", JSON.stringify(token))
-     toast.success('Login successfully')
+  try {
+    const response = await axios.post(`${URL_BE}/api/v1/auth/login`, {
+      username: username.value,
+      password: password.value
+    });
+    console.log(response.data.data);
+    if (response.status === 200) {
+      const token = response.data.data;
+      localStorage.setItem("accessToken", JSON.stringify(token));
+      toast.success('Login successfully');
       router.push("/home");
     }
-  }).catch(error => {
-    console.log(error)
-toast.error('Login failed')
-  })
-}
+  } catch (error) {
+    console.log(error);
+    toast.error('Login failed');
+  }
+};
  const checkToken = async () => {
     if(accessToken){
       window.location.href = router.resolve('/home').href
@@ -51,7 +53,7 @@ toast.error('Login failed')
           <h1 class="text-2xl font-bold leading-tight tracking-tight text-center text-gray-900 ">
             Sign in to your account
           </h1>
-          <form @change="login" class="space-y-4" action="#">
+          <form  class="space-y-4" action="#">
             <div class="form-group">
               <label for="email" class="block mb-2 text-sm font-medium text-secondary">Username</label>
               <input type="email" name="email" id="email"

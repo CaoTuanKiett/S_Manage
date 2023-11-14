@@ -34,6 +34,7 @@ input {
 </template>
 
 <script setup>
+import axios from 'axios';
 import { useToast } from 'vue-toastification'
 const toast = useToast()
 
@@ -41,25 +42,22 @@ const passwordNew = ref('')
 const router = useRouter()
 const config = useRuntimeConfig();
 const URL_BE = config.public.API_BASE_BE;
+
 const resetPass = async () => {
-    await useLazyFetch(`${URL_BE}/api/v1/auth/reset-password`, {
-        method: "POST",
-        body: JSON.stringify({ passwordNew: passwordNew.value })
-    }).then(response => {
+    try {
+        const response = await axios.post(`${URL_BE}/api/v1/auth/reset-password`, {
+            passwordNew: passwordNew.value
+        });
         if (response.data.value) {
-           
-            toast.success('Reset password successfully')
-            router.push("/")
-            console.log(response.data.value)
+            toast.success('Reset password successfully');
+            router.push("/");
+            console.log(response.data.value);
         }
-
-
-
-    }).catch(error => {
-       toast.error('Reset password failed')
-        console.log(error)
-    })
-}
+    } catch (error) {
+        toast.error('Reset password failed');
+        console.log(error);
+    }
+};
 
 
 </script>
