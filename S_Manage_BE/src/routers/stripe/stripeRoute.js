@@ -8,6 +8,7 @@ stripeRouter.get('/get-payment-detail/:payment_id', stripeController.getPaymentD
 stripeRouter.post('/create-bill', express.json(), express.urlencoded({ extended: true }), stripeController.createBill);
 stripeRouter.get('/bill', stripeController.getAllBill);
 stripeRouter.put('/bill/:id', express.json(), express.urlencoded({ extended: true }), stripeController.updateBill);
+stripeRouter.get('/bill/:id', stripeController.getBillByID);
 stripeRouter.delete('/bill/:id', stripeController.deleteBill);
 stripeRouter.get('/get-unpaid-bill/:user_id', stripeController.getUnpaidBill);
 stripeRouter.post('/stripe-checkout', express.json(), express.urlencoded({ extended: true }), stripeController.createSessionPayment);

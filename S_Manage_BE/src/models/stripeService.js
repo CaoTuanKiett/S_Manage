@@ -114,6 +114,21 @@ exports.getAllBill = async () => {
         throw error;
     }
 }
+exports.getBillByID = async (billId) => {
+    try {
+        const data = await db('bill').select('*').where({ bill_id: billId });
+
+        // Check if the data array is empty
+        if (data.length === 0) {
+            return null;
+        }
+        return data;
+    } catch (error) {
+        throw error;
+        console.log(error);
+    }
+}
+
 exports.deleteBill = async (billId) => {
     try {
         const deletedBill = await db('bill').where({ bill_id: billId }).del();
