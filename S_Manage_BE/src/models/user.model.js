@@ -69,7 +69,7 @@ class userModels {
           }).then((idUser) => {
             knex('user_roles').insert({
               user_id: idUser,
-              role_id: data.role ? data.role : 1
+              role_id: data.role ? data.role : 9
             }).catch((e) => {
               console.log(e);
             })

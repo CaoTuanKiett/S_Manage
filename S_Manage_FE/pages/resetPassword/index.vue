@@ -18,7 +18,7 @@ input {
 
                         <div>
                             <label for="email" class="block mb-2 text-sm font-medium text-secondary">New password</label>
-                            <input type="email" name="email" id="email"
+                            <input type="password" name="email" id="email"
                                 class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 text-secondary  "
                                 required v-model="passwordNew">
                         </div>
@@ -58,7 +58,7 @@ const data = ref([]);
 const router = useRouter()
 const URL_BE = config.public.API_BASE_BE;
 
-const resetPass = async () => {
+
 
     const resetPass = async () => {
         data.value.push({ "passwordNew": passwordNew.value })
@@ -91,7 +91,7 @@ const resetPass = async () => {
                 console.log(error)
             })
     }
-}
+
 
 
 
