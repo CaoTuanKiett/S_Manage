@@ -9,9 +9,9 @@ export default defineComponent({
         const router = useRouter()
         const accessToken = localStorage.getItem('accessToken')
         const isLogin = computed(() => Boolean(accessToken.value))
-         
+
         const logout = () => {
-            if(isLogin){
+            if (isLogin) {
                 localStorage.removeItem('accessToken')
                 router.push("/")
                 window.location.href = '/'
@@ -19,8 +19,9 @@ export default defineComponent({
         }
 
         return { is_expanded, toggleMenu, logout, isLogin }
-    }
-});
+    },
+})
+
 </script>
 
 <template>
@@ -76,7 +77,7 @@ export default defineComponent({
                 <span class="transition-all text whitespace-nowrap"
                     :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Setting</span>
             </Nuxt-link>
-            <VBtn @click="logout"  class="bg-primary">Logout</VBtn>
+            <VBtn @click="logout" class="bg-primary">Logout</VBtn>
         </div>
     </div>
 </template>

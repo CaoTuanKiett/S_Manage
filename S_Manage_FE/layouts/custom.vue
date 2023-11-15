@@ -14,7 +14,7 @@ export default defineComponent({
         <Sidebar />
         <div class="transition-all main" :class="is_expanded ? 'ml-[255px]' : 'ml-[calc(2rem+32px)]'">
             <Header />
-            <div class="pt-[calc(2.5rem+97px)] p-10">
+            <div class="pt-[calc(2.5rem+97px)] p-10 bg-[#f5f5f5]">
                 <slot />
             </div>
             <!-- <Footer /> -->
