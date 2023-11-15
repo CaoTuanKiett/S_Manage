@@ -6,7 +6,7 @@
 
 <template>
   <div
-    class="overflow-x-hidden overflow fixed z-[100] h-full w-full inset-0 flex justify-center items-center bg-opacity-5">
+    class="overflow-x-hidden overflow fixed z-[10000] h-full w-full inset-0 flex justify-center items-center bg-opacity-5">
     <div class="relative my-6 bg-white border border-gray-50 w-auto mx-auto max-w-6xl">
       <div class="p-4">
         <p class="font-semibold">Payment ID: {{ payment.payment_id }}</p>
