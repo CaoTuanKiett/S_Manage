@@ -3,6 +3,7 @@ import { routerKey } from 'vue-router';
 import { useSidebarStore } from '#imports';
 import { useDecodeTokenStore } from '#imports';
 
+
         const store = useSidebarStore();
         const { toggleMenu } = store;
         const is_expanded = computed(() => store.is_expanded);
@@ -86,10 +87,18 @@ import { useDecodeTokenStore } from '#imports';
                     <span class="transition-all text whitespace-nowrap"
                         :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Profile</span>
                 </Nuxt-link>
+                <Nuxt-link to="/money/user"
+                    class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
+                    <font-awesome-icon :icon="['fas', 'money-bill-1-wave']"
+                        class="mr-2 text-[1.5rem] transition-all min-w-[24px] w-[24px]" />
+                    <span class="transition-all text whitespace-nowrap"
+                        :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Monthly Money</span>
+                </Nuxt-link> 
               
             </div>
        
     </div>
+
 </template>
 
 <style scoped>

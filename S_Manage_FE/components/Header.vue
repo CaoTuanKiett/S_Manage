@@ -1,10 +1,13 @@
 <script>
+import Popup from './Popup.vue';
+
 export default defineComponent({
     setup() {
         const store = useSidebarStore();
         const { toggleMenu } = store;
         const is_expanded = computed(() => store.is_expanded);
         const showLogout = ref(false)
+        const isOpen =  ref(false)
         const clickShow = () => {
             showLogout.value = !showLogout.value
         }
@@ -20,7 +23,7 @@ export default defineComponent({
             }
         }
 
-        return { is_expanded, toggleMenu, showLogout, clickShow, logout, isLogin }
+        return { is_expanded, toggleMenu, showLogout, clickShow, logout, isLogin, Popup, isOpen }
     }
 });
 </script>
@@ -43,11 +46,16 @@ export default defineComponent({
                     <span class="text-xs">Admin</span>
                 </div>
                 <div class="relative" >
-                <font-awesome-icon @click="clickShow" :icon="['fas', 'chevron-down']" class="cursor-pointer text-m " />
-                <VBtn @click="logout" class="bg-primary relative top-16 right-24  rounded  " v-if="showLogout" >Logout</VBtn>
+                <font-awesome-icon @click="isOpen = true" :icon="['fas', 'chevron-down']" class="cursor-pointer text-m " />
+                
             </div>
         </div>
         </div>
+        <Popup @update-is-open="isOpen =$event " :type=" 'navbar' " :is-open="isOpen"> 
+          <template #popup-footer>
+            <VBtn  @click="logout" class="bg-primary  rounded  " >Logout</VBtn>
+          </template>
+        </Popup>
     </header>
 </template>
 
