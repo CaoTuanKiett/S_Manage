@@ -26,7 +26,7 @@ exports.getPaymentDetail = async (paymentId) => {
         "bill.*"
       )
       .join("bill_payment", "payment.id_payment", "bill_payment.payment_id")
-      .join("bill", "bill_payment.bill_id", "bill.id_bill")
+      .join("bill", "bill_payment.bill_id", "bill.bill_id")
       .where("payment.id_payment", paymentId);
 
     if (!paymentDetail.length) {
@@ -41,7 +41,7 @@ exports.getPaymentDetail = async (paymentId) => {
 
     const billDetails = paymentDetail.map((bill) => {
       return {
-        bill_id: bill.id_bill,
+        bill_id: bill.bill_id,
         fee_type: bill.fee_type,
         fee: bill.fee,
         create_at: bill.create_at,
