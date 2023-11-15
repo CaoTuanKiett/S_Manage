@@ -6,7 +6,7 @@
 
   import UserCard from "~/components/UserCard.vue";
   import SearchItem from "~/components/SearchItem.vue";
-import { useDecodeTokenStore } from '#imports';
+
 
 
 
@@ -19,10 +19,6 @@ import { useDecodeTokenStore } from '#imports';
   const searchKeyword = ref("");
   const router = useRouter();
 
-const decoded = useDecodeTokenStore()
-decoded.decodeToken
-
-const role_id = decoded.decoded.role
 
 
   definePageMeta({

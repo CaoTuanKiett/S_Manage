@@ -12,6 +12,7 @@ const password = ref('')
 const router = useRouter()
 
 const accessToken = localStorage.getItem('accessToken')
+const isLogin = computed(() => Boolean(accessToken.value))
 
 const login = async () => {
 
@@ -37,7 +38,6 @@ const checkToken = async () => {
   }
 }
 onMounted(async () => {
-
   await checkToken()
 })
 

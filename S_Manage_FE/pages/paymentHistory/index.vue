@@ -91,6 +91,8 @@
 <script setup>
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
+import { useDecodeTokenStore } from '#imports';
+
 
 const config = useRuntimeConfig();
 const URL_BE = config.public.API_BASE_BE;
@@ -99,6 +101,11 @@ const formID = ref(null)
 const paymentData = ref([])
 const paymentDetailData = ref([])
 
+const decoded = useDecodeTokenStore()
+decoded.decodeToken
+
+const user_id = decoded.decoded.user_id
+console.log(user_id)
 
 const toggleForm = () => {
   formID.value = null
@@ -106,7 +113,7 @@ const toggleForm = () => {
 }
 const getPayments = async () => {
   try {
-    const response = await axios.get(`${URL_BE}/api/v1/payment/get-all-payments`)
+    const response = await axios.get(`${URL_BE}/api/v1/payment/get-payments/${user_id}`)
     if (response.data) {
       console.log(response.data)
       return paymentData.value = response.data

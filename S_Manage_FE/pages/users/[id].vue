@@ -236,7 +236,7 @@
 
 
   const Cancel = () => {
-    router.push('/users');
+    router.go(-1)
   }
 
 </script>

@@ -19,7 +19,7 @@ export default defineComponent({
             if (isLogin) {
                 localStorage.removeItem('accessToken')
                 router.push("/")
-                window.location.href = '/'
+                 window.location.href = router.resolve('/').href
             }
         }
 
