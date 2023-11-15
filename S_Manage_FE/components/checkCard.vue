@@ -5,10 +5,11 @@
   const twelveMonths = ref([]);
 
   onMounted(() => {
+    console.log('twelveMonths', twelveMonths);
   // Xử lý dữ liệu từ DataBill
   if (DataBill) {
-    console.log(DataBill);
-    for (let month = 1; month <= 12; month++) {
+    console.log('DataBill',DataBill);
+    for (let month = 0; month < 12; month++) {
       const monthData = DataBill[month]; 
       console.log(monthData);
       twelveMonths.value.push({
