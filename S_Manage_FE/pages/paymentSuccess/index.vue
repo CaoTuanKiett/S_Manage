@@ -101,6 +101,6 @@ $roboto: 'Roboto', sans-serif;
 const router = useRouter()
 
 const changeRoute = () => {
-  router.push('/money/user')
+  router.push('/money/unpaidBill')
 }
 </script>
