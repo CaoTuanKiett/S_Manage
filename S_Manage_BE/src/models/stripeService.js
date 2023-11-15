@@ -20,7 +20,7 @@ exports.getPaymentDetail = async (paymentId) => {
         const paymentDetail = await db('payment')
             .select('payment.id_payment', 'payment.description', 'payment.account_name', 'bill_payment.amount', 'bill.*')
             .join('bill_payment', 'payment.id_payment', 'bill_payment.payment_id')
-            .join('bill', 'bill_payment.bill_id', 'bill.id_bill')
+            .join('bill', 'bill_payment.bill_id', 'bill.bill_id')
             .where('payment.id_payment', paymentId);
 
         if (!paymentDetail.length) {
@@ -35,7 +35,7 @@ exports.getPaymentDetail = async (paymentId) => {
 
         const billDetails = paymentDetail.map(bill => {
             return {
-                bill_id: bill.id_bill,
+                bill_id: bill.bill_id,
                 fee_type: bill.fee_type,
                 fee: bill.fee,
                 create_at: bill.create_at,
@@ -168,7 +168,7 @@ exports.createSessionPayment = async (req) => {
         mode: "payment",
         // success_url: `${process.env.DOMAIN}/success?session_id={CHECKOUT_SESSION_ID}&order=${encodeURI(JSON.stringify(req.body))}`,
         success_url: `${process.env.URL_SUCCESS}`,
-        cancel_url: `${process.env.DOMAIN}/checkout?payment_fail=true`,
+        cancel_url: `${process.env.URL_FAIL}`,
         line_items: req.body.items.map(item => {
             return {
                 price_data: {

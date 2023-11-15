@@ -6,6 +6,9 @@
 
   import UserCard from "~/components/UserCard.vue";
   import SearchItem from "~/components/SearchItem.vue";
+import { useDecodeTokenStore } from '#imports';
+
+
 
   const emits = defineEmits(['clickShowPopup', 'clickCloseAllPopup', 'clickOnDelete', 'clickEditUser', 'update:searchKeyword']);
 
@@ -15,6 +18,12 @@
   const userData = ref([]);
   const searchKeyword = ref("");
   const router = useRouter();
+
+const decoded = useDecodeTokenStore()
+decoded.decodeToken
+
+const role_id = decoded.decoded.role
+
 
   definePageMeta({
         layout: 'admin'
@@ -56,17 +65,20 @@
 
   const onDelete = (id) => {
       closeAllPopup();
-      axios 
-          .delete(`${API_BE}/api/v1/users/${id}`)
-          .then((response) => {
-          notify({
-              title: "Delete Success",
-              text: "User deleted",
-              type: "success",
-          });
-          console.log(response.data);
-          fetchData();
-      })
+      if(role_id === 1){
+         axios
+            .delete(`${API_BE}/api/v1/users/${id}`)
+            .then((response) => {
+                notify({
+                    title: "Delete Success",
+                    text: "User deleted",
+                    type: "success",
+                });
+                console.log(response.data);
+                fetchData();
+            })
+      
+     
           .catch((error) => {
           notify({
               title: "Delete Failed",
@@ -74,6 +86,7 @@
               type: "error",
           });
       });
+    }
   };
 
 
@@ -157,7 +170,7 @@
      <div v-for="user in filteredUsers"
      :key="user.idUser">
  
-         <UserCard 
+         <UserCard
          :DataUser="user"
          @clickShowPopup="showPopup"
          @clickCloseAllPopup="closeAllPopup"

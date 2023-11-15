@@ -47,10 +47,10 @@ onMounted(async () => {
   <section class="flex items-center justify-center h-screen bg-background">
     <div class="w-full max-w-md">
       <a href="#" class="flex items-center justify-center mb-6 text-2xl font-semibold text-primary">
-        <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
+        <img class="w-8 h-8 mr-2" src="../public/losdac.png"  alt="logo">
         S-Manage
       </a>
-      <div class="border-2 border-gray-700 rounded-lg shadow bg-surface">
+      <div class="  shadow-2xl rounded-lg  bg-surface">
         <div class="p-6 space-y-4">
           <h1 class="text-2xl font-bold leading-tight tracking-tight text-center text-gray-900 ">
             Sign in to your account
