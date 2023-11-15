@@ -92,13 +92,7 @@ export default {
                     </Nuxt-link>
                 </li>
             </ul>
-            <Nuxt-link to="/paymentHistory"
-                class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
-                <font-awesome-icon :icon="['fas', 'credit-card']"
-                    class="mr-2 text-[1.5rem] transition-all min-w-[24px] w-[24px]" />
-                <span class="transition-all text whitespace-nowrap"
-                    :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Payment History</span>
-            </Nuxt-link>
+         
 
             <Nuxt-link to="/authorization"
                 class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
@@ -124,13 +118,24 @@ export default {
                 <span class="transition-all text whitespace-nowrap"
                     :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Profile</span>
             </Nuxt-link>
-            <Nuxt-link to="/money/unpaidBill"
-                class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
-                <font-awesome-icon :icon="['fas', 'money-bill-1-wave']"
-                    class="mr-2 text-[1.5rem] transition-all min-w-[24px] w-[24px]" />
-                <span class="transition-all text whitespace-nowrap"
-                    :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Monthly Money</span>
-            </Nuxt-link>
+
+                        <ul v-show="isSubMenuVisible && is_expanded" :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`"
+                    class="transition-all">
+                    <li>
+                        <Nuxt-link to="/money/unpaidBill"
+                            class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
+                            <span class="ml-10"> Unpaid Bill</span>
+                        </Nuxt-link>
+                    </li>
+                    <li>
+                        <Nuxt-link to="/paymentHistory"
+                            :class="{ 'router-link-exact-active': $route.path.startsWith('/money/list') }"
+                            class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
+                            <span class="ml-10"> Payment History
+                          </span>
+                        </Nuxt-link>
+                    </li>
+                </ul>
 
         </div>
 

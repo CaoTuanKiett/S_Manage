@@ -1,16 +1,16 @@
 <script setup>
 // import isLogin from "~/stores/isLogin";
 import axios from "axios";
-const route = useRoute();
 const router = useRouter();
 
 const config = useRuntimeConfig();
 const API_BE = config.public.API_BASE_BE;
 
+const route = useRoute();
 const yearParam = route.params.year;
 
 definePageMeta({
-  layout: "admin",
+  layout: "custom",
 });
 
 const months = [
@@ -32,37 +32,36 @@ const Data = ref([]);
 
 const dataYear = ref([]);
 
-const yearSelected = ref('');
-
-yearSelected.value = yearParam
-
+const yearSelected = ref('Chọn năm: ');
 
 const getYear = async () => {
   try {
     const url = `${API_BE}/api/v1/statistic/list-year`;
     const response = await axios.get(url);
-    
-    return (dataYear.value = response.data);
+
+    return (dataYear.value = ['Chọn năm: ', ...response.data]);
   } catch (error) {
     console.log(error);
     return [];
   }
 };
 
-const fetchData = async (yearr) => {
-  try {
-    const url = `${API_BE}/api/v1/statistic/list-money/${yearr}`;
-    const response = await axios.get(url);
-    return (Data.value = response.data);
-  } catch (error) {
-    console.log(error);
-    return [];
-  }
-};
+// const fetchData = async (yearr) => {
+//   try {
+//     const url = `${API_BE}/api/v1/statistic/list-money/${yearr}`;
+//     const response = await axios.get(url);
+//     console.log(response.data);
+//     console.log("1");
+//     return (Data.value = response.data);
+//   } catch (error) {
+//     console.log(error);
+//     return [];
+//   }
+// };
 
 const onSelectChange = () => {
   console.log('Selected year:', yearSelected.value);
-  router.push(`/monthlyMoney/${yearSelected.value}`);
+  router.push(`/money/list/${yearSelected.value}`);
 }
 
 
@@ -70,39 +69,29 @@ onMounted(() => {
 
   // isLogin();
   getYear();
-  if (yearParam) {
-    fetchData(yearParam);
-  }
+  // console.log("year", yearParam);
+  // if (1) {
+  //   fetchData(yearParam);
+  // }
 });
 </script>
 
 <template>
   <div class="bg-white">
     <div class="limiter">
-      <div class="relative flex items-center  mt-8 w-36 h-12">
-        <font-awesome-icon
-         :icon="['fas', 'chevron-down']" 
-         class="absolute right-2"
-         />
-        
-        <select
-          id="countries"
-          class="w-full h-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded focus:ring-blue-500 focus:border-blue-500 block  p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          v-model="yearSelected"
-          @change="onSelectChange"
-        >
-          <!-- <option selected></option> -->
-          <option 
-            v-for="year in dataYear"
-            :key="year"
-            :value="year"
-            :selected="year == yearParam"
-          >
+      <div class="relative flex items-center  border-2 !rounded-sm  mt-8 w-[150px] h-12">
+        <font-awesome-icon :icon="['fas', 'chevron-down']" class="absolute right-2" />
+
+        <select id="countries" class="w-full h-full pl-[3px] !rounded-sm  " v-model="yearSelected"
+          @change="onSelectChange">
+
+          <option v-for="year in dataYear" :key="year" :value="year" :disabled="year === 'Chọn năm: '" class="!pl-4 ">
             {{ year }}
           </option>
-          
+
         </select>
       </div>
+
       <div class="container-table100">
         <div class="wrap-table100">
           <div class="table100 ver1">
@@ -112,40 +101,32 @@ onMounted(() => {
                   <thead>
                     <tr class="row100 head">
                       <th class="cell100 column6">STT</th>
-                      <th class="cell100 column2 text-left">Họ và tên</th>
-                      <th class="cell100 column2 text-left">Chuyên môn</th>
+                      <th class="text-left cell100 column2">Họ và tên</th>
+                      <th class="text-left cell100 column2">Chuyên môn</th>
                       <!-- <th class="cell100 column3">Khóa</th> -->
                       <th class="cell100 column4">Số tháng nợ</th>
-                      <th class="cell100 column8 pl-4">
+                      <th class="pl-4 cell100 column8">
                         <p>Năm</p>
-                        <tr class="flex justify-around">
-                          <td
-                            class="pt-2 pb-0"
-                            v-for="month in months"
-                            :key="month"
-                          >
-                            <p class="text-black">{{ month }}</p>
-                          </td>
-                        </tr>
-                      </th>
+                    <tr class="flex justify-around">
+                      <td class="pt-2 pb-0" v-for="month in months" :key="month">
+                        <p class="text-black">{{ month }}</p>
+                      </td>
+                    </tr>
+                    </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr
-                      class="row100 body"
-                      v-for="user in Data"
-                      :key="user.id_user"
-                    >
-                      <td class="cell100 column6 text-center">
+                    <tr class="row100 body" v-for="user in Data" :key="user.id_user">
+                      <td class="text-center cell100 column6">
                         {{ user.id_user }}
                       </td>
                       <td class="cell100 column2">{{ user.name }}</td>
                       <td class="cell100 column2">{{ user.name_major }}</td>
                       <!-- <td class="cell100 column3">{{ user. }}</td> -->
-                      <td class="cell100 column7 text-center">
+                      <td class="text-center cell100 column7">
                         {{ user.unpaidMonths }}
                       </td>
-                      <td class="cell100 column8 pl-4">
+                      <td class="pl-4 cell100 column8">
                         <CheckCard :DataBill="user.bills" />
                       </td>
                     </tr>
@@ -161,8 +142,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-
-
 /*//////////////////////////////////////////////////////////////////
 [ RESTYLE TAG ]*/
 * {

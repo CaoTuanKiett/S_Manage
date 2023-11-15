@@ -58,34 +58,36 @@
 </style>
 
 <template>
-  <NuxtLayout name="admin">
-  <div class=" m-auto flex justify-center items-center  ">
-    <div class="container ">
-      <div class="transactions">
-        <div class="transaction-content transaction1 relative" v-for="pay in paymentData.payments" :key="pay.payment_id">
-          <div class="price">
-            <p>${{ pay.amount_money }}</p>
+  <NuxtLayout name="custom">
+    <div class="flex items-center justify-center m-auto ">
+      <div class="container ">
+        <div class="transactions">
+          <div class="relative transaction-content transaction1" v-for="pay in paymentData.payments"
+            :key="pay.payment_id">
+            <div class="price">
+              <p>${{ pay.amount_money }}</p>
+            </div>
+            <div class="payment-method">
+              <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/346994/mastercard_card.svg" />
+              <p> {{ pay.account_name }}</p>
+            </div>
+            <div class="message">
+              <p class="ml-3 ">{{ pay.create_at.slice(0, 10) }}</p>
+            </div>
+            <VBtn class="bg-primary" @click="getPaymentDetail(pay.id_payment)">Details</VBtn>
           </div>
-          <div class="payment-method">
-            <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/346994/mastercard_card.svg" />
-            <p> {{ pay.account_name }}</p>
-          </div>
-          <div class="message">
-            <p class=" ml-3">{{ pay.create_at.slice(0, 10)}}</p>
-          </div>
-          <VBtn class="bg-primary" @click="getPaymentDetail(pay.id_payment)">Details</VBtn>
-        </div> 
-        
-        <div v-for=" (payments , i ) in paymentDetailData " :key="i" >
-          <span v-for="bill in payments.bill_details"  >
-           <PaymentDetail :payment="payments.payment_info" :bill="bill" v-show="formID !== null"  @hideForm="toggleForm"/>
-          </span>
-        </div>
 
+          <div v-for=" (payments, i ) in paymentDetailData " :key="i">
+            <span v-for="bill in payments.bill_details">
+              <PaymentDetail :payment="payments.payment_info" :bill="bill" v-show="formID !== null"
+                @hideForm="toggleForm" />
+            </span>
+          </div>
+
+        </div>
       </div>
     </div>
-  </div>
- </NuxtLayout> 
+  </NuxtLayout>
 </template>
 
 <script setup>
