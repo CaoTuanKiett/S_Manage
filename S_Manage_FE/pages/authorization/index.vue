@@ -1,10 +1,10 @@
 <template>
-  <NuxtLayout name="admin">
-    <section class="bg-background flex items-center justify-center h-screen">
+  <NuxtLayout name="custom">
+    <section class="flex items-center justify-center h-screen bg-background">
       <div class="w-full max-w-screen-sm">
-        <div class="bg-surface py-5 rounded-lg flex justify-center items-center" style="height: 400px;">
+        <div class="flex items-center justify-center py-5 rounded-lg bg-surface" style="height: 400px;">
           <div class="p-6 space-y-4">
-            <form class="table-auto space-y-4" action="#">
+            <form class="space-y-4 table-auto" action="#">
               <select v-model="selectedRoleId" placeholder="Select admin type" style="width:300px" @change="changeAdmin">
                 <option v-for="(role, i) in rolesData" :key="i" :value="role.id_role">{{ role.name_role }}
                 </option>
@@ -18,7 +18,7 @@
                   </td>
                   <td class="px-2 py-2">
                     <input :checked="isPermissionChecked(permission.id_permission)"
-                      v-model="rolePermission[permission.id_permission]" :id="permission.id_permission" class="h-5 w-5"
+                      v-model="rolePermission[permission.id_permission]" :id="permission.id_permission" class="w-5 h-5"
                       type="checkbox">
                   </td>
                 </tr>
@@ -83,7 +83,7 @@ const changeAdmin = async () => {
     for (let permission of permissionsData) {
       permission.forEach((item) => {
         allPermission.value.push(item.id_permission);
-        
+
       });
     }
   } catch (error) {
@@ -94,13 +94,13 @@ const changeAdmin = async () => {
 const assignRoles = async () => {
   try {
 
-    
+
     for (const permission of permissionData.value) {
       if (rolePermission.value[permission.id_permission]) {
-           allPermission.value.push(permission.id_permission)
-      } else if(rolePermission.value[permission.id_permission] === false ){
-         allPermission.value.splice(allPermission.value.indexOf(permission.id_permission),1)
-       }
+        allPermission.value.push(permission.id_permission)
+      } else if (rolePermission.value[permission.id_permission] === false) {
+        allPermission.value.splice(allPermission.value.indexOf(permission.id_permission), 1)
+      }
     }
 
     console.log(allPermission.value)
@@ -109,7 +109,7 @@ const assignRoles = async () => {
     }).then(response => {
       console.log(response.data)
       toast.success('Assign successfully')
-     
+
     }).catch(error => {
       console.log(error)
       toast.error('Assign failed')

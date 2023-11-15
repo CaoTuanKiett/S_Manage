@@ -7,19 +7,6 @@ const store = useSidebarStore();
 const { toggleMenu } = store;
 const is_expanded = computed(() => store.is_expanded);
 const router = useRouter()
-const accessToken = localStorage.getItem('accessToken')
-const isLogin = computed(() => Boolean(accessToken.value))
-
-const logout = () => {
-    if (isLogin) {
-        localStorage.removeItem('accessToken')
-        router.push("/")
-        // window.location.href = '/'
-    }
-}
-
-return { is_expanded, toggleMenu, logout, isLogin }
-
 
 const decoded = useDecodeTokenStore()
 decoded.decodeToken
@@ -136,6 +123,13 @@ export default {
                     class="mr-2 text-[1.5rem] transition-all min-w-[24px] w-[24px]" />
                 <span class="transition-all text whitespace-nowrap"
                     :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Profile</span>
+            </Nuxt-link>
+            <Nuxt-link to="/money/unpaidBill"
+                class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
+                <font-awesome-icon :icon="['fas', 'money-bill-1-wave']"
+                    class="mr-2 text-[1.5rem] transition-all min-w-[24px] w-[24px]" />
+                <span class="transition-all text whitespace-nowrap"
+                    :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Monthly Money</span>
             </Nuxt-link>
 
         </div>
