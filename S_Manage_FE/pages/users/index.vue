@@ -94,11 +94,11 @@ const filteredUsers = computed(() => {
     const keyword = searchKeyword.value.toLowerCase();
     return userData.value.filter((user) => {
         if (user) {
-            const name = user.name || '';
-            const email = user.email || '';
-            const age = user.age || '';
-            const gender = user.email || '';
-            const role = user.role || '';
+            const name = (user.name || '').toString(); // Convert to string
+            const email = (user.email || '').toString(); // Convert to string
+            const age = (user.age || '').toString(); // Convert to string
+            const gender = (user.gender || '').toString(); // Convert to string
+            const role = (user.role || '').toString(); // Convert to string
 
             return (
                 name.toLowerCase().includes(keyword) ||

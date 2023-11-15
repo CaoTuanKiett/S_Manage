@@ -1,4 +1,12 @@
 <script setup>
+import { useDecodeTokenStore } from '#imports';
+
+const decoded = useDecodeTokenStore()
+
+decoded.decodeToken
+
+console.log(decoded.decoded)
+
 </script>
 
 <template>

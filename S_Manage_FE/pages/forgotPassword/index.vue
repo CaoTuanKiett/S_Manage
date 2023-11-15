@@ -9,10 +9,10 @@ input {
     <section class="bg-background flex items-center justify-center h-screen">
         <div class="w-full max-w-md">
             <a href="#" class="flex items-center justify-center mb-6 text-2xl font-semibold text-primary">
-                <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo">
+                <img class="w-8 h-8 mr-2" src="../../public/losdac.png" alt="logo">
                 S-Manage
             </a>
-            <div class="bg-surface rounded-lg shadow border-2 border-gray-700">
+            <div class="bg-surface rounded-lg shadow-2xl">
                 <div class="p-6 space-y-4">
                     <h1 class=" text-lg  leading-tight tracking-tight text-gray-900">
                         Enter the email address associated with your account and we'll send a link to reset your password
@@ -40,6 +40,7 @@ input {
 
 <script setup>
 
+
   import axios from 'axios';
 import { notify, useNotification } from '@kyvg/vue3-notification'
 
@@ -57,6 +58,7 @@ const router = useRouter();
 const data = ref([])
 
 const resetPass = async () => {
+
 
     data.value.push({"email": email.value})
     
@@ -85,6 +87,7 @@ const resetPass = async () => {
         console.log(error)
     })
 }
+
 
 
 

@@ -92,10 +92,13 @@
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 
+const config = useRuntimeConfig();
+const URL_BE = config.public.API_BASE_BE;
 const formID = ref(null)
 
 const paymentData = ref([])
 const paymentDetailData = ref([])
+
 
 const toggleForm = () => {
   formID.value = null
@@ -103,7 +106,7 @@ const toggleForm = () => {
 }
 const getPayments = async () => {
   try {
-    const response = await axios.get('http://localhost:9696/api/v1/payment/get-all-payments')
+    const response = await axios.get(`${URL_BE}/api/v1/payment/get-all-payments`)
     if (response.data) {
       console.log(response.data)
       return paymentData.value = response.data
@@ -116,7 +119,7 @@ const getPayments = async () => {
 const getPaymentDetail = async (payment_id) => {
   try {
     formID.value = payment_id
-    const response = await axios.get(`http://localhost:9696/api/v1/payment/get-payment-detail/${formID.value}`)
+    const response = await axios.get(`${URL_BE}/api/v1/payment/get-payment-detail/${formID.value}`)
     if (response.data) {
       console.log(response.data)
       paymentDetailData.value = response.data

@@ -36,6 +36,8 @@
 <script setup>
 import axios, { all } from 'axios';
 import { ref, onMounted } from 'vue';
+import { useToast } from 'vue-toastification'
+const toast = useToast()
 
 const config = useRuntimeConfig();
 const URL_BE = config.public.API_BASE_BE;
@@ -106,9 +108,11 @@ const assignRoles = async () => {
       permissions: allPermission.value
     }).then(response => {
       console.log(response.data)
-      window.location.reload()
+      toast.success('Assign successfully')
+     
     }).catch(error => {
       console.log(error)
+      toast.error('Assign failed')
     })
   } catch (error) {
     console.log(error);

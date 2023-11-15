@@ -6,7 +6,23 @@ export default defineComponent({
         const store = useSidebarStore();
         const { toggleMenu } = store;
         const is_expanded = computed(() => store.is_expanded);
-        return { is_expanded, toggleMenu }
+
+        const showLogout = ref(false)
+        const clickShow = () => {
+            showLogout.value = !showLogout.value
+        }
+        const router = useRouter()
+        const accessToken = localStorage.getItem('accessToken')
+        const isLogin = computed(() => Boolean(accessToken.value))
+
+        const logout = () => {
+            if (isLogin) {
+                localStorage.removeItem('accessToken')
+                router.push("/")
+            }
+        }
+
+        return { is_expanded, toggleMenu, showLogout, clickShow, logout, isLogin }
     },
     mounted() {
         this.getUserInfo();

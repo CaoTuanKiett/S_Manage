@@ -1,25 +1,36 @@
-<script>
+<script setup>
 import { routerKey } from 'vue-router';
+import { useSidebarStore } from '#imports';
+import { useDecodeTokenStore } from '#imports';
 
-export default defineComponent({
-    setup() {
-        const store = useSidebarStore();
-        const { toggleMenu } = store;
-        const is_expanded = computed(() => store.is_expanded);
-        const router = useRouter()
-        const accessToken = localStorage.getItem('accessToken')
-        const isLogin = computed(() => Boolean(accessToken.value))
+const store = useSidebarStore();
+const { toggleMenu } = store;
+const is_expanded = computed(() => store.is_expanded);
+const router = useRouter()
+const accessToken = localStorage.getItem('accessToken')
+const isLogin = computed(() => Boolean(accessToken.value))
 
-        const logout = () => {
-            if (isLogin) {
-                localStorage.removeItem('accessToken')
-                router.push("/")
-                // window.location.href = '/'
-            }
-        }
+const logout = () => {
+    if (isLogin) {
+        localStorage.removeItem('accessToken')
+        router.push("/")
+        // window.location.href = '/'
+    }
+}
 
-        return { is_expanded, toggleMenu, logout, isLogin }
-    },
+return { is_expanded, toggleMenu, logout, isLogin }
+
+
+const decoded = useDecodeTokenStore()
+decoded.decodeToken
+
+const role_id = decoded.decoded.role
+const user_id = decoded.decoded.user_id
+
+</script>
+
+<script>
+export default {
     mounted() {
         if (this.$route.path.startsWith('/money')) {
             this.isSubMenuVisible = true;
@@ -30,16 +41,14 @@ export default defineComponent({
             isSubMenuVisible: false
         }
     },
-})
-
+}
 </script>
 
 <template>
     <div class="fixed flex flex-col min-h-screen p-4 overflow-hidden transition-all bg-white sidebar"
         :class="`${is_expanded ? 'w-[255px]' : 'w-[calc(2rem+32px)]'}`">
         <div class="relative flex mb-4 logo align-center">
-            <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt=""
-                class="w-[2rem] absolute top-0 left-0">
+            <img src="../public/losdac.png" alt="" class="w-[2rem] absolute top-0 left-0">
             <span class="w-full text-xl font-bold text-center text-blue-500 whitespace-nowrap"
                 :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">S-Manage</span>
         </div>
@@ -51,7 +60,7 @@ export default defineComponent({
             </button>
         </div>
         <h3 class="mb-2 text-sm uppercase transition-all" :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Menu</h3>
-        <div class="flex flex-col menu mx-[-1rem]">
+        <div v-if="role_id === 1" class="flex flex-col menu mx-[-1rem]">
             <Nuxt-link to="/home"
                 class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
                 <font-awesome-icon :icon="['fas', 'home']"
@@ -96,8 +105,41 @@ export default defineComponent({
                     </Nuxt-link>
                 </li>
             </ul>
-            <VBtn @click="logout" class="bg-primary">Logout</VBtn>
+            <Nuxt-link to="/paymentHistory"
+                class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
+                <font-awesome-icon :icon="['fas', 'credit-card']"
+                    class="mr-2 text-[1.5rem] transition-all min-w-[24px] w-[24px]" />
+                <span class="transition-all text whitespace-nowrap"
+                    :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Payment History</span>
+            </Nuxt-link>
+
+            <Nuxt-link to="/authorization"
+                class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
+                <font-awesome-icon :icon="['fas', 'people-arrows']"
+                    class="mr-2 text-[1.5rem] transition-all min-w-[24px] w-[24px]" />
+                <span class="transition-all text whitespace-nowrap"
+                    :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Authorization </span>
+            </Nuxt-link>
         </div>
+
+        <div v-else-if="role_id !== 1" class="flex flex-col menu mx-[-1rem]">
+            <Nuxt-link to="/home"
+                class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
+                <font-awesome-icon :icon="['fas', 'home']"
+                    class="mr-2 text-[1.5rem] transition-all min-w-[24px] w-[24px]" />
+                <span class="transition-all text whitespace-nowrap"
+                    :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Dashboard</span>
+            </Nuxt-link>
+            <Nuxt-link :to="`/users/${user_id}`"
+                class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
+                <font-awesome-icon :icon="['fas', 'user']"
+                    class="mr-2 text-[1.5rem] transition-all min-w-[24px] w-[24px]" />
+                <span class="transition-all text whitespace-nowrap"
+                    :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Profile</span>
+            </Nuxt-link>
+
+        </div>
+
     </div>
 </template>
 
