@@ -14,11 +14,21 @@ export default defineComponent({
             if (isLogin) {
                 localStorage.removeItem('accessToken')
                 router.push("/")
-                window.location.href = '/'
+                // window.location.href = '/'
             }
         }
 
         return { is_expanded, toggleMenu, logout, isLogin }
+    },
+    mounted() {
+        if (this.$route.path.startsWith('/money')) {
+            this.isSubMenuVisible = true;
+        }
+    },
+    data() {
+        return {
+            isSubMenuVisible: false
+        }
     },
 })
 
@@ -50,33 +60,42 @@ export default defineComponent({
                     :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Dashboard</span>
             </Nuxt-link>
             <Nuxt-link to="/users"
-                class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
+                class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white"
+                :class="{ 'router-link-exact-active': $route.path.startsWith('/users') }">
                 <font-awesome-icon :icon="['fas', 'user']"
                     class="mr-2 text-[1.5rem] transition-all min-w-[24px] w-[24px]" />
                 <span class="transition-all text whitespace-nowrap"
                     :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Users</span>
             </Nuxt-link>
-            <Nuxt-link to="/money"
-                class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
+            <Nuxt-link :class="{ 'router-link-exact-active': $route.path.startsWith('/money') }"
+                class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white"
+                @click="isSubMenuVisible = !isSubMenuVisible">
                 <font-awesome-icon :icon="['fas', 'money-bill-1-wave']"
                     class="mr-2 text-[1.5rem] transition-all min-w-[24px] w-[24px]" />
                 <span class="transition-all text whitespace-nowrap"
                     :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Monthly Money</span>
+                <font-awesome-icon v-if="!isSubMenuVisible" :icon="['fas', 'angle-down']"
+                    class="ml-auto text-[1.5rem] transition-all min-w-[24px] w-[24px]" />
+                <font-awesome-icon v-else :icon="['fas', 'angle-up']"
+                    class="ml-auto text-[1.5rem] transition-all min-w-[24px] w-[24px]" />
             </Nuxt-link>
-            <Nuxt-link to="/help"
-                class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
-                <font-awesome-icon :icon="['fas', 'circle-question']"
-                    class="mr-2 text-[1.5rem] transition-all min-w-[24px] w-[24px]" />
-                <span class="transition-all text whitespace-nowrap"
-                    :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Help</span>
-            </Nuxt-link>
-            <Nuxt-link to="/setting"
-                class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
-                <font-awesome-icon :icon="['fas', 'gear']"
-                    class="mr-2 text-[1.5rem] transition-all min-w-[24px] w-[24px]" />
-                <span class="transition-all text whitespace-nowrap"
-                    :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Setting</span>
-            </Nuxt-link>
+            <ul v-show="isSubMenuVisible && is_expanded" :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`"
+                class="transition-all">
+                <li>
+                    <Nuxt-link to="/money/"
+                        class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
+                        <span class="ml-10">Bill</span>
+                    </Nuxt-link>
+                </li>
+                <li>
+                    <Nuxt-link to="/money/list"
+                        :class="{ 'router-link-exact-active': $route.path.startsWith('/money/list') }"
+                        class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
+                        <span class="ml-10">List
+                            Monthly Money</span>
+                    </Nuxt-link>
+                </li>
+            </ul>
             <VBtn @click="logout" class="bg-primary">Logout</VBtn>
         </div>
     </div>

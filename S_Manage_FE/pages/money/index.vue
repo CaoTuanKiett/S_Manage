@@ -238,6 +238,37 @@ export default {
                     departments: "IT",
                     join_year: 2022,
                 },
+                {
+                    id: 11,
+                    name: 'Honda',
+                    departments: "MO",
+                    join_year: 2022,
+                },
+                {
+                    id: 12,
+                    name: 'Yamaha',
+                    departments: "Designer",
+                    join_year: 2022,
+                },
+                {
+                    id: 13,
+                    name: 'Vision',
+                    departments: "IT",
+                    join_year: 2022,
+                },
+                {
+                    id: 14,
+                    name: 'Element',
+                    departments: "MO",
+                    join_year: 2023,
+                },
+                {
+                    id: 15,
+                    name: 'Panasonic',
+                    departments: "MO",
+                    join_year: 2023,
+                },
+
             ],
             listBill: [],
         }

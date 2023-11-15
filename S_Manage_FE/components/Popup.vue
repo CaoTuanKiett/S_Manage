@@ -1,5 +1,5 @@
 <template>
-    <div v-if="isOpen"
+    <div v-if="isOpen" @click.self="closePopup()"
         class="fixed flex justify-center align-center inset-0 shadow-2xl bg-[rgba(0,0,0,0.5)] popup z-[9999]">
         <div :class="type !== 'default' ? 'align-center' : 'w-1/2'"
             class="flex flex-col gap-6 p-6 bg-white rounded-lg popup-inner">

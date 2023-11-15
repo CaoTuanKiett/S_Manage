@@ -9,16 +9,21 @@ export default defineComponent({
         return { is_expanded, toggleMenu }
     },
     mounted() {
-        const user = userInfo();
-        user.setUserInfo();
-        this.userInfo = user.$state.userInfo;
-        console.log(user.$state.userInfo);
+        this.getUserInfo();
     },
     data() {
         return {
             userInfo: {},
         }
     },
+    methods: {
+        getUserInfo() {
+            const user = userInfo();
+            user.setUserInfo();
+            this.userInfo = user.$state.userInfo;
+            console.log(this.userInfo);
+        }
+    }
 });
 </script>
 
@@ -33,15 +38,15 @@ export default defineComponent({
             <font-awesome-icon :icon="['fas', 'bell']" class="text-xl cursor-pointer" />
             <div class="divide"></div>
             <div class="flex justify-center gap-3 align-center">
-                <Nuxt-link to="/users/{{ userInfo.idUser }}" class="w-[45px] h-[45px] bg-stone-300 rounded-full">
+                <Nuxt-link :to="'/users/' + userInfo.idUser" class="w-[45px] h-[45px] bg-stone-300 rounded-full">
                     <img src="https://picsum.photos/300" alt="" class="w-[45px] h-[45px] bg-stone-300 rounded-full">
                 </Nuxt-link>
                 <div class="flex flex-col">
-                    <Nuxt-link to="/users/{{ userInfo.idUser }}" class="text-base font-bold">{{ userInfo.username
+                    <Nuxt-link :to="'/users/' + userInfo.idUser" class="text-base font-bold">{{ userInfo.username
                     }}</Nuxt-link>
                     <span class="text-xs">{{ userInfo.email }}</span>
                 </div>
-                <font-awesome-icon :icon="['fas', 'chevron-down']" class="cursor-pointer text-m" />
+                <font-awesome-icon :icon="['fas', 'arrow-right-from-bracket']" class="cursor-pointesr text-m" />
             </div>
         </div>
     </header>

@@ -1,15 +1,15 @@
 <script setup>
-  // import isLogin from "~/stores/isLogin";
+// import isLogin from "~/stores/isLogin";
 
-  const config= useRuntimeConfig();
-  const API_BE = config.public.API_BASE_BE;
+const config = useRuntimeConfig();
+const API_BE = config.public.API_BASE_BE;
 
-  
-  const route = useRoute();
-  const year = route.params.year;
+
+const route = useRoute();
+const year = route.params.year;
 
 definePageMeta({
-  layout: "admin",
+  layout: "custom",
 });
 
 const months = [
@@ -21,148 +21,148 @@ const months = [
 
 
 const Datafake = [
-    {
-        "id_user": 1,
-        "name": "Alice",
-        "name_major": "Computer Science",
-        "unpaidMonths": 6,
-        "bills": [
-            {
-                "month": 1,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 2,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 3,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 4,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 5,
-                "bill_id": 1,
-                "bill_status": "paid"
-            },
-            {
-                "month": 6,
-                "bill_id": 8,
-                "bill_status": "unpaid"
-            },
-            {
-                "month": 7,
-                "bill_id": 24,
-                "bill_status": "unpaid"
-            },
-            {
-                "month": 8,
-                "bill_id": 20,
-                "bill_status": "unpaid"
-            },
-            {
-                "month": 9,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 10,
-                "bill_id": 16,
-                "bill_status": "unpaid"
-            },
-            {
-                "month": 11,
-                "bill_id": 14,
-                "bill_status": "unpaid"
-            },
-            {
-                "month": 12,
-                "bill_id": 12,
-                "bill_status": "unpaid"
-            }
-        ]
-    },
-    {
-        "id_user": 2,
-        "name": "Bob",
-        "name_major": "Business Administration",
-        "unpaidMonths": 3,
-        "bills": [
-            {
-                "month": 1,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 2,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 3,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 4,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 5,
-                "bill_id": 2,
-                "bill_status": "paid"
-            },
-            {
-                "month": 6,
-                "bill_id": 3,
-                "bill_status": "paid"
-            },
-            {
-                "month": 7,
-                "bill_id": 4,
-                "bill_status": "unpaid"
-            },
-            {
-                "month": 8,
-                "bill_id": 19,
-                "bill_status": "unpaid"
-            },
-            {
-                "month": 9,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 10,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            },
-            {
-                "month": 11,
-                "bill_id": 13,
-                "bill_status": "unpaid"
-            },
-            {
-                "month": 12,
-                "bill_id": null,
-                "bill_status": "unchanged"
-            }
-        ]
-    }
+  {
+    "id_user": 1,
+    "name": "Alice",
+    "name_major": "Computer Science",
+    "unpaidMonths": 6,
+    "bills": [
+      {
+        "month": 1,
+        "bill_id": null,
+        "bill_status": "unchanged"
+      },
+      {
+        "month": 2,
+        "bill_id": null,
+        "bill_status": "unchanged"
+      },
+      {
+        "month": 3,
+        "bill_id": null,
+        "bill_status": "unchanged"
+      },
+      {
+        "month": 4,
+        "bill_id": null,
+        "bill_status": "unchanged"
+      },
+      {
+        "month": 5,
+        "bill_id": 1,
+        "bill_status": "paid"
+      },
+      {
+        "month": 6,
+        "bill_id": 8,
+        "bill_status": "unpaid"
+      },
+      {
+        "month": 7,
+        "bill_id": 24,
+        "bill_status": "unpaid"
+      },
+      {
+        "month": 8,
+        "bill_id": 20,
+        "bill_status": "unpaid"
+      },
+      {
+        "month": 9,
+        "bill_id": null,
+        "bill_status": "unchanged"
+      },
+      {
+        "month": 10,
+        "bill_id": 16,
+        "bill_status": "unpaid"
+      },
+      {
+        "month": 11,
+        "bill_id": 14,
+        "bill_status": "unpaid"
+      },
+      {
+        "month": 12,
+        "bill_id": 12,
+        "bill_status": "unpaid"
+      }
+    ]
+  },
+  {
+    "id_user": 2,
+    "name": "Bob",
+    "name_major": "Business Administration",
+    "unpaidMonths": 3,
+    "bills": [
+      {
+        "month": 1,
+        "bill_id": null,
+        "bill_status": "unchanged"
+      },
+      {
+        "month": 2,
+        "bill_id": null,
+        "bill_status": "unchanged"
+      },
+      {
+        "month": 3,
+        "bill_id": null,
+        "bill_status": "unchanged"
+      },
+      {
+        "month": 4,
+        "bill_id": null,
+        "bill_status": "unchanged"
+      },
+      {
+        "month": 5,
+        "bill_id": 2,
+        "bill_status": "paid"
+      },
+      {
+        "month": 6,
+        "bill_id": 3,
+        "bill_status": "paid"
+      },
+      {
+        "month": 7,
+        "bill_id": 4,
+        "bill_status": "unpaid"
+      },
+      {
+        "month": 8,
+        "bill_id": 19,
+        "bill_status": "unpaid"
+      },
+      {
+        "month": 9,
+        "bill_id": null,
+        "bill_status": "unchanged"
+      },
+      {
+        "month": 10,
+        "bill_id": null,
+        "bill_status": "unchanged"
+      },
+      {
+        "month": 11,
+        "bill_id": 13,
+        "bill_status": "unpaid"
+      },
+      {
+        "month": 12,
+        "bill_id": null,
+        "bill_status": "unchanged"
+      }
+    ]
+  }
 ];
 
 
 onMounted(() => {
-    // isLogin();
-  });
+  // isLogin();
+});
 
 </script>
 
@@ -171,8 +171,7 @@ onMounted(() => {
     <div class="limiter">
       <div class="container-table100">
         <div class="wrap-table100">
-          <div 
-            class="table100 ver1" >
+          <div class="table100 ver1">
 
             <div class="wrap-table100-nextcols js-pscroll">
               <div class="table100-nextcols">
@@ -180,42 +179,34 @@ onMounted(() => {
                   <thead>
                     <tr class="row100 head">
                       <th class="cell100 column6">STT</th>
-                      <th class="cell100 column2 text-left">Họ và tên</th>
-                      <th class="cell100 column2 text-left">Chuyên môn</th>
+                      <th class="text-left cell100 column2">Họ và tên</th>
+                      <th class="text-left cell100 column2">Chuyên môn</th>
                       <!-- <th class="cell100 column3">Khóa</th> -->
-                      <th class="cell100 column4 " >Số tháng nợ</th>
-                      <th class="cell100 column8  pl-4">
+                      <th class="cell100 column4 ">Số tháng nợ</th>
+                      <th class="pl-4 cell100 column8">
                         <p>Năm</p>
-                        <tr 
-                          class="flex justify-around">
-                          <td 
-                          class="pt-2 pb-0"
-                            v-for="month in months"
-                            :key="month">
-                            <p class="text-black">{{ month }}</p>
-                          </td>
-                          
+                    <tr class="flex justify-around">
+                      <td class="pt-2 pb-0" v-for="month in months" :key="month">
+                        <p class="text-black">{{ month }}</p>
+                      </td>
 
-                        </tr>
-                      </th>
+
+                    </tr>
+                    </th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr class="row100 body"
-                      v-for="user in Datafake"
-                      :key="user.id_user">
-                      <td class="cell100 column6 text-center">{{user.id_user }}</td>
-                      <td class="cell100 column2">{{ user.name  }}</td>
+                    <tr class="row100 body" v-for="user in Datafake" :key="user.id_user">
+                      <td class="text-center cell100 column6">{{ user.id_user }}</td>
+                      <td class="cell100 column2">{{ user.name }}</td>
                       <td class="cell100 column2">{{ user.name_major }}</td>
                       <!-- <td class="cell100 column3">{{ user. }}</td> -->
-                      <td class="cell100 column7 text-center">{{ user.unpaidMonths }}</td>
-                      <td 
-                        class="cell100 column8 pl-4"
-                        >
+                      <td class="text-center cell100 column7">{{ user.unpaidMonths }}</td>
+                      <td class="pl-4 cell100 column8">
 
                         <CheckCard :DataBill=user.bills />
 
-                        
+
                       </td>
                     </tr>
                   </tbody>
