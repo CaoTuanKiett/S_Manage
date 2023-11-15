@@ -60,4 +60,4 @@ app.use(`${process.env.API_V1}/statistic`, statistic);
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
-});
+})

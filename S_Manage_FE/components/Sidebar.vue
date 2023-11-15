@@ -8,17 +8,18 @@ import { useDecodeTokenStore } from '#imports';
         const is_expanded = computed(() => store.is_expanded);
            
       const decoded = useDecodeTokenStore()
-      decoded.decodeToken 
+      decoded.decodeToken  
+   
       const role_id = decoded.decoded.role
-      console.log(role_id)
- 
+      const user_id = decoded.decoded.user_id
+    
 </script>
 
 <template>
     <div class="fixed flex flex-col min-h-screen p-4 overflow-hidden transition-all bg-white sidebar"
         :class="`${is_expanded ? 'w-[255px]' : 'w-[calc(2rem+32px)]'}`">
         <div class="relative flex mb-4 logo align-center">
-            <img src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt=""
+            <img src="../public/losdac.png" alt=""
                 class="w-[2rem] absolute top-0 left-0">
             <span class="w-full text-xl font-bold text-center text-blue-500 whitespace-nowrap"
                 :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">S-Manage</span>
@@ -78,12 +79,12 @@ import { useDecodeTokenStore } from '#imports';
                     <span class="transition-all text whitespace-nowrap"
                         :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Dashboard</span>
                 </Nuxt-link>
-                <Nuxt-link to="/users"
+                <Nuxt-link :to="`/users/${user_id}`"
                     class="flex gap-2 px-4 py-2 transition-all button align-center hover:bg-blue-500 hover:text-white">
                     <font-awesome-icon :icon="['fas', 'user']"
                         class="mr-2 text-[1.5rem] transition-all min-w-[24px] w-[24px]" />
                     <span class="transition-all text whitespace-nowrap"
-                        :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Users</span>
+                        :class="`${is_expanded ? 'opacity-1' : 'opacity-0'}`">Profile</span>
                 </Nuxt-link>
               
             </div>
