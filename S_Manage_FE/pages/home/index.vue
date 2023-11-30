@@ -5,7 +5,6 @@ const decoded = useDecodeTokenStore()
 
 decoded.decodeToken
 
-console.log(decoded.decoded)
 
 </script>
 

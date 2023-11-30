@@ -19,7 +19,7 @@
                             <font-awesome-icon :icon="['fas', 'sort']" class="text-xs" />
                         </button>
                     </div>
-                    <button @click="handleOpenCreateBill"
+                    <button  @click="handleOpenCreateBill"
                         class="flex justify-center gap-2 font-medium bg-transparent rounded-lg align-self-end align-center">
                         <span class="text-blue-500">Create Bill</span>
                         <font-awesome-icon :icon="['fas', 'plus']"
@@ -145,6 +145,13 @@ import axios from 'axios';
 import { useToast } from 'vue-toastification';
 import { useBillStore } from '@/stores/bill';
 
+import { useDecodeTokenStore } from '#imports';
+const decoded = useDecodeTokenStore()
+decoded.decodeToken
+const role_id = decoded.decoded.role
+
+console.log("role_id", role_id);
+
 export default {
     components: {
         Popup,
@@ -179,7 +186,7 @@ export default {
             itemsPerPage: 8,
             users: [
                 {
-                    id: 1,
+                    id: 41,
                     name: 'Frozen Yogurt',
                     departments: "IT",
                     join_year: 2020,

@@ -39,7 +39,7 @@ export default defineComponent({
             const user = userInfo();
             user.setUserInfo();
             this.userInfo = user.$state.userInfo;
-            console.log(this.userInfo);
+            console.log("this.userInfo",this.userInfo);
         }
 
     }
@@ -58,7 +58,7 @@ export default defineComponent({
             <div class="divide"></div>
             <div class="flex justify-center gap-3 align-center">
                 <Nuxt-link :to="'/users/' + userInfo.idUser" class="w-[45px] h-[45px] bg-stone-300 rounded-full">
-                    <img src="https://picsum.photos/300" alt="" class="w-[45px] h-[45px] bg-stone-300 rounded-full">
+                    <img :src=userInfo.avatar alt="" class="w-[45px] h-[45px] bg-stone-300 rounded-full">
                 </Nuxt-link>
                 <div class="flex flex-col">
                     <Nuxt-link :to="'/users/' + userInfo.idUser" class="text-base font-bold">{{ userInfo.username
@@ -81,8 +81,6 @@ export default defineComponent({
 </template>
 
 <style scoped>
-header {}
-
 .divide {
     width: 0px;
     height: 48px;
