@@ -63,12 +63,12 @@ onMounted(async () => {
               <label for="email" class="block mb-2 text-sm font-medium text-secondary">Username</label>
               <input type="email" name="email" id="email"
                 class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 text-secondary  "
-                placeholder="Username" required v-model="username">
+                placeholder="Username" @keyup.enter="login" required v-model="username">
             </div>
             <div class="form-group">
               <label for="password" class="block mb-2 text-sm font-medium text-secondary">Password</label>
               <input type="password" name="password" id="password" placeholder="••••••••"
-                class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 " v-model="password"
+                class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 " @keyup.enter="login" v-model="password"
                 required>
             </div>
             <div class="flex items-center justify-between">

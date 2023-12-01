@@ -9,6 +9,14 @@ exports.seed = async function(knex) {
       // Thêm dữ liệu mới vào bảng "roles"
       return knex('roles').insert([
         {
+          name_role: 'Admin',
+          major_id: 3,
+        },
+        {
+          name_role: 'BNB',
+          major_id: 3,
+        },
+        {
           name_role: 'Member',
           major_id: 1,
         },
@@ -16,10 +24,7 @@ exports.seed = async function(knex) {
           name_role: 'User',
           major_id: 2,
         },
-        {
-          name_role: 'Admin',
-          major_id: 3,
-        },
+        
         // Thêm dữ liệu cho các bản ghi khác tại đây (nếu cần)
 
         

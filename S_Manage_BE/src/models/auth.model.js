@@ -75,7 +75,7 @@ class authModels {
           }).then((idUser) => {
             knex('user_roles').insert({
               user_id: idUser,
-              role_id: 9,
+              role_id: 3,
             }).catch( (e) => {
               console.log(e);
             })

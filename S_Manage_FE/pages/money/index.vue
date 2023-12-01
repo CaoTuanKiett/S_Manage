@@ -19,7 +19,7 @@
                             <font-awesome-icon :icon="['fas', 'sort']" class="text-xs" />
                         </button>
                     </div>
-                    <button @click="handleOpenCreateBill"
+                    <button  @click="handleOpenCreateBill"
                         class="flex justify-center gap-2 font-medium bg-transparent rounded-lg align-self-end align-center">
                         <span class="text-blue-500">Create Bill</span>
                         <font-awesome-icon :icon="['fas', 'plus']"
@@ -30,7 +30,7 @@
                             <h2 class="text-2xl font-bold text-center text-blue-500">Create Bill</h2>
                         </template>
                         <template #default>
-                            <billForm :bill="bill" :users="users"></billForm>
+                            <billForm :bill="bill" :users="listUser"></billForm>
                         </template>
                         <template #popup-footer>
                             <button @click="createBill" class="p-3 text-white bg-blue-500 rounded-md hover:bg-blue-400">
@@ -145,6 +145,15 @@ import axios from 'axios';
 import { useToast } from 'vue-toastification';
 import { useBillStore } from '@/stores/bill';
 
+import { useDecodeTokenStore } from '#imports';
+const decoded = useDecodeTokenStore()
+decoded.decodeToken
+const role_id = decoded.decoded.role
+
+const DataUser = ref([]);
+
+
+
 export default {
     components: {
         Popup,
@@ -177,100 +186,101 @@ export default {
             },
             currentPage: 1,
             itemsPerPage: 8,
-            users: [
-                {
-                    id: 1,
-                    name: 'Frozen Yogurt',
-                    departments: "IT",
-                    join_year: 2020,
-                },
-                {
-                    id: 2,
-                    name: 'Ice cream sandwich',
-                    departments: "MO",
-                    join_year: 2021,
-                },
-                {
-                    id: 3,
-                    name: 'Eclair',
-                    departments: "IT",
-                    join_year: 2023,
-                },
-                {
-                    id: 4,
-                    name: 'Cupcake',
-                    departments: "Designer",
-                    join_year: 2023,
-                },
-                {
-                    id: 5,
-                    name: 'Gingerbread',
-                    departments: "MO",
-                    join_year: 2022,
-                },
-                {
-                    id: 6,
-                    name: 'Jelly bean',
-                    departments: "IT",
-                    join_year: 2020,
-                },
-                {
-                    id: 7,
-                    name: 'Lollipop',
-                    departments: "Designer",
-                    join_year: 2021,
-                },
-                {
-                    id: 8,
-                    name: 'Honeycomb',
-                    departments: "IT",
-                    join_year: 2023,
-                },
-                {
-                    id: 9,
-                    name: 'Donut',
-                    departments: "IT",
-                    join_year: 2022,
-                },
-                {
-                    id: 10,
-                    name: 'KitKat',
-                    departments: "IT",
-                    join_year: 2022,
-                },
-                {
-                    id: 11,
-                    name: 'Honda',
-                    departments: "MO",
-                    join_year: 2022,
-                },
-                {
-                    id: 12,
-                    name: 'Yamaha',
-                    departments: "Designer",
-                    join_year: 2022,
-                },
-                {
-                    id: 13,
-                    name: 'Vision',
-                    departments: "IT",
-                    join_year: 2022,
-                },
-                {
-                    id: 14,
-                    name: 'Element',
-                    departments: "MO",
-                    join_year: 2023,
-                },
-                {
-                    id: 15,
-                    name: 'Panasonic',
-                    departments: "MO",
-                    join_year: 2023,
-                },
+            // users: [
+            //     {
+            //         id: 41,
+            //         name: 'Frozen Yogurt',
+            //         departments: "IT",
+            //         join_year: 2020,
+            //     },
+            //     {
+            //         id: 2,
+            //         name: 'Ice cream sandwich',
+            //         departments: "MO",
+            //         join_year: 2021,
+            //     },
+            //     {
+            //         id: 3,
+            //         name: 'Eclair',
+            //         departments: "IT",
+            //         join_year: 2023,
+            //     },
+            //     {
+            //         id: 4,
+            //         name: 'Cupcake',
+            //         departments: "Designer",
+            //         join_year: 2023,
+            //     },
+            //     {
+            //         id: 5,
+            //         name: 'Gingerbread',
+            //         departments: "MO",
+            //         join_year: 2022,
+            //     },
+            //     {
+            //         id: 6,
+            //         name: 'Jelly bean',
+            //         departments: "IT",
+            //         join_year: 2020,
+            //     },
+            //     {
+            //         id: 7,
+            //         name: 'Lollipop',
+            //         departments: "Designer",
+            //         join_year: 2021,
+            //     },
+            //     {
+            //         id: 8,
+            //         name: 'Honeycomb',
+            //         departments: "IT",
+            //         join_year: 2023,
+            //     },
+            //     {
+            //         id: 9,
+            //         name: 'Donut',
+            //         departments: "IT",
+            //         join_year: 2022,
+            //     },
+            //     {
+            //         id: 10,
+            //         name: 'KitKat',
+            //         departments: "IT",
+            //         join_year: 2022,
+            //     },
+            //     {
+            //         id: 11,
+            //         name: 'Honda',
+            //         departments: "MO",
+            //         join_year: 2022,
+            //     },
+            //     {
+            //         id: 12,
+            //         name: 'Yamaha',
+            //         departments: "Designer",
+            //         join_year: 2022,
+            //     },
+            //     {
+            //         id: 13,
+            //         name: 'Vision',
+            //         departments: "IT",
+            //         join_year: 2022,
+            //     },
+            //     {
+            //         id: 14,
+            //         name: 'Element',
+            //         departments: "MO",
+            //         join_year: 2023,
+            //     },
+            //     {
+            //         id: 15,
+            //         name: 'Panasonic',
+            //         departments: "MO",
+            //         join_year: 2023,
+            //     },
 
-            ],
+            // ],
             listBill: [],
+            listUser: [],
         }
     },
     methods: {
@@ -281,7 +291,7 @@ export default {
                     const billStore = useBillStore();
                     billStore.setBills(res.data.bill);
                     this.listBill = billStore.$state.listBill;
-                    // console.log(this.listBill);
+                   
                 }
             } catch (err) {
                 console.log(err);
@@ -393,6 +403,11 @@ export default {
         formatDate(isoString) {
             let date = new Date(isoString);
             return date.toISOString().split('T')[0];
+        },
+        async featchDataUser() {
+            const response = await axios.get(`${this.$config.public.API_BASE_BE}/api/v1/users`);
+            console.log(response.data);
+            return this.listUser = response.data;
         }
     },
     mounted() {
@@ -412,6 +427,12 @@ export default {
         this.userId = user.idUser;
 
         this.getAllBill();
+
+        this.featchDataUser().then(() => {
+            console.log("listUser", listUser);
+        });
+        
+        
     },
     computed: {
         sortedListBill() {
@@ -430,7 +451,9 @@ export default {
             const startIndex = (this.currentPage - 1) * this.itemsPerPage;
             const endIndex = startIndex + this.itemsPerPage;
             return this.filteredList.slice(startIndex, endIndex);
-        }
+        },
+        
+        
     }
 }
 </script>

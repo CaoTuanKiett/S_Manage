@@ -6,6 +6,11 @@ import axios from 'axios';
 import { useRoute, useRouter } from 'vue-router';
 import { notify } from '@kyvg/vue3-notification';
 
+import { useDecodeTokenStore } from '#imports';
+const decoded = useDecodeTokenStore()
+decoded.decodeToken
+const role_id = decoded.decoded.role
+
 import displayIMG from '../../../middleware/displayIMG';
 
 definePageMeta({
@@ -137,7 +142,6 @@ const getUser = (id) => {
     .get(`${URL_BE}/api/v1/users/${id}`)
     .then((response) => {
       const data = response.data[0];
-      // console.log(data);
 
       DataUser.value.id_user = data.id_user;
       DataUser.value.name = data.name;
@@ -192,7 +196,7 @@ onMounted(async () => {
 
 
 
-const saveUser = () => {
+const saveUser = async () => {
   if (validate()) {
     // Lấy tệp avatar từ input
     const avatarInput = document.getElementById('imageInput');
@@ -217,7 +221,9 @@ const saveUser = () => {
 
 
     if (userId) {
-      axios
+    console.log("formData", formData);
+
+      await axios
         .put(`${URL_BE}/api/v1/users/${userId}`, formData)
         .then((response) => {
           console.log('Response:', response);
@@ -301,10 +307,10 @@ const Cancel = () => {
               <label for="" class="text-base font-semibold text-black">Địa chỉ:</label>
               <input
                 class="w-full px-3 py-2 pr-12 mt-2 text-base border-2 rounded focus:outline-none placeholder:text-slate-500"
-                name="age" v-model="DataUser.age" type="text" placeholder="age" @blur="validate()"
-                :class="{ 'is-invalid': errorValue.age }" />
+                name="address" v-model="DataUser.address" type="text" placeholder="address" @blur="validate()"
+                :class="{ 'is-invalid': errorValue.address }" />
 
-              <div class="text-left invalid-feedback" v-if="errorValue.age"> {{ errorValue.age }} </div>
+              <div class="text-left invalid-feedback" v-if="errorValue.address"> {{ errorValue.address }} </div>
 
               <font-awesome-icon class="absolute text-xl cursor-pointer right-6 bottom-5"
                 :icon="['fas', 'pen-to-square']" />
@@ -337,7 +343,7 @@ const Cancel = () => {
                 :icon="['fas', 'pen-to-square']" />
             </div>
 
-            <div class="relative w-3/4 p-2 mb-4 input">
+            <div class="relative w-3/4 p-2 mb-4 input" v-if="role_id === 1">
               <label for="" class="text-base font-semibold text-black">Quyền truy cập:</label>
               <!-- <input 
               class="w-full px-3 py-2 pr-12 mt-2 text-base border-2 rounded focus:outline-none placeholder:text-slate-500" 
