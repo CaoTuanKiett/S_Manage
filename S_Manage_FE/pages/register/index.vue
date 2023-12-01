@@ -26,7 +26,7 @@
               <input type="email" name="email" id="email"
                 class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 text-secondary  "
                 v-model="name" placeholder="Name" required>
-                <span v-if="!isEmailValid" class="text-red-500">Invalid email format</span>
+                
             </div>
 
             <div>
@@ -60,6 +60,7 @@
               <input type="email" name="email" id="email"
                 class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 text-secondary  "
                 v-model="email" placeholder="Email"  @blur="validateEmail" required>
+                <span v-if="!isEmailValid" class="text-red-500">Invalid email format</span>
             </div>
 
             <v-btn @click="register" block variant="outlined" size="x-large" class="mb-4 bg-primary"> Sign Up </v-btn>
