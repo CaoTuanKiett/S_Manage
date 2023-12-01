@@ -44,7 +44,7 @@
                 </v-text-field>
                 <v-data-table v-model="bill.selected" :headers="headers" :items="users" items-per-page="5"
                     select-strategy="all" item-value="id" show-select class="elevation-1" :search="search">
-                    <template v-slot:item.departments="{ value }">
+                    <template v-slot:item.email="{ value }">
                         <v-chip :color="getColor(value)">
                             {{ value }}
                         </v-chip>
@@ -113,9 +113,9 @@ export default {
         }
     },
     methods: {
-        getColor(departments) {
-            if (departments === "IT") return 'red'
-            else if (departments === "MO") return 'orange'
+        getColor(gender) {
+            if (gender === "male") return 'red'
+            else if (gender === "female") return 'orange'
             else return 'green'
         },
     },
