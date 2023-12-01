@@ -19,7 +19,7 @@
                             <font-awesome-icon :icon="['fas', 'sort']" class="text-xs" />
                         </button>
                     </div>
-                    <button  @click="handleOpenCreateBill"
+                    <button v-if="isCreateBill"  @click="handleOpenCreateBill"
                         class="flex justify-center gap-2 font-medium bg-transparent rounded-lg align-self-end align-center">
                         <span class="text-blue-500">Create Bill</span>
                         <font-awesome-icon :icon="['fas', 'plus']"
@@ -54,7 +54,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(itemBill, index) in paginatedList" :key="itemBill.bill_id"
+                        <tr v-for="(itemBill) in paginatedList" :key="itemBill.bill_id"
                             class="h-[72px] hover:bg-gray-100">
                             <td class="px-6 border-b border-r border-[#f0f0f0] text-[#595959]">{{ itemBill.fee_type }}</td>
                             <td class="px-6 border-b border-r border-[#f0f0f0] text-[#595959]">{{ itemBill.description }}
@@ -68,7 +68,7 @@
                             </td>
                             <td class="px-6 border-b border-[#f0f0f0] text-[#595959] align-middle">
                                 <div class="text-center w-100">
-                                    <button class="text-blue-500"
+                                    <button v-if="isUpdateBill" class="text-blue-500"
                                         @click="handleOpenEditBill(itemBill.bill_id)"><font-awesome-icon
                                             :icon="['fas', 'edit']" /></button>
                                     <Popup :is-open="openPopupsEditId[itemBill.bill_id]"
@@ -87,7 +87,7 @@
                                             </button>
                                         </template>
                                     </Popup>
-                                    <button class="ml-3 text-red-500"
+                                    <button v-if="isDeleteBill" class="ml-3 text-red-500"
                                         @click="openDeleteBill(itemBill.bill_id)"><font-awesome-icon
                                             :icon="['fas', 'trash-alt']" /></button>
                                     <Popup :is-open="openPopupsDeleteId[itemBill.bill_id]"
@@ -148,9 +148,9 @@ import { useBillStore } from '@/stores/bill';
 import { useDecodeTokenStore } from '#imports';
 const decoded = useDecodeTokenStore()
 decoded.decodeToken
-const role_id = decoded.decoded.role
 
-const DataUser = ref([]);
+const role_id = decoded.decoded.role
+console.log("role_id", role_id);
 
 
 
@@ -281,6 +281,10 @@ export default {
             // ],
             listBill: [],
             listUser: [],
+            isDeleteBill : false,
+            isUpdateBill : false,
+            isViewBill : false,
+            isCreateBill : false,
         }
     },
     methods: {
@@ -408,6 +412,36 @@ export default {
             const response = await axios.get(`${this.$config.public.API_BASE_BE}/api/v1/users`);
             console.log(response.data);
             return this.listUser = response.data;
+        },
+        async getPermision() {
+            const response = await axios.get(`${this.$config.public.API_BASE_BE}/api/v1/author/${role_id}/get_permissions/`);
+            const permissionsData = response.data.permissions;
+
+            console.log("permissionsData", permissionsData);
+
+           for(let i = 0; i < permissionsData.length; i++) {
+                if(permissionsData[i].id_permission === 5) {
+                    this.isCreateBill = true;
+                }
+
+                if(permissionsData[i].id_permission === 6) {
+                    this.isDeleteBill = true;
+                }
+
+                if(permissionsData[i].id_permission === 7) {
+                    this.isUpdateBill = true;
+                }
+
+                if(permissionsData[i].id_permission === 8) {
+                    this.isViewBill = true;
+                }
+           }
+
+           console.log(this.isCreateBill,  this.isDeleteBill, this.isUpdateBill, this.isViewBill );
+           
+
+            return permissionsData
+            
         }
     },
     mounted() {
@@ -428,9 +462,9 @@ export default {
 
         this.getAllBill();
 
-        this.featchDataUser().then(() => {
-            console.log("listUser", listUser);
-        });
+        this.featchDataUser();
+
+        this.getPermision();
         
         
     },
