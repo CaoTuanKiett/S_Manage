@@ -67,18 +67,22 @@ These instructions will help you get a copy of the project up and running on you
 Before you begin, ensure you have met the following requirements:
 
 - [Express](https://expressjs.com/)
-- [Node.js](https://nodejs.org/) and [NPM](https://www.npmjs.com/) (optional, based on your project needs)
+- [Stripe](https://stripe.com/fr-us)
+- [Node.js](https://nodejs.org/) and [NPM](https://www.npmjs.com/)
 
 #### Frontend
 
 Before you begin, ensure you have met the following requirements:
 
-- [Node.js](https://nodejs.org/) and [NPM](https://www.npmjs.com/) installed
+- [Node.js](https://nodejs.org/) and [YARN](https://yarnpkg.com/) installed
 - [Vue.js](https://vuejs.org/) version 3.3.8
 - [Nuxt.js](https://nuxtjs.org/) version 3.8.1
 - [axios](https://axios-http.com/) version 1.5.1
 - [tailwindcss](https://tailwindcss.com/) version 3.3.5
+
 <a name="installation"></a>
+
+
 ### Installation
 1. Clone the repository:
 
@@ -98,10 +102,10 @@ Before you begin, ensure you have met the following requirements:
     npm install
     ```
 
-4. Copy the `.env_example` file:
+4. Copy the `.env.example` file:
 
     ```bash
-    cp .env_example .env
+    cp .env.example .env
     ```
 
 5. Migrate the database:
@@ -134,7 +138,13 @@ Before you begin, ensure you have met the following requirements:
     yarn install
     ```
 
-10. Run the Nuxt development server:
+10. Copy the `.env.example` file:
+
+    ```bash
+    cp .env.example .env
+    ```
+
+11. Run the Nuxt development server:
 
     ```bash
     yarn dev
