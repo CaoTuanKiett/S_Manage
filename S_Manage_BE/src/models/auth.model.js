@@ -11,7 +11,8 @@ const { mailService } = require('../services/mail.service');
 const userModel = require('./user.model');
 const uploadCloud = require('../middleware/uploadIMG')
 
-const avtDefault = path.join(__dirname, 'assets', 'avtDefault.jpg');
+
+const avtDefault = "https://i.pinimg.com/564x/a5/b0/2b/a5b02b135dd9e57d89b9eef24d438bbb.jpg";
 
 
 const {
