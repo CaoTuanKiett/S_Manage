@@ -6,6 +6,14 @@
         S-Manage
       </a>
       <div class=" rounded-lg shadow-2xl bg-surface">
+        <div class="flex items-center w-20 cursor-pointer p-2">
+      <font-awesome-icon :icon="['fas', 'chevron-left']" />
+      <button class="btn-SignUp hover:opacity-90 w-10 text-[04364A] font-bold border-b-2 border-[04364A] text-left ml-1 "
+        @click="goBack()">
+        Back
+      </button>
+    </div>
+
         <div class="p-6 space-y-4">
           <h1 class="text-2xl font-bold leading-tight tracking-tight text-center text-gray-900">
             Sign up
@@ -18,6 +26,7 @@
               <input type="email" name="email" id="email"
                 class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 text-secondary  "
                 v-model="name" placeholder="Name" required>
+                
             </div>
 
             <div>
@@ -50,7 +59,8 @@
               <label for="email" class="block mb-2 text-sm font-medium text-secondary">Email</label>
               <input type="email" name="email" id="email"
                 class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 text-secondary  "
-                v-model="email" placeholder="Email" required>
+                v-model="email" placeholder="Email"  @blur="validateEmail" required>
+                <span v-if="!isEmailValid" class="text-red-500">Invalid email format</span>
             </div>
 
             <v-btn @click="register" block variant="outlined" size="x-large" class="mb-4 bg-primary"> Sign Up </v-btn>
@@ -67,6 +77,10 @@ import axios from 'axios';
 import { useToast } from 'vue-toastification'
 const toast = useToast()
 
+import validator from 'validator';
+
+const isEmailValid = ref(true);
+
 const router = useRouter()
 
 const config = useRuntimeConfig();
@@ -78,6 +92,14 @@ const email = ref('')
 const name = ref('')
 const age = ref('')
 const gender = ref('')
+
+const goBack = () => {
+  router.push("/");
+};
+
+const validateEmail = () => {
+  isEmailValid.value = validator.isEmail(email.value);
+};
 
 
 const register = async () => {

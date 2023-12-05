@@ -43,11 +43,14 @@
                 <v-text-field v-model="search" label="Search" single-line hide-details class="">
                 </v-text-field>
                 <v-data-table v-model="bill.selected" :headers="headers" :items="users" items-per-page="5"
-                    select-strategy="all" item-value="id" show-select class="elevation-1" :search="search">
-                    <template v-slot:item.departments="{ value }">
-                        <v-chip :color="getColor(value)">
-                            {{ value }}
-                        </v-chip>
+                    select-strategy="all" item-value="id_user" show-select class="elevation-1" :search="search">
+                    
+
+                    <template v-slot:item.phone="{ item }">
+                    {{ item.phone }}
+                    </template>
+                    <template v-slot:item.address="{ item }">
+                    {{ item.address }}
                     </template>
                 </v-data-table>
             </template>
@@ -107,17 +110,15 @@ export default {
                     sortable: false,
                     key: 'name',
                 },
-                { title: 'Departments', key: 'departments' },
-                { title: 'Join Year', key: 'join_year' },
+                
+                { text: 'Phone', value: 'phone' },
+                { text: 'Address', value: 'address' },
+                { text: 'Email', value: 'email' },
             ],
         }
     },
     methods: {
-        getColor(departments) {
-            if (departments === "IT") return 'red'
-            else if (departments === "MO") return 'orange'
-            else return 'green'
-        },
+        
     },
     directives: {
         focus: {

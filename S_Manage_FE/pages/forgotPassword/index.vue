@@ -25,7 +25,9 @@ input {
                             <input type="email" name="email" id="email"
                                 class="w-full p-2.5 rounded-lg focus:ring-primary-600 focus:border-primary-600 text-secondary  "
                                 required 
+                                @blur="validateEmail" 
                                 v-model="email">
+                            <span v-if="!isEmailValid" class="text-red-500">Invalid email format</span>
                         </div>
 
                         <v-btn block variant="outlined" size="x-large" class="bg-primary mb-4" @click="resetPass"> Send
@@ -47,6 +49,10 @@ import { notify, useNotification } from '@kyvg/vue3-notification'
 import { useToast } from 'vue-toastification'
 const toast = useToast()
 
+import validator from 'validator';
+
+const isEmailValid = ref(true);
+
 
 
 const config = useRuntimeConfig();
@@ -56,6 +62,11 @@ const email = ref('')
 const router = useRouter();
 
 const data = ref([])
+
+const validateEmail = () => {
+  isEmailValid.value = validator.isEmail(email.value);
+};
+
 
 const resetPass = async () => {
 

@@ -1,16 +1,20 @@
 <template>
   <NuxtLayout name="custom">
-    <section class="flex items-center justify-center h-screen bg-background">
+    <section class="flex items-center justify-center h-screen bg-white">
       <div class="w-full max-w-screen-sm">
-        <div class="flex items-center justify-center py-5 rounded-lg bg-surface" style="height: 400px;">
+        <div class="flex items-center">
+          <p class="w-[200px]">Select admin type: </p>
+          <select v-model="selectedRoleId"  @change="changeAdmin" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ">
+            <option v-for="(role, index) in rolesData" :key="index" :value="role.id_role">{{ role.name_role }}
+            </option>
+          </select>
+        </div> 
+        <div class="flex items-center justify-around py-5 rounded-lg bg-surface">
           <div class="p-6 space-y-4">
             <form class="space-y-4 table-auto" action="#">
-              <select v-model="selectedRoleId" placeholder="Select admin type" style="width:300px" @change="changeAdmin">
-                <option v-for="(role, i) in rolesData" :key="i" :value="role.id_role">{{ role.name_role }}
-                </option>
-              </select>
+              
               <tbody>
-                <tr v-for="(permission, i) in permissionData" :key="permission.permission_id">
+                <tr v-for="(permission) in permissionData" :key="permission.permission_id">
                   <td class="pb-4">
                     <div class="mx-3">
                       <p>{{ permission.name_permission }}</p>

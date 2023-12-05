@@ -5,7 +5,6 @@ const decoded = useDecodeTokenStore()
 
 decoded.decodeToken
 
-console.log(decoded.decoded)
 
 </script>
 
@@ -17,7 +16,7 @@ console.log(decoded.decoded)
             <Footer />
         </div> -->
         <div>
-            this is home page
+            <img src="../../assets/img/home.png" alt="home">
         </div>
     </NuxtLayout>
 </template>
