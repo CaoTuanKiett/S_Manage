@@ -97,8 +97,6 @@ const changeAdmin = async () => {
 
 const assignRoles = async () => {
   try {
-
-
     for (const permission of permissionData.value) {
       if (rolePermission.value[permission.id_permission]) {
         allPermission.value.push(permission.id_permission)
